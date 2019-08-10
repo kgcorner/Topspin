@@ -97,5 +97,6 @@
         <module>discovery-service</module>
         <module>ecom-agent-service</module>
         <module>packaging</module>
+        <module>stores-service</module>
     </modules>
 </project>

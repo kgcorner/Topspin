@@ -9,11 +9,43 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <modules>
-        <module>docker-packaging</module>
-        <module>executable-jar-packaging</module>
-        <module>monolythic-packaging</module>
-    </modules>
     <artifactId>packaging</artifactId>
-
+    <profiles>
+        <profile>
+            <id>monolythic</id>
+            <activation>
+                <property>
+                    <name>multiModule</name>
+                    <value>false</value>
+                </property>
+            </activation>
+            <modules>
+                <module>monolythic-packaging</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>multi-module</id>
+            <activation>
+                <property>
+                    <name>multiModule</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <modules>
+                <module>executable-jar-packaging</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>docker</name>
+                </property>
+            </activation>
+            <modules>
+                <module>executable-jar-packaging</module>
+                <module>docker-packaging</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

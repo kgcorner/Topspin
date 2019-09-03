@@ -48,8 +48,7 @@ public class BasicTokenAuthentication implements AuthenticationService {
         Login login = loginDao.getByKey(Login.USER_NAME_COLUMN, credential[0], Login.class);
         if(login == null)
             return null;
-        String hashedPassword = Hasher.getCrypt(credential[1], properties.getPasswordSalt());
-        if(!login.getPassword().equals(hashedPassword)) {
+        if(!Hasher.checkPassword(credential[1], login.getPassword())) {
             return null;
         }
         Map<String, String> claims = new HashMap<>();
@@ -69,6 +68,11 @@ public class BasicTokenAuthentication implements AuthenticationService {
 
     @Override
     public Token authenticateCode(String code, String redirectUrl) {
+        throw new NotImplementedException("Not an oauth authentication service");
+    }
+
+    @Override
+    public Token resolveToken(String token, String redirect_uri, String serverName) {
         throw new NotImplementedException("Not an oauth authentication service");
     }
 }

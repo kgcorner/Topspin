@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Qualifier("bearer")
 public class BearerTokenAuthentication implements AuthenticationService {
-    public static final String BEARER_ = "Bearer ";
+    public static final String BEARER_ = "bearer ";
     @Autowired
     private Properties properties;
 
@@ -38,6 +38,11 @@ public class BearerTokenAuthentication implements AuthenticationService {
 
     @Override
     public Token authenticateCode(String code, String redirectUrl) {
+        throw new NotImplementedException("Not an oauth authentication service");
+    }
+
+    @Override
+    public Token resolveToken(String token, String redirect_uri, String serverName) {
         throw new NotImplementedException("Not an oauth authentication service");
     }
 }

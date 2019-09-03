@@ -15,7 +15,7 @@ public class Login implements Serializable {
     private String refreshToken;
 
     public static final String USER_NAME_COLUMN = "userName";
-    private int userId;
+    private String userId;
 
     @Id
     private String id;
@@ -44,11 +44,11 @@ public class Login implements Serializable {
         this.password = password;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

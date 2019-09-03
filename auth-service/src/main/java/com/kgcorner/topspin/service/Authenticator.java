@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Authenticator {
+
+
     public static enum AUTHTYPE {
         BASIC,
         BEARER,
@@ -41,9 +43,9 @@ public class Authenticator {
             String tokens[] = token.split(" ");
             switch (tokens[0].toLowerCase()) {
                 case "basic":
-                    return basicAuthenticationService.authenticateToken(tokens[1]);
+                    return basicAuthenticationService.authenticateToken(token);
                 case "bearer":
-                    return bearerAuthenticationService.authenticateToken(tokens[1]);
+                    return bearerAuthenticationService.authenticateToken(token);
                 default:
                     return  oAuthAuthenticationService.authenticateToken(token);
             }
@@ -53,5 +55,9 @@ public class Authenticator {
 
     public Token authenticateWithCode(String code, String redirectUrl) {
         return oAuthAuthenticationService.authenticateCode(code, redirectUrl);
+    }
+
+    public Token resolveToken(String token, String redirect_uri, String serverName) {
+        return oAuthAuthenticationService.resolveToken(token, redirect_uri, serverName);
     }
 }

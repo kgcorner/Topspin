@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Qualifier("oauth")
 public class OAuthAuthentication implements AuthenticationService {
+
+
     @Override
     public Token authenticateToken(String token) {
         return null;
@@ -20,6 +22,11 @@ public class OAuthAuthentication implements AuthenticationService {
 
     @Override
     public Token authenticateCode(String code, String redirectUrl) {
+        return null;
+    }
+
+    @Override
+    public Token resolveToken(String token, String redirect_uri, String serverName) {
         return null;
     }
 }

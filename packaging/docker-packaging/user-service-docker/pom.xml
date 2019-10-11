@@ -12,6 +12,7 @@
     <artifactId>user-service-docker</artifactId>
     <properties>
         <service-jar-name>user-service</service-jar-name>
+        <dependent.artifact>spring-user-service</dependent.artifact>
     </properties>
     <build>
         <plugins>

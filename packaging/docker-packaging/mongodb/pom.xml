@@ -9,27 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>agent-service-docker</artifactId>
-    <properties>
-        <service-jar-name>auth-service</service-jar-name>
-        <dependent.artifact>spring-agent-service</dependent.artifact>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>spring-agent-service</artifactId>
-            <version>${product.version}</version>
-        </dependency>
-    </dependencies>
+    <artifactId>mongodb</artifactId>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
+                <configuration>
+                    <repository>kumargauravgupta3/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                </configuration>
             </plugin>
         </plugins>
     </build>

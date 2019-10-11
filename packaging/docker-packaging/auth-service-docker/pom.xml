@@ -13,6 +13,7 @@
 
     <properties>
         <service-jar-name>auth-service</service-jar-name>
+        <dependent.artifact>spring-auth-service</dependent.artifact>
     </properties>
     <build>
         <plugins>

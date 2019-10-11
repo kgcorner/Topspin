@@ -13,6 +13,7 @@
 
     <properties>
         <service-jar-name>config-server</service-jar-name>
+        <dependent.artifact>spring-config-service</dependent.artifact>
     </properties>
     <build>
         <plugins>

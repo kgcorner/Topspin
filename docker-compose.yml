@@ -1,0 +1,52 @@
+version: '2.1'
+services:
+  mongodb:
+    container_name: mongodb
+    image: kumargauravgupta3/mongodb:1.0-SNAPSHOT
+
+  discovery:
+    container_name: discovery
+    image: kumargauravgupta3/discovery-service-docker:1.0-SNAPSHOT
+    ports:
+      - '8761:8761'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  config:
+    container_name: config
+    image: kumargauravgupta3/config-service-docker:1.0-SNAPSHOT
+    ports:
+      - '8888:8888'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/spring-config-service/default"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - discovery
+    depends_on:
+      discovery:
+          condition: service_healthy
+  auth:
+    container_name: auth
+    image: kumargauravgupta3/auth-service-docker:1.0-SNAPSHOT
+    ports:
+      - '9001:9001'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9001"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - config
+      - discovery
+      - mongodb
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      mongodb:
+        condition: service_started

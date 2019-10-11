@@ -13,6 +13,7 @@
 
     <properties>
         <service-jar-name>discovery-service</service-jar-name>
+        <dependent.artifact>spring-discovery-service</dependent.artifact>
     </properties>
     <build>
         <plugins>

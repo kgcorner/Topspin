@@ -1,7 +1,7 @@
 echo "setting up environment"
 . ./setup-java.sh
 echo "Running build for docker"
-#mvn clean install -Ddocker
+mvn clean install -Ddocker
 if [ $? -eq 0 ]; then
   echo "Build completed for docker"
   echo "Spinup testable components"

@@ -15,6 +15,15 @@
     <packaging>pom</packaging>
     <modules>
         <module>authservice-tests</module>
+        <module>integration-test-util</module>
     </modules>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
 
+    </dependencies>
 </project>

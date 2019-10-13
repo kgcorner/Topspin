@@ -129,6 +129,5 @@
         <module>packaging</module>
         <module>stores-service</module>
         <module>common</module>
-        <module>integration-tests/authservice-tests</module>
     </modules>
 </project>

@@ -3,7 +3,8 @@ services:
   mongodb:
     container_name: mongodb
     image: kumargauravgupta3/mongodb:1.0-SNAPSHOT
-
+    ports:
+      - '27018:27017'
   discovery:
     container_name: discovery
     image: kumargauravgupta3/discovery-service-docker:1.0-SNAPSHOT

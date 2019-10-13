@@ -11,6 +11,6 @@ import cucumber.api.java.en.Given;
 
 public class FacebookLoginTests {
     @Given("^A user exists on facebook tries to login into topspin using authcode \"([^\"]*)\" and redirect-uri \"([^\"]*)\"$")
-    public void aUserExistsOnFacebookTriesToLoginIntoTopspinUsingAuthcodeAndRedirectUri(String arg0, String arg1) throws Throwable {
+    public void aUserExistsOnFacebookTriesToLoginIntoTopspinUsingAuthcodeAndRedirectUri(String authcode, String redirectUri) throws Throwable {
     }
 }

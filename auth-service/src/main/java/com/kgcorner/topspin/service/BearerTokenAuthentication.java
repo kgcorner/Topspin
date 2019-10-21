@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Qualifier("bearer")
 public class BearerTokenAuthentication implements AuthenticationService {
     public static final String BEARER_ = "bearer ";
+
     @Autowired
     private Properties properties;
 

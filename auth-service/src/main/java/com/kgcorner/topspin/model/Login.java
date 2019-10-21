@@ -59,4 +59,12 @@ public class Login implements Serializable {
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Login) {
+            return ((Login)obj).getUserId().equals(userId);
+        }
+        return false;
+    }
 }

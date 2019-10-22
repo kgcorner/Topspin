@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FacebookConfigProvider implements OAuthConfigProvider {
     private static final String FACEBOOK_APP_KEY = "FACEBOOK_APP_KEY";
-    private static final String FACEBOOK_APP_SECRET = "FACEBOOK_APP_KEY";
+    private static final String FACEBOOK_APP_SECRET = "FACEBOOK_APP_SECRET";
 
     @Value("${facebook.token.exchange.url}")
     private String fbAccessTokenExchangeUrl;

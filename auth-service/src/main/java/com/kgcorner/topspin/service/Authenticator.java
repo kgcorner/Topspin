@@ -14,13 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class Authenticator {
 
-
-    public static enum AUTHTYPE {
-        BASIC,
-        BEARER,
-        OAUTH
-    }
-
     @Autowired
     @Qualifier("bearer")
     private AuthenticationService bearerAuthenticationService;

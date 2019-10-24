@@ -59,7 +59,7 @@ public class AuthServicesTestsRunner {
         if(authDb == null) {
             throw new RuntimeException("Unable to create DB");
         }
-        MongoCollection<Document> loginCollection = authDb.getCollection("login");
+        MongoCollection<Document> loginCollection = authDb.getCollection("loginModel");
         Document testUser = new Document();
         testUser.append("userId", "0")
                 .append("userName", "user")

@@ -121,7 +121,6 @@
         </pluginManagement>
     </build>
     <modules>
-        <module>auth-service</module>
         <module>user-service</module>
         <module>config-service</module>
         <module>discovery-service</module>
@@ -129,5 +128,6 @@
         <module>packaging</module>
         <module>stores-service</module>
         <module>common</module>
+        <module>auth-service-modules</module>
     </modules>
 </project>

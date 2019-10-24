@@ -18,7 +18,7 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <configuration>
                     <repository>kumargauravgupta3/${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
+                    <tag>${product.version}</tag>
                 </configuration>
             </plugin>
         </plugins>

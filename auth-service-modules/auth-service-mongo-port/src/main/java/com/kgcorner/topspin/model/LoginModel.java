@@ -15,6 +15,8 @@ public class LoginModel implements Login {
     private String password;
     private String refreshToken;
     private String userId;
+    private String loginProvider;
+    private String oAuthAccessToken;
 
     @Id
     private String id;
@@ -65,5 +67,25 @@ public class LoginModel implements Login {
             return ((LoginModel)obj).getUserId().equals(userId);
         }
         return false;
+    }
+
+    @Override
+    public void setLoginProvider(String loginProvider) {
+        this.loginProvider = loginProvider;
+    }
+
+    @Override
+    public void setOAuthAccessToken(String oAuthAccessToken) {
+        this.oAuthAccessToken = oAuthAccessToken;
+    }
+
+    @Override
+    public String getLoginProvider() {
+        return loginProvider;
+    }
+
+    @Override
+    public String getOAuthAccessToken() {
+        return oAuthAccessToken;
     }
 }

@@ -58,7 +58,7 @@ public class FacebookConfigProviderTest {
 
     @Test
     public void getAccessTokenValidationUrl() {
-        Whitebox.setInternalState(facebookConfigProvider, "fbUserAccessUrl", TOKEN_VALIDATION_URL);
+        Whitebox.setInternalState(facebookConfigProvider, "fbValidateAccessTokenUrl", TOKEN_VALIDATION_URL);
         String url = facebookConfigProvider.getAccessTokenValidationUrl("access_token");
         String expected = "https://graph.facebook.com/debug_token?input_token=access_token&access_token=access_token";
         Assert.assertEquals("url is not matching", expected, url);

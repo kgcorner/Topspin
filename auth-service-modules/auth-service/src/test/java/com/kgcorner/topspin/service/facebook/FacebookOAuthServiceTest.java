@@ -1,5 +1,8 @@
 package com.kgcorner.topspin.service.facebook;
 
+import com.kgcorner.topspin.model.Login;
+import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.models.DummyLogin;
 import com.kgcorner.web.HttpUtil;
 import kong.unirest.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -27,12 +30,15 @@ Created on : 22/10/19
 public class FacebookOAuthServiceTest {
     private FacebookOAuthService facebookOAuthService;
     private FacebookConfigProvider mockedFacebookConfigProvider;
+    private AuthServiceModelFactory mockedAuthServiceModelFactory;
 
     @Before
     public void setUp() throws Exception {
         facebookOAuthService = new FacebookOAuthService();
         mockedFacebookConfigProvider = PowerMockito.mock(FacebookConfigProvider.class);
+        mockedAuthServiceModelFactory = PowerMockito.mock(AuthServiceModelFactory.class);
         Whitebox.setInternalState(facebookOAuthService, "facebookConfigProvider", mockedFacebookConfigProvider);
+        Whitebox.setInternalState(facebookOAuthService, "authServiceModelFactory", mockedAuthServiceModelFactory);
     }
 
     @Test
@@ -90,5 +96,54 @@ public class FacebookOAuthServiceTest {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("access_token", accessToken);
         return jsonObject.toString();
+    }
+
+    @Test
+    public void createLoginObject() {
+        String data = "{\n" +
+            " \"id\":\"fbid\",\n" +
+            " \"name\":\"kumar gaurav\",\n" +
+            " \"email\":\"kumar@fb.com\"\n" +
+            "}";
+        when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
+        Login loginObject = facebookOAuthService.createLoginObject(data);
+        Assert.assertNotNull(loginObject);
+        Assert.assertEquals("username of the login object is ot matching",
+            loginObject.getUserName(), "kumar@fb.com");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void createLoginObjectNull() {
+        facebookOAuthService.createLoginObject(null);
+    }
+
+    @Test
+    public void getUserInfo() {
+        String accessToken = "accessToken";
+        String url = "facebook.user.info.url";
+        String userInfoData = "userInfoData";
+        when(mockedFacebookConfigProvider.getUserInfoUrl("email,name", accessToken)).thenReturn(url);
+        HttpResponse mockedResponse = mock(HttpResponse.class);
+        mockStatic(HttpUtil.class);
+        when(HttpUtil.doGet(url, null, null)).thenReturn(mockedResponse);
+        when(mockedResponse.isSuccess()).thenReturn(true);
+        when(mockedResponse.getBody()).thenReturn(userInfoData);
+        String response = facebookOAuthService.getUserInfo(accessToken);
+        Assert.assertNotNull("User info can't be null", response);
+        Assert.assertEquals("User info not matching", userInfoData, response);
+    }
+
+    @Test
+    public void getUserInfoFailed() {
+        String accessToken = "accessToken";
+        String url = "facebook.user.info.url";
+        String userInfoData = "userInfoData";
+        when(mockedFacebookConfigProvider.getUserInfoUrl("email,name", accessToken)).thenReturn(url);
+        HttpResponse mockedResponse = mock(HttpResponse.class);
+        mockStatic(HttpUtil.class);
+        when(HttpUtil.doGet(url, null, null)).thenReturn(mockedResponse);
+        when(mockedResponse.isSuccess()).thenReturn(false);
+        String response = facebookOAuthService.getUserInfo(accessToken);
+        Assert.assertNull("User info should be null", response);
     }
 }

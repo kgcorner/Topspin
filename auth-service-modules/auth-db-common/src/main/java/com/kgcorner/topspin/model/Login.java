@@ -31,4 +31,12 @@ public interface Login extends Serializable {
     String getRefreshToken();
 
     void setRefreshToken(String refreshToken);
+
+    void setLoginProvider(String loginProvider);
+
+    void setOAuthAccessToken(String oAuthAccessToken);
+
+    String getLoginProvider();
+
+    String getOAuthAccessToken();
 }

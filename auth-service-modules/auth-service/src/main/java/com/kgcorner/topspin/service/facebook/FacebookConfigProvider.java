@@ -18,8 +18,8 @@ public class FacebookConfigProvider implements OAuthConfigProvider {
     @Value("${facebook.token.exchange.url}")
     private String fbAccessTokenExchangeUrl;
 
-    @Value("${facebook.get.user.access.token.url}")
-    private String fbUserAccessUrl;
+    @Value("${facebook.validate.access_token.url}")
+    private String fbValidateAccessTokenUrl;
 
     @Value("${facebook.user_info.url}")
     private String fbUserInfoExchangeUrl;
@@ -41,7 +41,7 @@ public class FacebookConfigProvider implements OAuthConfigProvider {
 
     @Override
     public String getAccessTokenValidationUrl(String accessToken) {
-        return String.format(fbUserAccessUrl, accessToken, accessToken);
+        return String.format(fbValidateAccessTokenUrl, accessToken, accessToken);
     }
 
     @Override

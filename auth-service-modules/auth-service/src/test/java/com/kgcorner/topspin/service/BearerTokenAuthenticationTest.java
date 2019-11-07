@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.service;
 
 import com.kgcorner.crypto.JwtUtility;
+import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
@@ -63,13 +64,12 @@ public class BearerTokenAuthenticationTest {
         this.bearerTokenAuthentication.authenticateToken("invalid bearer token");
     }
 
-    @Test
+    @Test(expected = ForbiddenException.class)
     public void authenticateTokenWithInvalidJwtToken() {
         String sampleToken = "bearer valid JWT token";
         PowerMockito.mockStatic(JwtUtility.class);
         when(JwtUtility.validateToken(TOKEN_SALT, sampleToken)).thenReturn(false);
         Token token = this.bearerTokenAuthentication.authenticateToken("bearer invalid JWT token");
-        Assert.assertNull("Returned token is not null for invalid jwt token", token);
     }
 
     @Test(expected = RuntimeException.class)

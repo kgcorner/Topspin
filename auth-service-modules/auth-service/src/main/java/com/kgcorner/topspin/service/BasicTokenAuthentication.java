@@ -9,6 +9,7 @@ Created on : 25/08/19
 import com.kgcorner.crypto.BigStringGenerator;
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.crypto.JwtUtility;
+import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
@@ -50,9 +51,9 @@ public class BasicTokenAuthentication implements AuthenticationService {
         }
         Login login = loginPersistentLayer.getLogin(credential[0]);
         if(login == null)
-            return null;
+            throw new  ForbiddenException("invalid username and password provided");
         if(!Hasher.checkPassword(credential[1], login.getPassword())) {
-            return null;
+            throw new  ForbiddenException("invalid username and password provided");
         }
         Map<String, String> claims = new HashMap<>();
         claims.put("USER_NAME", login.getUserName());

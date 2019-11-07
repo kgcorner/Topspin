@@ -7,6 +7,7 @@ Created on : 25/08/19
 */
 
 import com.kgcorner.crypto.JwtUtility;
+import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
@@ -32,7 +33,7 @@ public class BearerTokenAuthentication implements AuthenticationService {
         }
         token = token.substring(BEARER_.length());
         if(!JwtUtility.validateToken(properties.getTokenSalt(), token))
-            return null;
+            throw new ForbiddenException("invalid access token provided");
         else {
             Token tempBearerToken = authServiceModelFactory.createNewToken();
             tempBearerToken.setAccessToken(token);

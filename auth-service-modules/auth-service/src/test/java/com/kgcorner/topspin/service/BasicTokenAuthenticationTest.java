@@ -2,6 +2,7 @@ package com.kgcorner.topspin.service;
 
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.crypto.JwtUtility;
+import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
@@ -92,7 +93,7 @@ public class BasicTokenAuthenticationTest {
         this.basicTokenAuthentication.authenticateToken(null);
     }
 
-    @Test
+    @Test(expected = ForbiddenException.class)
     public void authenticateTokenWithInvalidPassword() {
         Login login = getDummyLogin();
         when(mockedLoginPersistentLayer.getLogin(login.getUserName())).thenReturn(login);
@@ -103,19 +104,16 @@ public class BasicTokenAuthenticationTest {
         claims.put("USER_ID", login.getUserId()+"");
         PowerMockito.mockStatic(JwtUtility.class);
         when(JwtUtility.createJWTToken(TOKEN_SALT, claims, EXPIRATION_TIME)).thenReturn("Access Token");
-        Token token = this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
+        this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
             .encodeToString((login.getUserName()+":"+"incorrect_password").getBytes()));
-        Assert.assertNull("Returned token is not null for invalid password", token);
     }
 
-    @Test
+    @Test(expected = ForbiddenException.class)
     public void authenticateTokenWithNonExtstingLogin() {
         Login login = getDummyLogin();
         when(mockedLoginPersistentLayer.getLogin(login.getUserName())).thenReturn(null);
-
-        Token token = this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
+        this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
             .encodeToString((login.getUserName()+":"+"password").getBytes()));
-        Assert.assertNull("Returned token is not null for non existing user", token);
     }
 
     @Test(expected = RuntimeException.class)

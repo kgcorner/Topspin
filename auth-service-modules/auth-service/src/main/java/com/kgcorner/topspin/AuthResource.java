@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class AuthResource {
+public class AuthResource extends ExceptionHandler {
     private static final String AUTHORIZATION = "Authorization";
     @GetMapping("/health")
     public String getHealth() {
@@ -37,14 +37,6 @@ public class AuthResource {
                           ) {
         return authenticator.authenticateWithToken(token);
     }
-
-//    @ApiOperation("Returns token for authorization")
-//    @GetMapping("/token/oauth")
-//    public Token getTokenForOAuth(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
-//                          @RequestHeader(value=AUTHORIZATION, required = true) String token
-//    ) {
-//        return authenticator.authenticateWithToken(token);
-//    }
 
     @ApiOperation("Returns token for authorization by authenticating using oauth access_token")
     @GetMapping("/token/oauth/code")

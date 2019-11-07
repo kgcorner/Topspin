@@ -6,6 +6,8 @@ Author: kumar
 Created on : 25/08/19
 */
 
+import com.kgcorner.topspin.model.Login;
+
 public interface OAuthService {
     /**
      * Fetches access token using auth code
@@ -27,4 +29,12 @@ public interface OAuthService {
      * @return
      */
     String getOAuthServiceName();
+
+    /**
+     * Returns user information from OAuth Server
+     * @return user's info in JSON format
+     */
+    String getUserInfo(String accessToken);
+
+    Login createLoginObject(String data);
 }

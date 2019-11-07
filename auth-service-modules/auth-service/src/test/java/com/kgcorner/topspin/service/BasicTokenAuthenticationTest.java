@@ -2,7 +2,6 @@ package com.kgcorner.topspin.service;
 
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.crypto.JwtUtility;
-import com.kgcorner.dao.DataRepository;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
@@ -119,14 +118,14 @@ public class BasicTokenAuthenticationTest {
         Assert.assertNull("Returned token is not null for non existing user", token);
     }
 
-    @Test(expected = NotImplementedException.class)
+    @Test(expected = RuntimeException.class)
     public void authenticateCode() {
-        this.basicTokenAuthentication.authenticateCode("auth code", "redirect uri");
+        this.basicTokenAuthentication.validateAccessTokenAndAuthenticate("auth code", "google");
     }
 
-    @Test(expected = NotImplementedException.class)
+    @Test(expected = RuntimeException.class)
     public void resolveToken() {
-        this.basicTokenAuthentication.resolveToken("auth code", "redirect uri", "server name");
+        this.basicTokenAuthentication.resolveAuthCodeAndAuthenticate("auth code", "redirect uri", "server name");
     }
 
     private Login getDummyLogin() {

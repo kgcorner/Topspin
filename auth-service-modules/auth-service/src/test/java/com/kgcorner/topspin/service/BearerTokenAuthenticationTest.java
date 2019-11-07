@@ -15,7 +15,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 
@@ -73,14 +72,14 @@ public class BearerTokenAuthenticationTest {
         Assert.assertNull("Returned token is not null for invalid jwt token", token);
     }
 
-    @Test(expected = NotImplementedException.class)
+    @Test(expected = RuntimeException.class)
     public void authenticateCode() {
-        this.bearerTokenAuthentication.authenticateCode("auth code", "redirect uri");
+        this.bearerTokenAuthentication.validateAccessTokenAndAuthenticate("auth code", "gppgle");
     }
 
-    @Test(expected = NotImplementedException.class)
+    @Test(expected = RuntimeException.class)
     public void resolveToken() {
-        this.bearerTokenAuthentication.resolveToken("auth code",
+        this.bearerTokenAuthentication.resolveAuthCodeAndAuthenticate("auth code",
             "redirect uri", "Server name");
     }
 }

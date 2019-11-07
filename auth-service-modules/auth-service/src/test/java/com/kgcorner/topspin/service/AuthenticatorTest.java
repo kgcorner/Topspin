@@ -1,8 +1,8 @@
 package com.kgcorner.topspin.service;
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.models.DummyToken;
-import com.sun.net.httpserver.BasicAuthenticator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,22 +90,26 @@ public class AuthenticatorTest {
 
     @Test
     public void testAuthenticateWithCode() {
-        Token token = getDummyToken();
-        when(mockedOAuthAuthenticationService.authenticateCode(anyString(), anyString())).thenReturn(token);
-        Token response = authenticator.authenticateWithCode("OAuth token", "redirect uri");
-        Assert.assertEquals("Access token is not matching", token.getAccessToken(),
-            response.getAccessToken());
-        Assert.assertEquals("Refresh token is not matching", token.getRefreshToken(),
-            response.getRefreshToken());
-        Assert.assertEquals("Expire time is not matching", token.getExpiresInSeconds(),
-            response.getExpiresInSeconds());
+        try {
+            Token token = getDummyToken();
+            when(mockedOAuthAuthenticationService.validateAccessTokenAndAuthenticate(anyString(), anyString())).thenReturn(token);
+            Token response = authenticator.validateAccessTokenAndAuthorize("OAuth token", "google");
+            Assert.assertEquals("Access token is not matching", token.getAccessToken(),
+                response.getAccessToken());
+            Assert.assertEquals("Refresh token is not matching", token.getRefreshToken(),
+                response.getRefreshToken());
+            Assert.assertEquals("Expire time is not matching", token.getExpiresInSeconds(),
+                response.getExpiresInSeconds());
+        } catch (ResourceNotFoundException x) {
+            Assert.fail(x.getMessage());
+        }
     }
 
     @Test
-    public void testResolveToken() {
+    public void testResolveToken() throws ResourceNotFoundException {
         Token token = getDummyToken();
-        when(mockedOAuthAuthenticationService.resolveToken(anyString(), anyString(), anyString())).thenReturn(token);
-        Token response = authenticator.resolveToken("OAuth token", "redirect uri",
+        when(mockedOAuthAuthenticationService.resolveAuthCodeAndAuthenticate(anyString(), anyString(), anyString())).thenReturn(token);
+        Token response = authenticator.resolveTokenAndAuthorize("OAuth token", "redirect uri",
             "server name");
         Assert.assertEquals("Access token is not matching", token.getAccessToken(),
             response.getAccessToken());

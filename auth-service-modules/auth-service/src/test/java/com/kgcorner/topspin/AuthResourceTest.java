@@ -6,6 +6,7 @@ Author: kumar
 Created on : 16/10/19
 */
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.models.DummyLogin;
@@ -21,11 +22,8 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import  static org.powermock.api.mockito.PowerMockito.when;
 
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
-import java.util.regex.Matcher;
 
 @RunWith(PowerMockRunner.class)
 public class AuthResourceTest {
@@ -62,7 +60,7 @@ public class AuthResourceTest {
     }
 
     @Test
-    public void testTokenForOAuth() {
+    public void testTokenForOAuth() throws ResourceNotFoundException {
         String accessToken ="accessToken";
         String refreshToken ="refreshToken";
         int expireIn = 100;
@@ -70,8 +68,8 @@ public class AuthResourceTest {
         tokenToBeReturned.setAccessToken(accessToken);
         tokenToBeReturned.setRefreshToken(refreshToken);
         tokenToBeReturned.setExpiresInSeconds(expireIn);
-        when(mockedAuthenticator.authenticateWithToken(anyString())).thenReturn(tokenToBeReturned);
-        Token returnedToken = authResource.getTokenForOAuth("Auth Token");
+        when(mockedAuthenticator.validateAccessTokenAndAuthorize(anyString(), anyString())).thenReturn(tokenToBeReturned);
+        Token returnedToken = authResource.getTokenForOAuth("Auth Token", "google");
         Assert.assertEquals("Access token is not matching", accessToken, returnedToken.getAccessToken());
         Assert.assertEquals("Refresh token is not matching", refreshToken, returnedToken.getRefreshToken());
         Assert.assertEquals("Expire time is not matching", expireIn, returnedToken.getExpiresInSeconds());
@@ -79,24 +77,28 @@ public class AuthResourceTest {
 
     @Test
     public void testTokenForOAuthWIthRedirect() {
-        String accessToken ="accessToken";
-        String refreshToken ="refreshToken";
-        int expireIn = 100;
-        Token tokenToBeReturned = createDummyToken(accessToken, refreshToken, expireIn);
-        when(mockedAuthenticator.authenticateWithCode(anyString(), anyString())).thenReturn(tokenToBeReturned);
-        Token returnedToken = authResource.getTokenForOAuth("Auth Token", "redirect uri");
-        Assert.assertEquals("Access token is not matching", accessToken, returnedToken.getAccessToken());
-        Assert.assertEquals("Refresh token is not matching", refreshToken, returnedToken.getRefreshToken());
-        Assert.assertEquals("Expire time is not matching", expireIn, returnedToken.getExpiresInSeconds());
+        try {
+            String accessToken = "accessToken";
+            String refreshToken = "refreshToken";
+            int expireIn = 100;
+            Token tokenToBeReturned = createDummyToken(accessToken, refreshToken, expireIn);
+            when(mockedAuthenticator.validateAccessTokenAndAuthorize(anyString(), anyString())).thenReturn(tokenToBeReturned);
+            Token returnedToken = authResource.getTokenForOAuth("Auth Token", "google");
+            Assert.assertEquals("Access token is not matching", accessToken, returnedToken.getAccessToken());
+            Assert.assertEquals("Refresh token is not matching", refreshToken, returnedToken.getRefreshToken());
+            Assert.assertEquals("Expire time is not matching", expireIn, returnedToken.getExpiresInSeconds());
+        } catch (ResourceNotFoundException x){
+            Assert.fail(x.getMessage());
+        }
     }
 
     @Test
-    public void testResolveAccessToken() {
+    public void testResolveAccessToken() throws ResourceNotFoundException {
         String accessToken ="accessToken";
         String refreshToken ="refreshToken";
         int expireIn = 100;
         Token tokenToBeReturned = createDummyToken(accessToken, refreshToken, expireIn);
-        when(mockedAuthenticator.resolveToken(anyString(), anyString(), anyString())).thenReturn(tokenToBeReturned);
+        when(mockedAuthenticator.resolveTokenAndAuthorize(anyString(), anyString(), anyString())).thenReturn(tokenToBeReturned);
         Token returnedToken = authResource.resolveAccessToken("Auth code", "redirect uri", "Server name");
         Assert.assertEquals("Access token is not matching", accessToken, returnedToken.getAccessToken());
         Assert.assertEquals("Refresh token is not matching", refreshToken, returnedToken.getRefreshToken());

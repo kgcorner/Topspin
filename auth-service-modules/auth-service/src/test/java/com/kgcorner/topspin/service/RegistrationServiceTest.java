@@ -60,6 +60,20 @@ public class RegistrationServiceTest {
         Assert.assertEquals("user id is not matching", login.getUserId(), response.getUserId());
     }
 
+    @Test
+    public void createLoginWithEmptyPassword() {
+        Login login = getDummyLogin();
+        login.setPassword(null);
+        when(mockedLoginPersistentLayer.createLogin(login)).thenReturn(login);
+        when(mockedProperties.getPasswordSalt()).thenReturn(PASSWORD_SALT);
+        when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
+        Login response = registrationService.createLogin(login.getUserName(), null, login.getUserId());
+        Assert.assertNotNull("Created login is null", response);
+        Assert.assertEquals("User name is not matching", login.getUserName(), response.getUserName());
+        Assert.assertEquals("password is not matching", login.getPassword(), response.getPassword());
+        Assert.assertEquals("user id is not matching", login.getUserId(), response.getUserId());
+    }
+
     private Login getDummyLogin() {
         Login login = new DummyLogin();
         login.setUserId("XXX");

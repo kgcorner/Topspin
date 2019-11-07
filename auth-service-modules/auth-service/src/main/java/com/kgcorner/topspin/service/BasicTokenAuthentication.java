@@ -14,7 +14,6 @@ import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
-import org.apache.commons.lang.NotImplementedException;
 import org.bson.internal.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,12 +70,12 @@ public class BasicTokenAuthentication implements AuthenticationService {
     }
 
     @Override
-    public Token authenticateCode(String code, String redirectUrl) {
-        throw new NotImplementedException("Not an oauth authentication service");
+    public Token validateAccessTokenAndAuthenticate(String code, String serverName) {
+        throw new RuntimeException("Not an oauth authentication service");
     }
 
     @Override
-    public Token resolveToken(String token, String redirect_uri, String serverName) {
-        throw new NotImplementedException("Not an oauth authentication service");
+    public Token resolveAuthCodeAndAuthenticate(String token, String redirect_uri, String serverName) {
+        throw new RuntimeException("Not an oauth authentication service");
     }
 }

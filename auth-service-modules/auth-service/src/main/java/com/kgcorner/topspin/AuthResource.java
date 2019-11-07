@@ -6,6 +6,7 @@ Author: kumar
 Created on : 9/8/19
 */
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.service.Authenticator;
@@ -37,25 +38,25 @@ public class AuthResource {
         return authenticator.authenticateWithToken(token);
     }
 
-    @ApiOperation("Returns token for authorization")
-    @GetMapping("/token/oauth")
-    public Token getTokenForOAuth(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
-                          @RequestHeader(value=AUTHORIZATION, required = true) String token
-    ) {
-        return authenticator.authenticateWithToken(token);
-    }
+//    @ApiOperation("Returns token for authorization")
+//    @GetMapping("/token/oauth")
+//    public Token getTokenForOAuth(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
+//                          @RequestHeader(value=AUTHORIZATION, required = true) String token
+//    ) {
+//        return authenticator.authenticateWithToken(token);
+//    }
 
-    @ApiOperation("Returns token for authorization")
+    @ApiOperation("Returns token for authorization by authenticating using oauth access_token")
     @GetMapping("/token/oauth/code")
     public Token getTokenForOAuth(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
                                   @RequestHeader(value=AUTHORIZATION, required = true) String token,
-                                  @ApiParam(value = "used redirect uri" , required = true)
-                                  @RequestHeader(value="redirect-uri", required = true) String redirect_uri
-    ) {
-        return authenticator.authenticateWithCode(token, redirect_uri);
+                                  @ApiParam(value = "name of the oauth service" , required = true)
+                                      @RequestHeader(value="server-name", required = true) String serverName
+    ) throws ResourceNotFoundException {
+        return authenticator.validateAccessTokenAndAuthorize(token, serverName);
     }
 
-    @ApiOperation("Returns token for authorization")
+    @ApiOperation("Returns token for authorization by authenticating using oauth auth_code")
     @GetMapping("/token/access_token")
     public Token resolveAccessToken(@ApiParam(value = "auth code provided by the oauth server" , required = true)
                                     @RequestParam(value=AUTHORIZATION, required = true) String token,
@@ -63,8 +64,8 @@ public class AuthResource {
                                     @RequestParam(value="redirect_uri", required = true) String redirect_uri,
                                     @ApiParam(value = "name of the oauth service" , required = true)
                                     @RequestParam(value="oauth-server", required = true) String serverName
-    ) {
-        return authenticator.resolveToken(token, redirect_uri,serverName);
+    ) throws ResourceNotFoundException {
+        return authenticator.resolveTokenAndAuthorize(token, redirect_uri,serverName);
     }
 
     @ApiOperation("creates a login for user")

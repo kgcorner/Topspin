@@ -62,4 +62,24 @@ public class DummyLogin implements Login {
         }
         return false;
     }
+
+    @Override
+    public void setLoginProvider(String loginProvider) {
+
+    }
+
+    @Override
+    public void setOAuthAccessToken(String oAuthAccessToken) {
+
+    }
+
+    @Override
+    public String getLoginProvider() {
+        return null;
+    }
+
+    @Override
+    public String getOAuthAccessToken() {
+        return null;
+    }
 }

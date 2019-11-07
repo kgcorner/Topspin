@@ -11,6 +11,7 @@ import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
+import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,10 @@ public class RegistrationService {
         Login login = authServiceModelFactory.createNewLogin();
         login.setUserId(userId);
         login.setUserName(userName);
-        String salt = properties.getPasswordSalt();
-        login.setPassword(Hasher.getCrypt(password, salt));
+        if(!Strings.isNullOrEmpty(password)) {
+            String salt = properties.getPasswordSalt();
+            login.setPassword(Hasher.getCrypt(password, salt));
+        }
         return loginPersistentLayer.createLogin(login);
     }
 }

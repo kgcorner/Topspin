@@ -6,6 +6,7 @@ Author: kumar
 Created on : 25/08/19
 */
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,11 +47,11 @@ public class Authenticator {
         return null;
     }
 
-    public Token authenticateWithCode(String code, String redirectUrl) {
-        return oAuthAuthenticationService.authenticateCode(code, redirectUrl);
+    public Token validateAccessTokenAndAuthorize(String code, String serverName) throws ResourceNotFoundException {
+        return oAuthAuthenticationService.validateAccessTokenAndAuthenticate(code, serverName);
     }
 
-    public Token resolveToken(String token, String redirect_uri, String serverName) {
-        return oAuthAuthenticationService.resolveToken(token, redirect_uri, serverName);
+    public Token resolveTokenAndAuthorize(String token, String redirect_uri, String serverName) throws ResourceNotFoundException {
+        return oAuthAuthenticationService.resolveAuthCodeAndAuthenticate(token, redirect_uri, serverName);
     }
 }

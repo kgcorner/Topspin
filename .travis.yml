@@ -2,5 +2,12 @@ language: java
 jdk:
   - openjdk11
 
+addons:
+  sonarcloud:
+    organization: "kgcorner-github"
+    token:
+      secure: "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3K2goDYWO7un0kr+Qsnc 0y+k8Cb0KhByQu5gwpU7X+c4pEfUq9SF/zteAEvY2Z/m+LepAWS5Mgg9+zteGUE+ KYxW6nxERzUjlGfgkfw+SiJvwhF9JI6iMfwfAHorUb5zSfXzbx3KlY3goH9C/Jaf pObPGDDegQPGKERrBc9SXqQLhwOFh2Xc2QR4hS4C7EIiFFoOs2BUhRPZlqtzaLi/ RpvAEnT7Dq7LpHyNsaC5gL0HXzCZsMXfgiMZHZ57rJtmu1DMt1zEP6Y+anq+DU3h PHXBvBaatlnbm85ZdxZ/VnNhFWuZ0AhHXYcg9ntPEIogVQlvQ2AuWxdAfxs28lEu 8XRfj9ATfxb9ZrcYLttlbdZ+L/15bjakYu86okDdka4Cmgi1GBa/c62+e52A2Omd WWaDjasXmI5sOCcqynQZKAPgF5HozgzjFT5uGd9PbAaam59jbNzXqZWlUT/An7V/ bKzh7EYFQ7Fz1ifRA29gNjUgIgbw4JnTEvZrjAQYjwMQeXKM2lhhofYLK16r+4az +1PcmRsG4p9w3Rx9la5RJW2kSAwqLKmb62QIoMGX0VikKu9zvQFG5Fupm6xWI1dx 4kXdgiQ/30snWMO78CJs94bXw4dzxwkMzkdTm+t68hctonj53//vBFzPRHvQDvB+ PCoYZsAEFHINAjwcUrSauXkCAwEAAQ==" # encrypted value of your token
+
 script:
-  - mvn clean install -dmultiModule=true
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar

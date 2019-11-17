@@ -53,11 +53,11 @@ public class AuthResource extends ExceptionHandler {
     public Token resolveAccessToken(@ApiParam(value = "auth code provided by the oauth server" , required = true)
                                     @RequestHeader(value=AUTHORIZATION, required = true) String token,
                                     @ApiParam(value = "used redirect uri" , required = true)
-                                    @RequestHeader(value="redirect-uri", required = true) String redirect_uri,
+                                    @RequestHeader(value="redirect-uri", required = true) String redirectUri,
                                     @ApiParam(value = "name of the oauth service" , required = true)
                                     @RequestHeader(value="oauth-server", required = true) String serverName
     ) throws ResourceNotFoundException {
-        return authenticator.resolveTokenAndAuthorize(token, redirect_uri,serverName);
+        return authenticator.resolveTokenAndAuthorize(token, redirectUri,serverName);
     }
 
     @ApiOperation("creates a login for user")

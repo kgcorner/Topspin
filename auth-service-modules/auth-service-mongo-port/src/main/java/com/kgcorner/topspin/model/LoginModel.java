@@ -62,14 +62,6 @@ public class LoginModel implements Login {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof LoginModel) {
-            return ((LoginModel)obj).getUserId().equals(userId);
-        }
-        return false;
-    }
-
-    @Override
     public void setLoginProvider(String loginProvider) {
         this.loginProvider = loginProvider;
     }
@@ -87,5 +79,18 @@ public class LoginModel implements Login {
     @Override
     public String getOAuthAccessToken() {
         return oAuthAccessToken;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof LoginModel) {
+            return ((LoginModel)obj).getUserId().equals(userId);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

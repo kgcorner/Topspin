@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 
 @Repository
-
 public class MongoAuthenticationDao<T extends Serializable> extends MongoRepository<T> {
     public MongoAuthenticationDao(MongoTemplate template) {
         this.template = template;

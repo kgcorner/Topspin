@@ -6,8 +6,6 @@ Author: kumar
 Created on : 25/08/19
 */
 
-import java.io.Serializable;
-
 public class TokenModel implements Token {
     private String accessToken;
     private String refreshToken;

@@ -7,9 +7,7 @@ Created on : 26/08/19
 */
 
 
-
 import com.kgcorner.dao.MongoRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 

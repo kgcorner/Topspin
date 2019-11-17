@@ -8,8 +8,6 @@ Created on : 26/08/19
 
 import org.springframework.data.annotation.Id;
 
-import java.io.Serializable;
-
 public class LoginModel implements Login {
     private String userName;
     private String password;

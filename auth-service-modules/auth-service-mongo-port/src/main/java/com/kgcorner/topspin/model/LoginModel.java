@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.model;
 
 /*
-Description : <Write class Description>
+Description : LoginModel for Login
 Author: kumar
 Created on : 26/08/19
 */

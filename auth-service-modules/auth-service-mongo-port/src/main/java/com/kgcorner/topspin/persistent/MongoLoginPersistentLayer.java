@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.persistent;
 
 /*
-Description : <Write class Description>
+Description : Implementation of Persistence layer for mongodb
 Author: kumar
 Created on : 24/10/19
 */
@@ -19,6 +19,7 @@ public class MongoLoginPersistentLayer extends MongoRepository<LoginModel> imple
     public MongoLoginPersistentLayer(MongoTemplate template) {
         this.template = template;
     }
+
     @Override
     public Login getLogin(String userName) {
         return getByKey(Login.USER_NAME_COLUMN, userName, LoginModel.class);

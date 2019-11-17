@@ -7,7 +7,7 @@ Created on : 15/09/19
 */
 
 import com.kgcorner.crypto.Hasher;
-import com.kgcorner.topspin.stepdefs.model.Login;
+import com.kgcorner.topspin.util.PropertiesUtil;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -16,12 +16,10 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.testng.CucumberFeatureWrapper;
 import cucumber.api.testng.TestNGCucumberRunner;
 import cucumber.runtime.model.CucumberFeature;
-import org.apache.log4j.Logger;
 import org.bson.Document;
 import org.testng.annotations.*;
 
 import java.io.IOException;
-import java.util.Properties;
 
 @CucumberOptions(
     features = "src/test/resources/features",
@@ -35,12 +33,11 @@ import java.util.Properties;
     })
 public class AuthServicesTestsRunner {
     private TestNGCucumberRunner runner = null;
-    private Properties properties;
+
     //private static final Logger LOGGER  = Logger.getLogger(AuthServicesTestsRunner.class);
 
     public AuthServicesTestsRunner() throws IOException {
-        this.properties = new Properties();
-        properties.load(AuthServicesTestsRunner.class.getResourceAsStream("/application.properties"));
+
     }
 
     @BeforeClass
@@ -53,9 +50,8 @@ public class AuthServicesTestsRunner {
      * Prepares DB for Auth service testing
      */
     private void prepareDB() {
-
-        MongoClient mongoClient = MongoClients.create(properties.getProperty("mongodb.server"));
-        MongoDatabase authDb = mongoClient.getDatabase(properties.getProperty("db.name"));
+        MongoClient mongoClient = MongoClients.create(PropertiesUtil.getValue("mongodb.server"));
+        MongoDatabase authDb = mongoClient.getDatabase(PropertiesUtil.getValue("db.name"));
         if(authDb == null) {
             throw new RuntimeException("Unable to create DB");
         }
@@ -63,7 +59,7 @@ public class AuthServicesTestsRunner {
         Document testUser = new Document();
         testUser.append("userId", "0")
                 .append("userName", "user")
-                .append("password", Hasher.getCrypt("password", properties.getProperty("password.salt")));
+                .append("password", Hasher.getCrypt("password", PropertiesUtil.getValue("password.salt")));
 
         System.out.println("Creating Test user");
         loginCollection.insertOne(testUser);

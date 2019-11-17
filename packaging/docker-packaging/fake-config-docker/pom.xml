@@ -8,13 +8,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>config-service-docker</artifactId>
-
     <properties>
         <service-jar-name>config-server</service-jar-name>
-        <dependent.artifact>spring-config-service</dependent.artifact>
+        <dependent.artifact>fake-spring-config-service</dependent.artifact>
     </properties>
+    <artifactId>fake-config-docker</artifactId>
+
     <build>
         <plugins>
             <plugin>

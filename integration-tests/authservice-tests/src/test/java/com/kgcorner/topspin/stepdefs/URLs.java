@@ -10,6 +10,7 @@ public final class URLs {
     private final String HOST;
     private static final String TOKEN_URL = "/token";
     private static final String DEFAULT_HOST = "http://localhost:9001";
+    private static final String FACEBOOK_CODE_LOGIN_URL = "/token/oauth/code";
     private static URLs INSTANCE;
     private URLs(){
         HOST = null;
@@ -31,5 +32,8 @@ public final class URLs {
 
     public String getTokenUrl() {
         return HOST + TOKEN_URL;
+    }
+    public String getFacebookCodeLoginUrl() {
+        return HOST + FACEBOOK_CODE_LOGIN_URL;
     }
 }

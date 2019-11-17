@@ -14,6 +14,7 @@
         <module>spring-agent-service</module>
         <module>spring-config-service</module>
         <module>spring-discovery-service</module>
+        <module>fake-spring-config-service</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

@@ -39,7 +39,7 @@ public class AuthResource extends ExceptionHandler {
     }
 
     @ApiOperation("Returns token for authorization by authenticating using oauth access_token")
-    @GetMapping("/token/oauth/code")
+    @GetMapping("/token/access_token")
     public Token getTokenForOAuth(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
                                   @RequestHeader(value=AUTHORIZATION, required = true) String token,
                                   @ApiParam(value = "name of the oauth service" , required = true)
@@ -49,13 +49,13 @@ public class AuthResource extends ExceptionHandler {
     }
 
     @ApiOperation("Returns token for authorization by authenticating using oauth auth_code")
-    @GetMapping("/token/access_token")
+    @GetMapping("/token/oauth/code")
     public Token resolveAccessToken(@ApiParam(value = "auth code provided by the oauth server" , required = true)
-                                    @RequestParam(value=AUTHORIZATION, required = true) String token,
+                                    @RequestHeader(value=AUTHORIZATION, required = true) String token,
                                     @ApiParam(value = "used redirect uri" , required = true)
-                                    @RequestParam(value="redirect_uri", required = true) String redirect_uri,
+                                    @RequestHeader(value="redirect-uri", required = true) String redirect_uri,
                                     @ApiParam(value = "name of the oauth service" , required = true)
-                                    @RequestParam(value="oauth-server", required = true) String serverName
+                                    @RequestHeader(value="oauth-server", required = true) String serverName
     ) throws ResourceNotFoundException {
         return authenticator.resolveTokenAndAuthorize(token, redirect_uri,serverName);
     }

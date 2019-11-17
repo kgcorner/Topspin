@@ -16,5 +16,5 @@ ARG JAR_FILE=service-jar.jar
 # Add the application's jar to the container
 ADD ${JAR_FILE} service-jar.jar
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/service-jar.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.cloud.config.server.git.searchPaths: config-test","-jar","/service-jar.jar"]
 

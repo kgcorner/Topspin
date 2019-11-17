@@ -18,9 +18,13 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class HttpUtil {
 
@@ -68,5 +72,22 @@ public class HttpUtil {
             content.append(line);
         }
         return content.toString();
+    }
+
+    public static Map<String, String> getAllQueries(String url) throws MalformedURLException {
+        URL urlObject = new URL(url);
+        Map<String, String> queries = new HashMap<>();
+        String queryString = urlObject.getQuery();
+        String[] parts = queryString.split(Pattern.quote("&"));
+        for(String part : parts) {
+            String[] entry = part.split(Pattern.quote("="));
+            queries.put(entry[0], entry[1]);
+        }
+        return queries;
+    }
+
+    public static String getPath(String url) throws MalformedURLException {
+        URL urlObject = new URL(url);
+        return urlObject.getPath();
     }
 }

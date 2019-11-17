@@ -1,11 +1,11 @@
 echo "setting up environment"
 . ./setup-java.sh
 echo "Running build for docker"
-#mvn clean install -Ddocker
+mvn clean install -Ddocker
 if [ $? -eq 0 ]; then
   echo "Build completed for docker"
   echo "Spinup testable components"
-  docker-compose up &
+  docker-compose -f docker-compose.test.yml up &
   echo "Checking webservice health"
   siteUp=0;
   while [ ${siteUp} -eq 0 ]

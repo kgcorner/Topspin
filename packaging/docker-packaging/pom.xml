@@ -10,6 +10,7 @@
         <module>discovery-service-docker</module>
         <module>agent-service-docker</module>
         <module>mongodb</module>
+        <module>fake-config-docker</module>
         <!-- <module>mysqldb</module>
         <module>redis-cache</module> -->
     </modules>

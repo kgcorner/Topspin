@@ -13,7 +13,6 @@ import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
 import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service

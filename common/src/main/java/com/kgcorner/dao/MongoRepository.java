@@ -63,13 +63,13 @@ public class MongoRepository<T extends Serializable> extends CachedRepository <T
      */
     @Override
     public T create(T document) {
-        template.insert(document);
+        document = template.insert(document);
         return  document;
     }
 
     @Override
     public T update(T document) {
-        template.save(document);
+        document = template.save(document);
         return document;
     }
 }

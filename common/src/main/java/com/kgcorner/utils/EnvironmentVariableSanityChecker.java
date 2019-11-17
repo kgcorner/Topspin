@@ -2,7 +2,6 @@ package com.kgcorner.utils;
 
 
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -35,7 +34,7 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForFacebookAppKey(String key) {
-       return FACEBOOK_APP_KEY_PATTERN.matcher(key).matches();
+       return key != null? FACEBOOK_APP_KEY_PATTERN.matcher(key).matches() : true;
     }
 
     /**
@@ -44,7 +43,7 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForFacebookSecretKey(String key) {
-        return FACEBOOK_APP_SECRET_PATTERN.matcher(key).matches();
+        return key != null ? FACEBOOK_APP_SECRET_PATTERN.matcher(key).matches() : true;
     }
 
     /**
@@ -53,7 +52,7 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForGoogleAppKey(String key) {
-        return GOOGLE_APP_KEY_PATTERN.matcher(key).matches();
+        return key != null ? GOOGLE_APP_KEY_PATTERN.matcher(key).matches() : true;
     }
 
     /**
@@ -62,6 +61,6 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForGoogleSecretKey(String key) {
-        return GOOGLE_APP_SECRET_PATTERN.matcher(key).matches();
+        return key != null ? GOOGLE_APP_SECRET_PATTERN.matcher(key).matches() : true;
     }
 }

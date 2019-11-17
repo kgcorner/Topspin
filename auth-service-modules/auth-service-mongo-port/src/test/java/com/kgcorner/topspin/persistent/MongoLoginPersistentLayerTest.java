@@ -2,17 +2,16 @@ package com.kgcorner.topspin.persistent;
 
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.LoginModel;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.ArgumentMatchers.*;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.data.mongodb.core.ExecutableInsertOperation;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.powermock.api.mockito.PowerMockito;
-import static org.powermock.api.mockito.PowerMockito.*;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 
 /*
@@ -71,8 +70,9 @@ public class MongoLoginPersistentLayerTest {
         Login loginModel = new LoginModel();
         loginModel.setUserId("0");
         when(mockedMongoTemplate.save(any(LoginModel.class))).thenReturn((LoginModel)loginModel);
-
         mongoLoginPersistentLayer.update(loginModel);
+        assertNotNull(loginModel);
+        assertEquals("Model's userId is not matching","0", loginModel.getUserId());
     }
 
     @Test(expected = IllegalArgumentException.class)

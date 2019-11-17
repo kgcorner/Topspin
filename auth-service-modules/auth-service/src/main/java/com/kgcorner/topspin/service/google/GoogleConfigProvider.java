@@ -7,8 +7,10 @@ Created on : 28/10/19
 */
 
 import com.kgcorner.topspin.service.OAuthConfigProvider;
+import com.kgcorner.utils.EnvironmentVariableSanityChecker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 @Component
 public class GoogleConfigProvider implements OAuthConfigProvider {
@@ -27,12 +29,18 @@ public class GoogleConfigProvider implements OAuthConfigProvider {
 
     @Override
     public String getAppKey() {
-        return System.getenv(GOOGLE_APP_KEY);
+        String key = System.getenv(GOOGLE_APP_KEY);
+        Assert.isTrue(EnvironmentVariableSanityChecker.checkForGoogleAppKey(key),
+            "Google app key failed in sanity check, Check for environment variable " + GOOGLE_APP_KEY);
+        return key;
     }
 
     @Override
     public String getSecretKey() {
-        return System.getenv(GOOGLE_APP_SECRET);
+        String key = System.getenv(GOOGLE_APP_SECRET);
+        Assert.isTrue(EnvironmentVariableSanityChecker.checkForGoogleSecretKey(key),
+            "Google app secret failed in sanity check, Check for environment variable " + GOOGLE_APP_SECRET);
+        return key;
     }
 
     @Override

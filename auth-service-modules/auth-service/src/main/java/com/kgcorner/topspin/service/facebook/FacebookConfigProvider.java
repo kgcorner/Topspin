@@ -7,8 +7,10 @@ Created on : 15/09/19
 */
 
 import com.kgcorner.topspin.service.OAuthConfigProvider;
+import com.kgcorner.utils.EnvironmentVariableSanityChecker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 @Component
 public class FacebookConfigProvider implements OAuthConfigProvider {
@@ -26,12 +28,18 @@ public class FacebookConfigProvider implements OAuthConfigProvider {
 
     @Override
     public String getAppKey() {
-        return System.getenv(FACEBOOK_APP_KEY);
+        String key = System.getenv(FACEBOOK_APP_KEY);
+        Assert.isTrue(EnvironmentVariableSanityChecker.checkForFacebookAppKey(key),
+            "Facebook app key failed in sanity check, Check for environment variable " + FACEBOOK_APP_KEY);
+        return key;
     }
 
     @Override
     public String getSecretKey() {
-        return System.getenv(FACEBOOK_APP_SECRET);
+        String key = System.getenv(FACEBOOK_APP_SECRET);
+        Assert.isTrue(EnvironmentVariableSanityChecker.checkForFacebookSecretKey(key),
+            "Facebook app secret failed in sanity check, Check for environment variable " + FACEBOOK_APP_SECRET);
+        return key;
     }
 
     @Override

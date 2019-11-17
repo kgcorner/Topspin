@@ -1,5 +1,6 @@
 package com.kgcorner.topspin.service.facebook;
 
+import com.kgcorner.utils.Strings;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+
+import java.util.Map;
 
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -29,10 +32,23 @@ public class FacebookConfigProviderTest {
     private static final String TOKEN_VALIDATION_URL = "https://graph.facebook.com/debug_token?" +
         "input_token=%s&access_token=%s";
     private static final String USER_INFO_URL="https://graph.facebook.com/me?fields=%s&access_token=%s";
+    private static final String MOCKED_FB_APP_KEY = "098";
+    private static final String MOCKED_FB_APP_SEC = "098";
 
     @Before
     public void setup() {
         this.facebookConfigProvider = new FacebookConfigProvider();
+        if(Strings.isNullOrEmpty(System.getenv(FACEBOOK_APP_KEY))) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            Map<String, String> environment = processBuilder.environment();  // Sensitive
+            environment.put(FACEBOOK_APP_KEY, MOCKED_FB_APP_KEY);
+        }
+
+        if(Strings.isNullOrEmpty(System.getenv(FACEBOOK_APP_SECRET))) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            Map<String, String> environment = processBuilder.environment();  // Sensitive
+            environment.put(FACEBOOK_APP_SECRET, MOCKED_FB_APP_SEC);
+        }
     }
 
     @Test

@@ -1,10 +1,15 @@
 package com.kgcorner.topspin.service.google;
 
 import com.kgcorner.topspin.service.google.GoogleConfigProvider;
+import com.kgcorner.utils.Strings;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.powermock.api.mockito.PowerMockito;
+import static org.powermock.api.mockito.PowerMockito.*;
 import org.powermock.reflect.Whitebox;
+
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -16,16 +21,29 @@ Created on : 06/11/19
 */
 
 public class GoogleConfigProviderTest {
-
     private static final String GOOGLE_APP_KEY = "GOOGLE_APP_KEY";
     private static final String GOOGLE_APP_SECRET = "GOOGLE_APP_SECRET";
     private GoogleConfigProvider googleConfigProvider;
     private static final String TOKEN_EXCHANGE_URL = "https://accounts.google.com/o/oauth2/token";
     private static final String TOKEN_VALIDATION_URL = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=%s";
     private static final String USER_INFO_URL="https://people.googleapis.com/v1/people/me?personFields=emailAddresses";
+    private static final String MOCKED_GG_APP_KEY = "098.apps.googleusercontent.com";
+    private static final String MOCKED_GG_APP_SEC = "098";
 
     @Before
     public void setup() {
+
+        if(Strings.isNullOrEmpty(System.getenv(GOOGLE_APP_KEY))) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            Map<String, String> environment = processBuilder.environment();  // Sensitive
+            environment.put(GOOGLE_APP_KEY, MOCKED_GG_APP_KEY);
+        }
+
+        if(Strings.isNullOrEmpty(System.getenv(GOOGLE_APP_SECRET))) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            Map<String, String> environment = processBuilder.environment();  // Sensitive
+            environment.put(GOOGLE_APP_SECRET, MOCKED_GG_APP_SEC);
+        }
         this.googleConfigProvider = new GoogleConfigProvider();
     }
 

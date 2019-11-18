@@ -27,7 +27,7 @@ import java.util.Map;
 @Qualifier("basic")
 public class BasicTokenAuthentication implements AuthenticationService {
 
-    public static final String BASIC_ = "basic ";
+    public static final String BASIC = "basic ";
 
     @Autowired
     private LoginPersistentLayer loginPersistentLayer;
@@ -40,10 +40,10 @@ public class BasicTokenAuthentication implements AuthenticationService {
 
     @Override
     public Token authenticateToken(String token) {
-        if(token == null || !token.toLowerCase().startsWith(BASIC_)) {
+        if(token == null || !token.toLowerCase().startsWith(BASIC)) {
             throw new IllegalArgumentException("Not a valid basic token");
         }
-        token = token.substring(BASIC_.length());
+        token = token.substring(BASIC.length());
         token = new String(Base64.decode(token));
         String[] credential = token.split(":");
         if(credential.length != 2) {
@@ -72,11 +72,11 @@ public class BasicTokenAuthentication implements AuthenticationService {
 
     @Override
     public Token validateAccessTokenAndAuthenticate(String code, String serverName) {
-        throw new RuntimeException("Not an oauth authentication service");
+        throw new IllegalStateException("Not an oauth authentication service");
     }
 
     @Override
-    public Token resolveAuthCodeAndAuthenticate(String token, String redirect_uri, String serverName) {
-        throw new RuntimeException("Not an oauth authentication service");
+    public Token resolveAuthCodeAndAuthenticate(String token, String redirectUri, String serverName) {
+        throw new IllegalStateException("Not an oauth authentication service");
     }
 }

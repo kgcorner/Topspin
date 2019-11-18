@@ -1,17 +1,18 @@
 package com.kgcorner.web;
 
-/*
-Description : Utility class for making web requests
-Author: kumar
-Created on : 15/09/19
-*/
 
 import kong.unirest.*;
 
 import java.util.Map;
 
-public class HttpUtil {
+/**
+ * Description : Utility class for making web requests
+ * Author: kumar
+ * Created on : 15/09/19
+ */
+public final class HttpUtil {
 
+    private HttpUtil(){}
     public static HttpResponse doGet(String url, Map<String, String> queries, Map<String, String> headers) {
         GetRequest getRequest = Unirest.get(url);
         if(queries != null) {

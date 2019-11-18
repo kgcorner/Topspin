@@ -16,17 +16,20 @@ import java.util.regex.Pattern;
  */
 
 public final class EnvironmentVariableSanityChecker {
+
+    private EnvironmentVariableSanityChecker(){}
+
     //Facebook
-    private static String FACEBOOK_APP_KEY_REGEX = "^[0-9].+$";
-    private static String FACEBOOK_SECRET_KEY_REGEX = "^[0-9a-z].+$";
-    private static Pattern FACEBOOK_APP_KEY_PATTERN = Pattern.compile(FACEBOOK_APP_KEY_REGEX);
-    private static Pattern FACEBOOK_APP_SECRET_PATTERN = Pattern.compile(FACEBOOK_SECRET_KEY_REGEX);
+    private static final String FACEBOOK_APP_KEY_REGEX = "^[0-9].+$";
+    private static final String FACEBOOK_SECRET_KEY_REGEX = "^[0-9a-z].+$";
+    private static final Pattern FACEBOOK_APP_KEY_PATTERN = Pattern.compile(FACEBOOK_APP_KEY_REGEX);
+    private static final Pattern FACEBOOK_APP_SECRET_PATTERN = Pattern.compile(FACEBOOK_SECRET_KEY_REGEX);
 
     //Google
-    private static String GOOGLE_APP_KEY_REGEX = "^[0-9a-z\\-]+\\.apps\\.googleusercontent\\.com";
-    private static String GOOGLE_SECRET_KEY_REGEX = "^[0-9a-zA-Z].+$";
-    private static Pattern GOOGLE_APP_KEY_PATTERN = Pattern.compile(GOOGLE_APP_KEY_REGEX);
-    private static Pattern GOOGLE_APP_SECRET_PATTERN = Pattern.compile(GOOGLE_SECRET_KEY_REGEX);
+    private static final String GOOGLE_APP_KEY_REGEX = "^[0-9a-z\\-]+\\.apps\\.googleusercontent\\.com";
+    private static final String GOOGLE_SECRET_KEY_REGEX = "^[0-9a-zA-Z].+$";
+    private static final Pattern GOOGLE_APP_KEY_PATTERN = Pattern.compile(GOOGLE_APP_KEY_REGEX);
+    private static final Pattern GOOGLE_APP_SECRET_PATTERN = Pattern.compile(GOOGLE_SECRET_KEY_REGEX);
 
     /**
      * Checks whether given key fits pattern of facebook app key

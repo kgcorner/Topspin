@@ -24,9 +24,9 @@ public interface AuthenticationService {
     /**
      * Resolves accesstoken from given auth code returns Token Object for accessing topspin services
      * @param token
-     * @param redirect_uri
+     * @param redirectUri
      * @param serverName
      * @return Token Object for accessing topspin services
      */
-    Token resolveAuthCodeAndAuthenticate(String token, String redirect_uri, String serverName) throws ResourceNotFoundException;
+    Token resolveAuthCodeAndAuthenticate(String token, String redirectUri, String serverName) throws ResourceNotFoundException;
 }

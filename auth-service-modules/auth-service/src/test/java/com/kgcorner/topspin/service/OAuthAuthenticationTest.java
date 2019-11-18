@@ -68,7 +68,7 @@ public class OAuthAuthenticationTest {
 
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void authenticateToken() {
         oAuthAuthentication.authenticateToken("");
     }

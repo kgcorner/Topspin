@@ -34,7 +34,7 @@ public class Authenticator {
      */
     public Token authenticateWithToken(String token) {
         if(token.contains(" ")){
-            String tokens[] = token.split(" ");
+            String[] tokens = token.split(" ");
             switch (tokens[0].toLowerCase()) {
                 case "basic":
                     return basicAuthenticationService.authenticateToken(token);
@@ -51,7 +51,7 @@ public class Authenticator {
         return oAuthAuthenticationService.validateAccessTokenAndAuthenticate(code, serverName);
     }
 
-    public Token resolveTokenAndAuthorize(String token, String redirect_uri, String serverName) throws ResourceNotFoundException {
-        return oAuthAuthenticationService.resolveAuthCodeAndAuthenticate(token, redirect_uri, serverName);
+    public Token resolveTokenAndAuthorize(String token, String redirectUri, String serverName) throws ResourceNotFoundException {
+        return oAuthAuthenticationService.resolveAuthCodeAndAuthenticate(token, redirectUri, serverName);
     }
 }

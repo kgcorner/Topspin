@@ -27,7 +27,6 @@ public class Properties {
     }
 
     public void setPasswordSalt(String passwordSalt) {
-        System.out.println("Value:"+ passwordSalt);
         this.passwordSalt = passwordSalt;
     }
 

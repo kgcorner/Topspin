@@ -28,7 +28,7 @@ public class MySqlRepository<T extends Serializable> extends CachedRepository <T
     }
 
     private boolean isCacheEnabled() {
-        return true;
+        return cacheHandler != null;
     }
 
     @Override

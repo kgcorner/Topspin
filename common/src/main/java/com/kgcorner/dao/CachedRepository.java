@@ -7,22 +7,23 @@ Created on : 11/8/19
 */
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 public class CachedRepository<T extends Serializable> implements  DataRepository <T> {
     @Override
     public List<T> getAll(Class<T> type) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<T> getAll(int maxCount, Class<T> type) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<T> getAll(int page, int itemsCount, Class<T> type) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

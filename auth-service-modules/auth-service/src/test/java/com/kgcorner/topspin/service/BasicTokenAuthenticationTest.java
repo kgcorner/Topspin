@@ -10,22 +10,20 @@ import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
 import com.kgcorner.topspin.models.DummyLogin;
 import com.kgcorner.topspin.models.DummyToken;
-import org.apache.commons.lang.NotImplementedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import static org.powermock.api.mockito.PowerMockito.when;
-
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /*
 Description : <Write class Description>
@@ -116,12 +114,12 @@ public class BasicTokenAuthenticationTest {
             .encodeToString((login.getUserName()+":"+"password").getBytes()));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void authenticateCode() {
         this.basicTokenAuthentication.validateAccessTokenAndAuthenticate("auth code", "google");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void resolveToken() {
         this.basicTokenAuthentication.resolveAuthCodeAndAuthenticate("auth code", "redirect uri", "server name");
     }

@@ -6,7 +6,6 @@ import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.models.DummyToken;
-import org.apache.commons.lang.NotImplementedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,12 +71,12 @@ public class BearerTokenAuthenticationTest {
         Token token = this.bearerTokenAuthentication.authenticateToken("bearer invalid JWT token");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void authenticateCode() {
         this.bearerTokenAuthentication.validateAccessTokenAndAuthenticate("auth code", "gppgle");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void resolveToken() {
         this.bearerTokenAuthentication.resolveAuthCodeAndAuthenticate("auth code",
             "redirect uri", "Server name");

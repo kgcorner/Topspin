@@ -40,7 +40,7 @@ public class OAuthAuthentication implements AuthenticationService {
 
     @Override
     public Token authenticateToken(String token) {
-        throw new RuntimeException("Not a basic or bearer authentication");
+        throw new IllegalStateException("Not a basic or bearer authentication");
     }
 
     @Override

@@ -42,8 +42,6 @@ public class JwtUtility {
             JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
             verifier.verify(token);
             return true;
-        } catch (JWTVerificationException x) {
-            return false;
         } catch (Exception x) {
             return false;
         }
@@ -59,10 +57,10 @@ public class JwtUtility {
         }
     }
 
-    public static <T> T getClaim(String key, String token, Class<T> T) {
+    public static <T> T getClaim(String key, String token, Class<T> type) {
         try {
             DecodedJWT decodedJwt = JWT.decode(token);
-            return decodedJwt.getClaim(key).as(T);
+            return decodedJwt.getClaim(key).as(type);
         }
         catch (JWTVerificationException x) {
             throw new IllegalArgumentException(x.getMessage());

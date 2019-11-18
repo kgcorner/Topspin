@@ -12,10 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
 
-public class Hasher {
+public final class Hasher {
     //Defines number of hashing rounds. Its non configurable because passwords are supposed to
     // be protected using this. Changing this number may lead to failed password validation
     private static final int ROUNDS = 10;
+
+    private Hasher(){}
 
     public static String getCrypt(String payload, String salt) {
         SecureRandom random = new SecureRandom(salt.getBytes());

@@ -15,13 +15,13 @@ import javax.persistence.NoResultException;
 import java.io.Serializable;
 import java.util.List;
 
-public class MySqlRepository<T extends Serializable> extends CachedRepository <T>{
+public abstract class MySqlRepository<T extends Serializable> extends CachedRepository <T>{
 
     private static final Logger LOGGER = Logger.getLogger(MySqlRepository.class);
 
     protected EntityManager entityManager;
 
-    CacheHandler cacheHandler = getCacheHandler();
+    private CacheHandler cacheHandler = getCacheHandler();
 
     public CacheHandler getCacheHandler() {
         return CacheFactory.getCacheHandler(CacheFactory.CACHE_TYPE.REDIS_CACHE);
@@ -47,7 +47,7 @@ public class MySqlRepository<T extends Serializable> extends CachedRepository <T
     public List<T> getAll(int page, int itemsPerPage, Class<T> type) {
         String className = type.getName();
         String hql = "from "+className+" as entity order by entity.id desc";
-        int firstResult = (page-1)*itemsPerPage+1;
+        int firstResult = (page-1) * itemsPerPage + 1;
         return (List<T>) this.entityManager.createQuery(hql).setFirstResult(firstResult)
             .setMaxResults(itemsPerPage).getResultList();
     }

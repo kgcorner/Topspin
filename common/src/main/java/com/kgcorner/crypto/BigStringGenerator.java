@@ -1,17 +1,21 @@
 package com.kgcorner.crypto;
 
-/*
-Description : <Write class Description>
-Author: kumar
-Created on : 26/08/19
-*/
 
 import java.security.SecureRandom;
 import java.util.Random;
 
+/**
+ * Generates Random String
+ */
 public final class BigStringGenerator {
+
     private static final Random random = new SecureRandom();
     private BigStringGenerator(){}
+
+    /**
+     * Returns a big string
+     * @return a big string
+     */
     public static String generateBigString() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'

@@ -1,14 +1,15 @@
 package com.kgcorner.cache;
 
-/*
-Description : Redis Cache handler
-Author: kumar
-Created on : 11/8/19
-*/
-
+/**
+ * Description : Redis Cache handler
+ * Author: kumar
+ * Created on : 11/8/19
+ */
 public class RedisCache implements CacheHandler{
 
     private static final RedisCache INSTANCE = new RedisCache();
+
+    private RedisCache(){}
 
     public static RedisCache getInstance() {
         return INSTANCE;

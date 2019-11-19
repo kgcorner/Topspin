@@ -1,11 +1,5 @@
 package com.kgcorner.crypto;
 
-/*
-Description : <Write class Description>
-Author: kumar
-Created on : 26/08/19
-*/
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
@@ -17,8 +11,13 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
-public class JwtUtility {
-    private static final String ISSUER = "scaledge";
+/**
+ * Description : Utility Class for JWT token
+ * Author: kumar
+ * Created on : 26/08/19
+ */
+public final class JwtUtility {
+    private static final String ISSUER = "topspin";
     private JwtUtility(){}
 
     public static String createJWTToken(String salt, Map<String, String> claim, int expiresInSeconds) {

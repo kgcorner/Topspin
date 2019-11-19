@@ -1,11 +1,11 @@
 package com.kgcorner.cache;
 
-/*
-Description : Contract for cache handler
-Author: kumar
-Created on : 11/8/19
-*/
 
+/**
+ * Description : Contract for cache handler
+ * Author: kumar
+ * Created on : 11/8/19
+ */
 public interface CacheHandler {
     /**
      * Sets cache value

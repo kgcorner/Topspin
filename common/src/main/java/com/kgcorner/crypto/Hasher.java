@@ -1,17 +1,16 @@
 package com.kgcorner.crypto;
 
-/*
-Description : <Write class Description>
-Author: kumar
-Created on : 26/08/19
-*/
-
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
 
+/**
+ * Description : Generates BCrypt Hash for given payload and salt
+ * Author: kumar
+ * Created on : 26/08/19
+ */
 public final class Hasher {
     //Defines number of hashing rounds. Its non configurable because passwords are supposed to
     // be protected using this. Changing this number may lead to failed password validation

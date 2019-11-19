@@ -1,10 +1,5 @@
 package com.kgcorner.dao;
 
-/*
-Description : Datarepo implementation for mongo db
-Author: kumar
-Created on : 26/08/19
-*/
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -15,7 +10,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import java.io.Serializable;
 import java.util.List;
 
-public class MongoRepository<T extends Serializable> extends CachedRepository <T> {
+/**
+ * Description : DataRepo implementation for MongoDb
+ *
+ * Author: kumar
+ * Created on : 26/08/19
+ * @param <T> Serializable
+ */
+public abstract class MongoRepository<T extends Serializable> extends CachedRepository <T> {
     protected MongoTemplate template;
 
     /**
@@ -32,7 +34,7 @@ public class MongoRepository<T extends Serializable> extends CachedRepository <T
      * @param itemsCount
      */
     @Override
-    public List getAll(int page, int itemsCount, Class<T> type) {
+    public List<T> getAll(int page, int itemsCount, Class<T> type) {
         Pageable pageable = PageRequest.of(page, itemsCount);
         Query query = new Query().with(pageable);
         return template.find(query, type);

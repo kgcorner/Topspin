@@ -1,7 +1,7 @@
 package com.kgcorner.utils;
 
 /*
-Description : <Write class Description>
+Description : Utility class for String
 Author: kumar
 Created on : 04/11/19
 */

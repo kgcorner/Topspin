@@ -27,12 +27,27 @@ public class BaseResponse {
     }
     public void setType(RESPONSETYPE type) {
         this.type = type;
+        if(type == RESPONSETYPE.SUCCESS && (status >= 400 || status == 0))
+            status = 200;
+        else
+            if(status < 400)
+                status = 400;
+        if(type == RESPONSETYPE.SUCCESS && status < 400) {
+            successCode = 0;
+        }
+        else {
+            successCode = 1;
+        }
     }
     public BaseResponse(String message, RESPONSETYPE type) {
-        super();
         this.message = message;
         this.type = type;
-        if(type == RESPONSETYPE.SUCCESS) {
+        if(type == RESPONSETYPE.SUCCESS && (status >= 400 || status == 0))
+            status = 200;
+        else
+            if(status < 400)
+                status = 400;
+        if(type == RESPONSETYPE.SUCCESS || status < 400) {
             successCode = 0;
         }
         else {
@@ -47,5 +62,11 @@ public class BaseResponse {
     }
     public void setHttpStatus(int httpStatus) {
         this.status = httpStatus;
+        if(type == RESPONSETYPE.SUCCESS && status < 400) {
+            successCode = 0;
+        }
+        else {
+            successCode = 1;
+        }
     }
 }

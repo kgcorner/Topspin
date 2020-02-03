@@ -13,13 +13,15 @@ import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
-import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
-import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
+import com.kgcorner.topspin.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import org.bson.internal.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +60,13 @@ public class BasicTokenAuthentication implements AuthenticationService {
         Map<String, String> claims = new HashMap<>();
         claims.put("USER_NAME", login.getUserName());
         claims.put("USER_ID", login.getUserId()+"");
+        Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
+        String roles= "";
+        for(GrantedAuthority authority : authorities) {
+            roles += authority.getAuthority()+",";
+        }
+        roles = roles.substring(0, roles.length() -1);
+        claims.put("ROLE", roles );
         String refreshToken = BigStringGenerator.generateBigString();
         login.setRefreshToken(refreshToken);
         loginPersistentLayer.update(login);

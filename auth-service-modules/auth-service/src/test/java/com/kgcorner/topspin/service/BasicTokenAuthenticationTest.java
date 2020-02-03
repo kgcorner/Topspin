@@ -6,8 +6,8 @@ import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
-import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
-import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
+import com.kgcorner.topspin.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import com.kgcorner.topspin.models.DummyLogin;
 import com.kgcorner.topspin.models.DummyToken;
 import org.junit.Assert;
@@ -66,6 +66,8 @@ public class BasicTokenAuthenticationTest {
         Map<String, String> claims = new HashMap<>();
         claims.put("USER_NAME", login.getUserName());
         claims.put("USER_ID", login.getUserId()+"");
+        claims.put("ROLE", "TEST"); //Authorities of dummy login is test
+
         PowerMockito.mockStatic(JwtUtility.class);
         when(JwtUtility.createJWTToken(TOKEN_SALT, claims, EXPIRATION_TIME)).thenReturn("Access Token");
         Token token = this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
@@ -128,6 +130,7 @@ public class BasicTokenAuthenticationTest {
         Login login = new DummyLogin();
         login.setUserId("XXX");
         login.setUserName("user");
+
         login.setPassword(Hasher.getCrypt("password",
             PASSWORD_SALT));
         return login;

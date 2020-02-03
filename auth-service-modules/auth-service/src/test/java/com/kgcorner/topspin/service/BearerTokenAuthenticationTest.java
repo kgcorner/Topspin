@@ -4,7 +4,7 @@ import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Token;
-import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.models.DummyToken;
 import org.junit.Assert;
 import org.junit.Before;

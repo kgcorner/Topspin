@@ -66,4 +66,10 @@ public interface DataRepository<T extends Serializable> {
      * @return returns updated document
      */
     T update(T document);
+
+    /**
+     * Deletes the document
+     * @param Document
+     */
+    void remove(T Document);
 }

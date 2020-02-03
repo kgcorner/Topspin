@@ -45,4 +45,9 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     public T update(T document) {
         return null;
     }
+
+    @Override
+    public void remove(T Document) {
+
+    }
 }

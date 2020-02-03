@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.junit.Assert.*;
 /**
@@ -72,6 +73,15 @@ public class MongoRepositoryTest {
         DummyModel response = repository.update(model);
         assertNotNull("Response is null", response);
         assertEquals("model's id is not matching", "1", response.getId());
+    }
+
+    @Test
+    public void remove() {
+        DummyModel model = new DummyModel("1");
+        when(mockedMongoTemplate.remove(model)).thenReturn(null);
+        mockedMongoTemplate.remove(model);
+        assertNotNull("Response is null", model);
+        assertEquals("model's id is not matching", "1", model.getId());
     }
 
     private List<DummyModel> prepareDummyList(int i) {

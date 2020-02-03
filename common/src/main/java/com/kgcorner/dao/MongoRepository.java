@@ -74,4 +74,9 @@ public abstract class MongoRepository<T extends Serializable> extends CachedRepo
         document = template.save(document);
         return document;
     }
+
+    @Override
+    public void remove(T document) {
+        template.remove(document);
+    }
 }

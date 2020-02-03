@@ -9,7 +9,6 @@ Created on : 24/10/19
 import com.kgcorner.dao.MongoRepository;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.LoginModel;
-import com.kgcorner.topspin.model.persistent.LoginPersistentLayer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 

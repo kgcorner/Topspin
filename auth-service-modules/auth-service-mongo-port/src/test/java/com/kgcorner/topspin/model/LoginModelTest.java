@@ -2,6 +2,10 @@ package com.kgcorner.topspin.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -131,5 +135,47 @@ public class LoginModelTest {
     public void getOAuthAccessToken() {
         loginModel.setOAuthAccessToken("0");
         assertEquals("login provider is not matching", "0", loginModel.getOAuthAccessToken());
+    }
+
+    @Test
+    public void testSetRole() {
+        List<GrantedAuthority> roles = loginModel.getRoles();
+        assertNotNull(roles);
+        assertTrue(roles.size() == 1);
+        assertEquals("ROLE_USER", roles.get(0).getAuthority());
+    }
+
+    @Test
+    public void testGetAuthorities() {
+        Collection<? extends GrantedAuthority> authorities = loginModel.getAuthorities();
+        assertNotNull(authorities);
+        assertTrue(authorities.size() == 1);
+        assertEquals("ROLE_USER",((Role)((List) authorities).get(0)).getAuthority());
+    }
+
+    @Test
+    public void testAddRole() {
+        String roleToSet = "admin";
+        loginModel.addRole(roleToSet);
+        List<GrantedAuthority> roles = loginModel.getRoles();
+        assertNotNull(roles);
+        assertTrue(roles.size() == 1);
+        assertEquals("ROLE_admin", roles.get(0).getAuthority());
+        roleToSet = "user";
+        loginModel.addRole(roleToSet);
+        roles = loginModel.getRoles();
+        assertNotNull(roles);
+        assertTrue(roles.size() == 2);
+        assertEquals("ROLE_user", roles.get(1).getAuthority());
+    }
+
+    @Test
+    public void testAddRoleWithPrefix() {
+        String roleToSet = "ROLE_admin";
+        loginModel.addRole(roleToSet);
+        List<GrantedAuthority> roles = loginModel.getRoles();
+        assertNotNull(roles);
+        assertTrue(roles.size() == 1);
+        assertEquals("ROLE_admin", roles.get(0).getAuthority());
     }
 }

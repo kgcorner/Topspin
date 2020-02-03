@@ -7,6 +7,11 @@ Created on : 26/08/19
 */
 
 import org.springframework.data.annotation.Id;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class LoginModel implements Login {
     private String userName;
@@ -15,6 +20,8 @@ public class LoginModel implements Login {
     private String userId;
     private String loginProvider;
     private String oAuthAccessToken;
+    private List<GrantedAuthority> roles;
+    private static final String DEFAULT_ROLE = "ROLE_USER";
 
     @Id
     private String id;
@@ -90,5 +97,38 @@ public class LoginModel implements Login {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public List<GrantedAuthority> getRoles() {
+        if(roles == null) {
+            roles = new ArrayList<>();
+            Role role = new Role(DEFAULT_ROLE);
+            roles.add(role);
+        }
+        return roles;
+    }
+
+    public void addRole(String role) {
+        Role roleObj = null;
+        if(roles == null)
+            roles = new ArrayList<>();
+        if(role.startsWith("ROLE_")) {
+            roleObj = new Role(role);
+        }
+        else {
+            roleObj = new Role("ROLE_" + role);
+        }
+        this.roles.add(roleObj);
+
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
     }
 }

@@ -136,6 +136,18 @@
                 <version>2.0.2</version>
                 <scope>test</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>5.0.2.RELEASE</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -203,7 +215,7 @@
         </pluginManagement>
     </build>
     <modules>
-        <module>user-service</module>
+        <module>user-service-module</module>
         <module>config-service</module>
         <module>discovery-service</module>
         <module>ecom-agent-service</module>
@@ -211,5 +223,6 @@
         <module>stores-service</module>
         <module>common</module>
         <module>auth-service-modules</module>
+        <module>security-config</module>
     </modules>
 </project>

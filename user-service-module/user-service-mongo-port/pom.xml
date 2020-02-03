@@ -3,23 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>auth-service-modules</artifactId>
+        <artifactId>user-service-module</artifactId>
         <groupId>com.kgcorner.topspin</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>auth-service-mongo-port</artifactId>
+    <artifactId>user-service-mongo-port</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>user-db-common</artifactId>
             <version>${product.version}</version>
         </dependency>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>auth-db-common</artifactId>
+            <artifactId>common</artifactId>
             <version>${product.version}</version>
         </dependency>
         <dependency>

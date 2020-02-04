@@ -20,15 +20,15 @@ public class MongoUserPersistenceLayer implements UserPersistenceLayer {
 
     @Override
     public User createUser(User user) {
-        Assert.notNull(user);
-        Assert.isTrue(user instanceof UserModel);
+        Assert.notNull(user, "User can't be null");
+        Assert.isTrue(user instanceof UserModel, "user isn't " +UserModel.class.getCanonicalName());
         return dao.create((UserModel) user);
     }
 
     @Override
     public User updateUser(User user) {
-        Assert.notNull(user);
-        Assert.isTrue(user instanceof UserModel);
+        Assert.notNull(user, "User can't be null");
+        Assert.isTrue(user instanceof UserModel, "user isn't " +UserModel.class.getCanonicalName());
         return dao.update((UserModel) user);
     }
 

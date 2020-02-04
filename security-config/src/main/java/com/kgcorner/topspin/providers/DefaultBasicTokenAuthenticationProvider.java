@@ -5,7 +5,6 @@ import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.SCHEMES;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 
 /**
  * Description : Default basic token auth provider
@@ -15,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 
 public class DefaultBasicTokenAuthenticationProvider extends DefaultTokenAuthenticationProvider {
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         BasicAuthToken basicAuthToken = (BasicAuthToken) authentication;
         String bearerToken = basicAuthToken.getPrincipal().toString();
         return getAuthDetails(SCHEMES.BASIC +" " +bearerToken, BearerAuthToken.class);

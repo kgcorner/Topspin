@@ -9,14 +9,14 @@ import org.springframework.security.core.GrantedAuthority;
  */
 
 public class Role implements GrantedAuthority {
-    private String role;
+    private String authority;
 
     public Role(String role) {
-        this.role = role;
+        this.authority = role;
     }
 
     @Override
     public String getAuthority() {
-        return role;
+        return authority;
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public abstract class DefaultTokenAuthenticationProvider  implements Authenticat
     private AuthServiceClient client;
 
 
-    public Authentication getAuthDetails(String tokenString, Class tokenClass) throws AuthenticationException {
+    public Authentication getAuthDetails(String tokenString, Class tokenClass) {
         Token tokenResponse = client.getToken(tokenString);
         String roleClaim = JwtUtility.getClaim("ROLE", tokenResponse.getAccessToken());
         List<Role> roleList = new ArrayList<>();

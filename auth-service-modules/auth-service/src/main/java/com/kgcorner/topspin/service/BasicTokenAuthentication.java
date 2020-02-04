@@ -61,10 +61,11 @@ public class BasicTokenAuthentication implements AuthenticationService {
         claims.put("USER_NAME", login.getUsername());
         claims.put("USER_ID", login.getUserId()+"");
         Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
-        String roles= "";
+        StringBuilder rolesBuilder = new StringBuilder();
         for(GrantedAuthority authority : authorities) {
-            roles += authority.getAuthority()+",";
+            rolesBuilder.append(authority.getAuthority()+",");
         }
+        String roles = rolesBuilder.toString();
         roles = roles.substring(0, roles.length() -1);
         claims.put("ROLE", roles );
         String refreshToken = BigStringGenerator.generateBigString();

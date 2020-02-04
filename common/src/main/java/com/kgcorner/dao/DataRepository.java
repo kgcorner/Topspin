@@ -69,7 +69,7 @@ public interface DataRepository<T extends Serializable> {
 
     /**
      * Deletes the document
-     * @param Document
+     * @param document
      */
-    void remove(T Document);
+    void remove(T document);
 }

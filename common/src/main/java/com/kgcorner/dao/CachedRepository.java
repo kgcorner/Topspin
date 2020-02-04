@@ -47,7 +47,7 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     }
 
     @Override
-    public void remove(T Document) {
+    public void remove(T document) {
 
     }
 }

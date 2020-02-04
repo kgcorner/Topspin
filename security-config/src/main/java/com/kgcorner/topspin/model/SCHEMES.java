@@ -6,7 +6,7 @@ Author: kumar
 Created on : 3/2/19
 */
 
-public class SCHEMES {
+public abstract class SCHEMES {
     public static final String BASIC = "BASIC";
     public static final String BEARER = "BEARER";
 }

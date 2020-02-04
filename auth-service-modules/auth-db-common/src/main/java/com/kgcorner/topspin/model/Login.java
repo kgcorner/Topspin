@@ -16,9 +16,9 @@ public interface Login extends Serializable, Requester {
 
     void setId(String id);
 
-    String getUserName();
+    String getUsername();
 
-    void setUserName(String userName);
+    void setUsername(String username);
 
     String getPassword();
 

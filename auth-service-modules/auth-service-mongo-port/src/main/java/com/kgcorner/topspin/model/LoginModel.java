@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class LoginModel implements Login {
-    private String userName;
+    private String username;
     private String password;
     private String refreshToken;
     private String userId;
@@ -34,12 +34,12 @@ public class LoginModel implements Login {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -125,10 +125,5 @@ public class LoginModel implements Login {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
-    }
-
-    @Override
-    public String getUsername() {
-        return userName;
     }
 }

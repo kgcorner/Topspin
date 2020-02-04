@@ -18,8 +18,6 @@ import org.powermock.reflect.Whitebox;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 
 /*
 Description : Test for Google OAuth Service
@@ -185,7 +183,7 @@ public class GoogleOAuthServiceTest {
         PowerMockito.when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
         Login loginInResponse = googleOAuthService.createLoginObject(data);
         Assert.assertNotNull("Login object is null", loginInResponse);
-        Assert.assertEquals("User name is not matching", email, loginInResponse.getUserName());
+        Assert.assertEquals("User name is not matching", email, loginInResponse.getUsername());
     }
 
     @Test

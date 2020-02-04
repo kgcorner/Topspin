@@ -59,19 +59,19 @@ public class BasicTokenAuthenticationTest {
     @Test
     public void authenticateToken() {
         Login login = getDummyLogin();
-        when(mockedLoginPersistentLayer.getLogin(login.getUserName())).thenReturn(login);
+        when(mockedLoginPersistentLayer.getLogin(login.getUsername())).thenReturn(login);
         when(mockedProperties.getTokenSalt()).thenReturn(TOKEN_SALT);
         when(mockedProperties.getTokenExpirationInSecond()).thenReturn(EXPIRATION_TIME);
         when(mockedAuthServiceModelFactory.createNewToken()).thenReturn(new DummyToken());
         Map<String, String> claims = new HashMap<>();
-        claims.put("USER_NAME", login.getUserName());
+        claims.put("USER_NAME", login.getUsername());
         claims.put("USER_ID", login.getUserId()+"");
         claims.put("ROLE", "TEST"); //Authorities of dummy login is test
 
         PowerMockito.mockStatic(JwtUtility.class);
         when(JwtUtility.createJWTToken(TOKEN_SALT, claims, EXPIRATION_TIME)).thenReturn("Access Token");
         Token token = this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
-            .encodeToString((login.getUserName()+":"+"password").getBytes()));
+            .encodeToString((login.getUsername()+":"+"password").getBytes()));
         Assert.assertNotNull("Returned token is null", token);
         Assert.assertNotNull("Returned access token is null", token.getAccessToken());
         Assert.assertEquals("Rexpired time is not matching", EXPIRATION_TIME, token.getExpiresInSeconds());
@@ -96,24 +96,24 @@ public class BasicTokenAuthenticationTest {
     @Test(expected = ForbiddenException.class)
     public void authenticateTokenWithInvalidPassword() {
         Login login = getDummyLogin();
-        when(mockedLoginPersistentLayer.getLogin(login.getUserName())).thenReturn(login);
+        when(mockedLoginPersistentLayer.getLogin(login.getUsername())).thenReturn(login);
         when(mockedProperties.getTokenSalt()).thenReturn(TOKEN_SALT);
         when(mockedProperties.getTokenExpirationInSecond()).thenReturn(EXPIRATION_TIME);
         Map<String, String> claims = new HashMap<>();
-        claims.put("USER_NAME", login.getUserName());
+        claims.put("USER_NAME", login.getUsername());
         claims.put("USER_ID", login.getUserId()+"");
         PowerMockito.mockStatic(JwtUtility.class);
         when(JwtUtility.createJWTToken(TOKEN_SALT, claims, EXPIRATION_TIME)).thenReturn("Access Token");
         this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
-            .encodeToString((login.getUserName()+":"+"incorrect_password").getBytes()));
+            .encodeToString((login.getUsername()+":"+"incorrect_password").getBytes()));
     }
 
     @Test(expected = ForbiddenException.class)
     public void authenticateTokenWithNonExtstingLogin() {
         Login login = getDummyLogin();
-        when(mockedLoginPersistentLayer.getLogin(login.getUserName())).thenReturn(null);
+        when(mockedLoginPersistentLayer.getLogin(login.getUsername())).thenReturn(null);
         this.basicTokenAuthentication.authenticateToken("Basic " + Base64.getEncoder()
-            .encodeToString((login.getUserName()+":"+"password").getBytes()));
+            .encodeToString((login.getUsername()+":"+"password").getBytes()));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -129,7 +129,7 @@ public class BasicTokenAuthenticationTest {
     private Login getDummyLogin() {
         Login login = new DummyLogin();
         login.setUserId("XXX");
-        login.setUserName("user");
+        login.setUsername("user");
 
         login.setPassword(Hasher.getCrypt("password",
             PASSWORD_SALT));

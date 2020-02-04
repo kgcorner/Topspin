@@ -58,7 +58,7 @@ public class BasicTokenAuthentication implements AuthenticationService {
             throw new  ForbiddenException("invalid username and password provided");
         }
         Map<String, String> claims = new HashMap<>();
-        claims.put("USER_NAME", login.getUserName());
+        claims.put("USER_NAME", login.getUsername());
         claims.put("USER_ID", login.getUserId()+"");
         Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
         String roles= "";

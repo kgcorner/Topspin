@@ -109,7 +109,7 @@ public class FacebookOAuthServiceTest {
         Login loginObject = facebookOAuthService.createLoginObject(data);
         Assert.assertNotNull(loginObject);
         Assert.assertEquals("username of the login object is ot matching",
-            "kumar@fb.com", loginObject.getUserName());
+            "kumar@fb.com", loginObject.getUsername());
     }
 
     @Test(expected = IllegalArgumentException.class)

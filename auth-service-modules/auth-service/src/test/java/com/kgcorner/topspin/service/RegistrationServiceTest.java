@@ -52,9 +52,9 @@ public class RegistrationServiceTest {
         when(mockedLoginPersistentLayer.createLogin(login)).thenReturn(login);
         when(mockedProperties.getPasswordSalt()).thenReturn(PASSWORD_SALT);
         when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
-        Login response = registrationService.createLogin(login.getUserName(), "password", login.getUserId());
+        Login response = registrationService.createLogin(login.getUsername(), "password", login.getUserId());
         Assert.assertNotNull("Created login is null", response);
-        Assert.assertEquals("User name is not matching", login.getUserName(), response.getUserName());
+        Assert.assertEquals("User name is not matching", login.getUsername(), response.getUsername());
         Assert.assertEquals("password is not matching", login.getPassword(), response.getPassword());
         Assert.assertEquals("user id is not matching", login.getUserId(), response.getUserId());
     }
@@ -66,9 +66,9 @@ public class RegistrationServiceTest {
         when(mockedLoginPersistentLayer.createLogin(login)).thenReturn(login);
         when(mockedProperties.getPasswordSalt()).thenReturn(PASSWORD_SALT);
         when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
-        Login response = registrationService.createLogin(login.getUserName(), null, login.getUserId());
+        Login response = registrationService.createLogin(login.getUsername(), null, login.getUserId());
         Assert.assertNotNull("Created login is null", response);
-        Assert.assertEquals("User name is not matching", login.getUserName(), response.getUserName());
+        Assert.assertEquals("User name is not matching", login.getUsername(), response.getUsername());
         Assert.assertEquals("password is not matching", login.getPassword(), response.getPassword());
         Assert.assertEquals("user id is not matching", login.getUserId(), response.getUserId());
     }
@@ -76,7 +76,7 @@ public class RegistrationServiceTest {
     private Login getDummyLogin() {
         Login login = new DummyLogin();
         login.setUserId("XXX");
-        login.setUserName("user");
+        login.setUsername("user");
         login.setPassword(Hasher.getCrypt("password",
             PASSWORD_SALT));
         login.setUserId("0");

@@ -72,7 +72,7 @@ public class GoogleOAuthService implements OAuthService {
         JSONObject jsonObject = new JSONObject(data);
         String email = jsonObject.getJSONArray("emailAddresses").getJSONObject(0).getString("value");
         Login login = authServiceModelFactory.createNewLogin();
-        login.setUserName(email);
+        login.setUsername(email);
         return login;
     }
 

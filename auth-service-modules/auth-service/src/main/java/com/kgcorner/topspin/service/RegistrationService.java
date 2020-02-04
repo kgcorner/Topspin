@@ -37,7 +37,7 @@ public class RegistrationService {
     public Login createLogin(String userName, String password, String userId) {
         Login login = authServiceModelFactory.createNewLogin();
         login.setUserId(userId);
-        login.setUserName(userName);
+        login.setUsername(userName);
         if(!Strings.isNullOrEmpty(password)) {
             String salt = properties.getPasswordSalt();
             login.setPassword(Hasher.getCrypt(password, salt));

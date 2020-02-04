@@ -111,7 +111,7 @@ public class OAuthAuthenticationTest {
         String tokenSalt = "tokenSalt";
         int expiration = 100;
         String jwtToken = "jwtToken";
-        dummyLogin.setUserName(email);
+        dummyLogin.setUsername(email);
         dummyLogin.setUserId("userId");
         OAuthService mockedService = null;
         for(OAuthService service : mockedServicesList) {
@@ -216,7 +216,7 @@ public class OAuthAuthenticationTest {
         String tokenSalt = "tokenSalt";
         int expiration = 100;
         String jwtToken = "jwtToken";
-        dummyLogin.setUserName(email);
+        dummyLogin.setUsername(email);
         dummyLogin.setUserId("userId");
         OAuthService mockedService = null;
         for(OAuthService service : mockedServicesList) {

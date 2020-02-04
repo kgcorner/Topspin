@@ -72,7 +72,7 @@ public class OAuthAuthentication implements AuthenticationService {
     private Token createTokenUsingAccessToken(String accessToken, OAuthService service) throws ResourceNotFoundException {
         String userInfo = service.getUserInfo(accessToken);
         Login login = service.createLoginObject(userInfo);
-        String email = login.getUserName();
+        String email = login.getUsername();
         login = loginPersistentLayer.getLogin(email);
         if(login == null)
             throw new ResourceNotFoundException("Can't find user with email:"+ email);

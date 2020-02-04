@@ -35,11 +35,11 @@ public class MongoLoginPersistentLayerTest {
     @Test
     public void getLogin() {
         LoginModel loginModel = new LoginModel();
-        loginModel.setUserName("uName");
+        loginModel.setUsername("uName");
         when(mockedMongoTemplate.findOne(any(), any())).thenReturn(loginModel);
         Login response = mongoLoginPersistentLayer.getLogin("uName");
         assertNotNull("Returned model is null", response);
-        assertEquals("user name is not matching", "uName", response.getUserName());
+        assertEquals("user name is not matching", "uName", response.getUsername());
     }
 
     @Test

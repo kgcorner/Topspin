@@ -59,7 +59,7 @@ public class FacebookOAuthService implements OAuthService {
             throw new IllegalArgumentException("Data can't be null");
         JSONObject jsonObject = new JSONObject(data);
         Login login = authServiceModelFactory.createNewLogin();
-        login.setUserName(jsonObject.getString("email"));
+        login.setUsername(jsonObject.getString("email"));
         return login;
     }
 

@@ -29,12 +29,12 @@ public class DummyLogin implements Login {
         this.id = id;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.userName = username;
     }
 
     public String getPassword() {

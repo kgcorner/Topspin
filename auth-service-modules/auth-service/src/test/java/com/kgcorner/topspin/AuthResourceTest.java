@@ -114,7 +114,7 @@ public class AuthResourceTest {
         Login loginToBeReturend = createDummyLogin(username, password, userId);
         when(mockedRegistrationService.createLogin(username, password, userId)).thenReturn(loginToBeReturend);
         Login login = authResource.createLogin(username, password, userId);
-        Assert.assertEquals("User name is not matching", username, login.getUserName());
+        Assert.assertEquals("User name is not matching", username, login.getUsername());
         Assert.assertEquals("password is not matching", password, login.getPassword());
         Assert.assertEquals("User id is not matching", userId, login.getUserId());
         Assert.assertNull(login.getRefreshToken());
@@ -123,7 +123,7 @@ public class AuthResourceTest {
     private Login createDummyLogin(String username, String password, String userId) {
         Login login = new DummyLogin();
         login.setUserId(userId);
-        login.setUserName(username);
+        login.setUsername(username);
         login.setPassword(password);
         return login;
     }

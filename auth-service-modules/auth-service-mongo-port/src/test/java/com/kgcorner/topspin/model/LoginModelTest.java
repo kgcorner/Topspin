@@ -39,14 +39,14 @@ public class LoginModelTest {
 
     @Test
     public void getUserName() {
-        loginModel.setUserName("0");
-        assertEquals("login userName is not matching", "0", loginModel.getUserName());
+        loginModel.setUsername("0");
+        assertEquals("login userName is not matching", "0", loginModel.getUsername());
     }
 
     @Test
     public void setUserName() {
-        loginModel.setUserName("0");
-        assertEquals("login userName is not matching", "0", loginModel.getUserName());
+        loginModel.setUsername("0");
+        assertEquals("login userName is not matching", "0", loginModel.getUsername());
     }
 
     @Test

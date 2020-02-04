@@ -16,6 +16,7 @@ public interface Login extends Serializable, Requester {
 
     void setId(String id);
 
+    @Override
     String getUsername();
 
     void setUsername(String username);

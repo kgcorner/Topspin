@@ -46,7 +46,7 @@ public interface AuthServiceClient {
      * @return
      */
     @GetMapping("/token/oauth/code")
-    public Token resolveAccessToken(@RequestHeader(value=AUTHORIZATION, required = true) String token,
+    Token resolveAccessToken(@RequestHeader(value=AUTHORIZATION, required = true) String token,
                                     @RequestHeader(value="redirect-uri", required = true) String redirectUri,
                                     @RequestHeader(value="oauth-server", required = true) String serverName);
 
@@ -58,7 +58,7 @@ public interface AuthServiceClient {
      * @return
      */
     @PostMapping("/login")
-    public Login createLogin(
+    Login createLogin(
         @RequestParam(value="user-name", required = true) String userName,
         @RequestParam(value="password", required = false) String password,
         @RequestParam(value="user-id", required = true) String userId

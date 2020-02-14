@@ -6,10 +6,14 @@ import com.kgcorner.topspin.util.UserServiceTestUtility;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Description : <Write class Description>
@@ -36,5 +40,17 @@ public class UserServiceImplTest {
         Assert.assertNotNull("response is null", response);
         Assert.assertEquals("Name is not matching", "Gaurav", response.getName());
         Assert.assertEquals("id is not matching", "1", response.getId());
+    }
+
+    @Test
+    public void testGetUsers() {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i <20; i++) {
+            users.add(UserServiceTestUtility.createDummyUser());
+        }
+        PowerMockito.when(userPersistenceLayer.getUsers(1, 20)).thenReturn(users);
+        List<User> response = userService.getAllUsers(1, 20);
+        assertNotNull("Response is null", response);
+        assertEquals("User count isn't matching", users.size(), response.size());
     }
 }

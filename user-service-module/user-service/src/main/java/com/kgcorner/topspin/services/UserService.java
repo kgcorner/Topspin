@@ -23,5 +23,5 @@ public interface UserService {
      * @param page page number
      * @return list of all users
      */
-    List<User> getAllUsers(int page);
+    List<User> getAllUsers(int page, int maxItems);
 }

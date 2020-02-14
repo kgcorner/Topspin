@@ -22,9 +22,10 @@ public interface UserResource {
     /**
      * Returns all users in paginated form
      * @param page page number
+     * @param maxPerPage number of user in one page, default is 30
      * @return list of all users
      */
-    List<User> getAllUsers(int page);
+    List<User> getAllUsers(int page, int maxPerPage);
 
 
 }

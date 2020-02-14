@@ -8,6 +8,10 @@ import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Description : Implementation of Persistence layer for mongo port
  * Author: kumar
@@ -55,5 +59,17 @@ public class MongoUserPersistenceLayer implements UserPersistenceLayer {
         if(user == null)
             throw new IllegalArgumentException("No user exists with id " + userId);
         dao.remove(user);
+    }
+
+    @Override
+    public List<User> getUsers(int page, int max) {
+        if(page == 0 && max == 0)
+            return Collections.emptyList();
+        List<UserModel> all = dao.getAll(page, max, UserModel.class);
+        List<User> users = new ArrayList<>();
+        for (User user: all) {
+            users.add(user);
+        }
+        return users;
     }
 }

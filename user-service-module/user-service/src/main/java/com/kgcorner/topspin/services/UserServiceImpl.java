@@ -5,7 +5,6 @@ import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.persistence.UserPersistenceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,6 +15,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
+
     @Autowired
     private UserPersistenceLayer userPersistenceLayer;
 
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers(int page) {
-        return Collections.emptyList();
+    public List<User> getAllUsers(int page, int maxItems) {
+        return (List<User>) userPersistenceLayer.getUsers(page, maxItems);
     }
 }

@@ -3,6 +3,8 @@ package com.kgcorner.topspin.persistence;
 
 import com.kgcorner.topspin.model.User;
 
+import java.util.List;
+
 /**
  * Description : Contract for persistence layer for user resource
  * Author: kumar
@@ -44,4 +46,12 @@ public interface UserPersistenceLayer {
      * @param userId
      */
     void deleteUser(String userId);
+
+    /**
+     * Returns list of users
+     * @param page page number
+     * @param max max items per page
+     * @return list of user in given page
+     */
+    List<User> getUsers(int page, int max);
 }

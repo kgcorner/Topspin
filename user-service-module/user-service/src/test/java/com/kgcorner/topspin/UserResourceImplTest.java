@@ -46,8 +46,8 @@ public class UserResourceImplTest {
         List<User> users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
-        when(userService.getAllUsers(1)).thenReturn(users);
-        List<User> result = userResource.getAllUsers(1);
+        when(userService.getAllUsers(1, 2)).thenReturn(users);
+        List<User> result = userResource.getAllUsers(1, 2);
         assertEquals("User count", users.size(), result.size());
         assertEquals("User name isn't matching", users.get(0).getName(), result.get(0).getName());
         assertEquals("User name isn't matching", users.get(1).getName(), result.get(1).getName());

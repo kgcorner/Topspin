@@ -35,7 +35,9 @@ public class UserResourceImpl implements UserResource {
     @GetMapping("/users?page={page-num}")
     @Override
     public List<User> getAllUsers(@ApiParam(value = "Page number", required = true)
-                                      @RequestParam("page-num") int page) {
-        return userService.getAllUsers(page);
+                                      @RequestParam("page-num") int page,
+                                  @ApiParam(value = "users per page, default 30", required = false, defaultValue = "30")
+                                  @RequestParam("page-num") int maxPerPage) {
+        return userService.getAllUsers(page, maxPerPage);
     }
 }

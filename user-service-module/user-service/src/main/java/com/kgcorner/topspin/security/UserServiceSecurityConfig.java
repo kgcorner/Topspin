@@ -48,7 +48,6 @@ public class UserServiceSecurityConfig extends SecurityConfiguration {
             paths = adminUrls.split(",");
         }
         rolePath.put("ROLE_ADMIN", paths);
-        paths = null;
         if(Strings.isNullOrEmpty(userUrls)) {
             paths = new String[]{};
         } else {

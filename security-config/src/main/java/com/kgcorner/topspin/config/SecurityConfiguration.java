@@ -27,13 +27,13 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
      * Returns list of urls which can be accesses publicly
      * @return
      */
-    public abstract String getPublicUser();
+    public abstract String[] getPublicUrl();
 
     /**
      * Returns a map stating which url can be accessed by which role
      * @return
      */
-    public abstract Map<String, String> getAuthenticatedUrl();
+    public abstract Map<String, String[]> getAuthenticatedUrl();
 
     @Autowired
     public DefaultBearerTokenAuthenticationProvider bearerTokenAuthenticationProvider;
@@ -52,11 +52,11 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-            .antMatchers(getPublicUser()).permitAll();
-        Map<String, String> authenticatedUrl = getAuthenticatedUrl();
+            .antMatchers(getPublicUrl()).permitAll();
+        Map<String, String[]> authenticatedUrl = getAuthenticatedUrl();
         if(authenticatedUrl != null && authenticatedUrl.size() > 0) {
 
-            for(Map.Entry<String, String> entry : authenticatedUrl.entrySet()) {
+            for(Map.Entry<String, String[]> entry : authenticatedUrl.entrySet()) {
                 registry = registry.antMatchers(entry.getValue()).hasRole(entry.getKey());
             }
         }

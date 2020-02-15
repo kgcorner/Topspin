@@ -11,7 +11,7 @@ import org.powermock.reflect.Whitebox;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.when;
 /**
  * Description : <Write class Description>
@@ -54,5 +54,16 @@ public class UserResourceImplTest {
         assertEquals("User id isn't matching", users.get(0).getId(), result.get(0).getId());
         assertEquals("User id isn't matching", users.get(1).getId(), result.get(1).getId());
 
+    }
+
+    @Test
+    public void createUser() {
+        User mockedUser = UserServiceTestUtility.createDummyUser("0","gaurav");
+        when(userService.createUser("gaurav", "username", "email",
+            "contact", "other")).thenReturn(mockedUser);
+        User response = userResource.createUser("gaurav", "username", "email",
+            "contact", "other");
+        assertNotNull(response);
+        assertEquals("Name is not matching", mockedUser.getName(), response.getName());
     }
 }

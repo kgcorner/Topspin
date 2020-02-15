@@ -24,4 +24,15 @@ public interface UserService {
      * @return list of all users
      */
     List<User> getAllUsers(int page, int maxItems);
+
+    /**
+     * Creates a user
+     * @param name
+     * @param userName
+     * @param email
+     * @param contact
+     * @param other
+     * @return
+     */
+    User createUser(String name, String userName, String email, String contact, String other);
 }

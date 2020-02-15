@@ -1,11 +1,13 @@
 package com.kgcorner.topspin.services;
 
+import com.kgcorner.topspin.factory.UserServiceModelFactory;
 import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.persistence.UserPersistenceLayer;
 import com.kgcorner.topspin.util.UserServiceTestUtility;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 
@@ -53,4 +55,49 @@ public class UserServiceImplTest {
         assertNotNull("Response is null", response);
         assertEquals("User count isn't matching", users.size(), response.size());
     }
+
+    @Test
+    public void createUser() {
+        UserServiceModelFactory userServiceModelFactory = PowerMockito.mock(UserServiceModelFactory.class);
+        User mockedUser = UserServiceTestUtility.createDummyUser();
+        Whitebox.setInternalState(userService, "userServiceModelFactory", userServiceModelFactory);
+        PowerMockito.when(userServiceModelFactory.createUserModel()).thenReturn(mockedUser);
+        PowerMockito.when(userPersistenceLayer.createUser(Matchers.any(User.class))).thenReturn(mockedUser);
+        User response = userService.createUser("Gaurav","username",
+            "email@email.com", "contact","other");
+        assertNotNull(response);
+        assertEquals("Name is not matching", "Gaurav", response.getName());
+    }
+
+    @Test
+    public void createUserWithBlankName() {
+        try {
+            User response = userService.createUser("", "username",
+                "email@email.com", "contact", "other");
+        } catch (IllegalArgumentException x) {
+            assertEquals("Name can't be blank", x.getMessage());
+        }
+    }
+
+    @Test
+    public void createUserWithBlankUserName() {
+        try {
+            User response = userService.createUser("name", "",
+                "email@email.com", "contact", "other");
+        } catch (IllegalArgumentException x) {
+            assertEquals("Username can't be blank", x.getMessage());
+        }
+    }
+
+    @Test
+    public void createUserWithInvalidEmail() {
+        try {
+            User response = userService.createUser("name", "username",
+                "email", "contact", "other");
+        } catch (IllegalArgumentException x) {
+            assertEquals("Invalid email", x.getMessage());
+        }
+    }
+
+
 }

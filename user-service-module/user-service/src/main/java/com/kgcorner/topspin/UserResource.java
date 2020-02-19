@@ -27,5 +27,15 @@ public interface UserResource {
      */
     List<User> getAllUsers(int page, int maxPerPage);
 
+    /**
+     * Creates a new user with given details
+     * @param name
+     * @param userName
+     * @param email
+     * @param contact
+     * @param other
+     * @return
+     */
+    User createUser(String name, String userName, String email, String contact, String other);
 
 }

@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers(int page, int maxItems) {
-        return (List<User>) userPersistenceLayer.getUsers(page, maxItems);
+        return userPersistenceLayer.getUsers(page, maxItems);
     }
 
     @Override

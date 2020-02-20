@@ -76,7 +76,6 @@ public class NativeLoginTests {
             Assert.assertNotNull(token, "Login api responds with invalid token response");
             Assert.assertNotNull(token.getAccessToken(), "No access token available in token");
         }
-
     }
 
     @Given("^User tries to validate invalid bearer token$")

@@ -6,7 +6,6 @@ Author: kumar
 Created on : 9/8/19
 */
 
-import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.service.Authenticator;
@@ -44,7 +43,7 @@ public class AuthResource extends ExceptionHandler {
                                   @RequestHeader(value=AUTHORIZATION, required = true) String token,
                                   @ApiParam(value = "name of the oauth service" , required = true)
                                       @RequestHeader(value="server-name", required = true) String serverName
-    ) throws ResourceNotFoundException {
+    )  {
         return authenticator.validateAccessTokenAndAuthorize(token, serverName);
     }
 
@@ -56,7 +55,7 @@ public class AuthResource extends ExceptionHandler {
                                     @RequestHeader(value="redirect-uri", required = true) String redirectUri,
                                     @ApiParam(value = "name of the oauth service" , required = true)
                                     @RequestHeader(value="oauth-server", required = true) String serverName
-    ) throws ResourceNotFoundException {
+    )  {
         return authenticator.resolveTokenAndAuthorize(token, redirectUri,serverName);
     }
 

@@ -16,14 +16,13 @@ import com.kgcorner.topspin.service.RegistrationService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.ArgumentMatchers.anyString;
-
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
-import  static org.powermock.api.mockito.PowerMockito.when;
-
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 public class AuthResourceTest {
@@ -60,7 +59,7 @@ public class AuthResourceTest {
     }
 
     @Test
-    public void testTokenForOAuth() throws ResourceNotFoundException {
+    public void testTokenForOAuth()  {
         String accessToken ="accessToken";
         String refreshToken ="refreshToken";
         int expireIn = 100;
@@ -93,7 +92,7 @@ public class AuthResourceTest {
     }
 
     @Test
-    public void testResolveAccessToken() throws ResourceNotFoundException {
+    public void testResolveAccessToken()  {
         String accessToken ="accessToken";
         String refreshToken ="refreshToken";
         int expireIn = 100;

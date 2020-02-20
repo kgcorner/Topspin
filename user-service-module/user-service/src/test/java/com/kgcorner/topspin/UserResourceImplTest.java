@@ -5,6 +5,7 @@ import com.kgcorner.topspin.services.UserService;
 import com.kgcorner.topspin.util.UserServiceTestUtility;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 
@@ -65,5 +66,19 @@ public class UserResourceImplTest {
             "contact", "other");
         assertNotNull(response);
         assertEquals("Name is not matching", mockedUser.getName(), response.getName());
+    }
+
+    @Test
+    public void updateUser() {
+        User mockedUser = UserServiceTestUtility.createDummyUser("0","gaurav");
+        when(userService.updateUser(Matchers.anyString(),
+            Matchers.anyString(),
+            Matchers.anyString(),
+            Matchers.anyString(),
+            Matchers.anyString())).thenReturn(mockedUser);
+        User response = userResource.updateUser("","","","","");
+        assertNotNull(response);
+        assertEquals(mockedUser.getId(), response.getId());
+        assertEquals(mockedUser.getName(), response.getName());
     }
 }

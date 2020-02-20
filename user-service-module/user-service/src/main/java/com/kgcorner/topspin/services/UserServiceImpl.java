@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.services;
 
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.factory.UserServiceModelFactory;
 import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.persistence.UserPersistenceLayer;
@@ -51,5 +52,26 @@ public class UserServiceImpl implements UserService {
         user.setOthers(other);
         user.setUserName(userName);
         return userPersistenceLayer.createUser(user);
+    }
+
+    @Override
+    public User updateUser(String id, String name, String email, String contact, String other) {
+        User user = userPersistenceLayer.getUser(id);
+        if(user == null)
+            throw new ResourceNotFoundException("No such user exists");
+        if(!Strings.isNullOrEmpty(name))
+            user.setName(name);
+        if(!Strings.isNullOrEmpty(email)) {
+            if(email.matches(EMAIL_PATTERN)) {
+                user.setEmail(email);
+            } else {
+                throw new IllegalArgumentException("Invalid email");
+            }
+        }
+        if(!Strings.isNullOrEmpty(contact))
+            user.setContact(contact);
+        if(!Strings.isNullOrEmpty(other))
+            user.setOthers(other);
+        return userPersistenceLayer.updateUser(user);
     }
 }

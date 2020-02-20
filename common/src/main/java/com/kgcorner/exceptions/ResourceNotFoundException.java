@@ -6,7 +6,7 @@ Author: kumar
 Created on : 29/10/19
 */
 
-public class ResourceNotFoundException extends Exception {
+public class ResourceNotFoundException extends RuntimeException {
 
     public ResourceNotFoundException(){
         this("no such resource found");

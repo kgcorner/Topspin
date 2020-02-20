@@ -1,5 +1,6 @@
 package com.kgcorner.topspin.services;
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.factory.UserServiceModelFactory;
 import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.persistence.UserPersistenceLayer;
@@ -8,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 
@@ -100,4 +103,120 @@ public class UserServiceImplTest {
     }
 
 
+    @Test
+    public void updateUser() {
+        User mockedUser = UserServiceTestUtility.createDummyUser("0", "Gaurav");
+        mockedUser.setEmail("email@domail.com");
+        mockedUser.setContact("0909090909");
+        mockedUser.setOthers("Other info");
+        mockedUser.setUserName("username");
+        String id = "0";
+        String name = "new name";
+        String email = "email@email.com";
+        String contact = "new contact";
+        String other = "new other info";
+        PowerMockito.when(userPersistenceLayer.getUser("0")).thenReturn(mockedUser);
+        PowerMockito.when(userPersistenceLayer.updateUser(Matchers.any(User.class))).then(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                User arg = (User) invocationOnMock.getArguments()[0];
+                User user = UserServiceTestUtility.createDummyUser();
+                user.setUserName(arg.getUserName());
+                user.setOthers(arg.getOthers());
+                user.setContact(arg.getContact());
+                user.setEmail(arg.getEmail());
+                user.setId(arg.getId());
+                user.setName(arg.getName());
+                return user;
+            }
+        });
+
+        User response = userService.updateUser(id, name, email,contact,other);
+        assertNotNull(response);
+        assertEquals(name, response.getName());
+        assertEquals(email, response.getEmail());
+        assertEquals(contact, response.getContact());
+        assertEquals(other, response.getOthers());
+        assertEquals(mockedUser.getUserName(), response.getUserName());
+        assertEquals(id, response.getId());
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void updateNonExistingUser() {
+        PowerMockito.when(userPersistenceLayer.getUser("0")).thenReturn(null);
+        userService.updateUser("0","","","","");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateUserWithInvalidEmail() {
+        PowerMockito.when(userPersistenceLayer.getUser("0")).thenReturn(UserServiceTestUtility.createDummyUser());
+        userService.updateUser("0","","invalid email","","");
+    }
+
+    @Test
+    public void updateUserWithOnlyName() {
+        User mockedUser = UserServiceTestUtility.createDummyUser("0", "Gaurav");
+        mockedUser.setEmail("email@domail.com");
+        mockedUser.setContact("0909090909");
+        mockedUser.setOthers("Other info");
+        mockedUser.setUserName("username");
+        String name = "New Name";
+        PowerMockito.when(userPersistenceLayer.getUser("0")).thenReturn(mockedUser);
+        PowerMockito.when(userPersistenceLayer.updateUser(Matchers.any(User.class))).then(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                User arg = (User) invocationOnMock.getArguments()[0];
+                User user = UserServiceTestUtility.createDummyUser();
+                user.setUserName(arg.getUserName());
+                user.setOthers(arg.getOthers());
+                user.setContact(arg.getContact());
+                user.setEmail(arg.getEmail());
+                user.setId(arg.getId());
+                user.setName(arg.getName());
+                return user;
+            }
+        });
+
+        User response = userService.updateUser("0", name, "","","");
+        assertNotNull(response);
+        assertEquals(name, response.getName());
+        assertEquals(mockedUser.getEmail(), response.getEmail());
+        assertEquals(mockedUser.getContact(), response.getContact());
+        assertEquals(mockedUser.getOthers(), response.getOthers());
+        assertEquals(mockedUser.getUserName(), response.getUserName());
+        assertEquals(mockedUser.getId(), response.getId());
+    }
+
+    @Test
+    public void updateUserWithOnlyEmail() {
+        User mockedUser = UserServiceTestUtility.createDummyUser("0", "Gaurav");
+        mockedUser.setEmail("email@domail.com");
+        mockedUser.setContact("0909090909");
+        mockedUser.setOthers("Other info");
+        mockedUser.setUserName("username");
+        String email = "email@domain.com";
+        PowerMockito.when(userPersistenceLayer.getUser("0")).thenReturn(mockedUser);
+        PowerMockito.when(userPersistenceLayer.updateUser(Matchers.any(User.class))).then(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                User arg = (User) invocationOnMock.getArguments()[0];
+                User user = UserServiceTestUtility.createDummyUser();
+                user.setUserName(arg.getUserName());
+                user.setOthers(arg.getOthers());
+                user.setContact(arg.getContact());
+                user.setEmail(arg.getEmail());
+                user.setId(arg.getId());
+                return user;
+            }
+        });
+
+        User response = userService.updateUser("0", "", email,"","");
+        assertNotNull(response);
+        assertEquals(mockedUser.getName(), response.getName());
+        assertEquals(email, response.getEmail());
+        assertEquals(mockedUser.getContact(), response.getContact());
+        assertEquals(mockedUser.getOthers(), response.getOthers());
+        assertEquals(mockedUser.getUserName(), response.getUserName());
+        assertEquals(mockedUser.getId(), response.getId());
+    }
 }

@@ -38,4 +38,14 @@ public interface UserResource {
      */
     User createUser(String name, String userName, String email, String contact, String other);
 
+    /**
+     * Updates User's details
+     * @param id
+     * @param name
+     * @param email
+     * @param contact
+     * @param other
+     * @return
+     */
+    User updateUser(String id, String name, String email, String contact, String other);
 }

@@ -47,11 +47,11 @@ public class Authenticator {
         return null;
     }
 
-    public Token validateAccessTokenAndAuthorize(String code, String serverName) throws ResourceNotFoundException {
+    public Token validateAccessTokenAndAuthorize(String code, String serverName)  {
         return oAuthAuthenticationService.validateAccessTokenAndAuthenticate(code, serverName);
     }
 
-    public Token resolveTokenAndAuthorize(String token, String redirectUri, String serverName) throws ResourceNotFoundException {
+    public Token resolveTokenAndAuthorize(String token, String redirectUri, String serverName)  {
         return oAuthAuthenticationService.resolveAuthCodeAndAuthenticate(token, redirectUri, serverName);
     }
 }

@@ -106,7 +106,7 @@ public class AuthenticatorTest {
     }
 
     @Test
-    public void testResolveToken() throws ResourceNotFoundException {
+    public void testResolveToken()  {
         Token token = getDummyToken();
         when(mockedOAuthAuthenticationService.resolveAuthCodeAndAuthenticate(anyString(), anyString(), anyString())).thenReturn(token);
         Token response = authenticator.resolveTokenAndAuthorize("OAuth token", "redirect uri",

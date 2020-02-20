@@ -44,7 +44,7 @@ public class OAuthAuthentication implements AuthenticationService {
     }
 
     @Override
-    public Token validateAccessTokenAndAuthenticate(String accessToken, String serverName) throws ResourceNotFoundException {
+    public Token validateAccessTokenAndAuthenticate(String accessToken, String serverName)  {
         for(OAuthService service : oAuthServices) {
             if (service.getOAuthServiceName().equalsIgnoreCase(serverName)) {
                 if(service.validateAccessToken(accessToken)) {
@@ -59,7 +59,7 @@ public class OAuthAuthentication implements AuthenticationService {
     }
 
     @Override
-    public Token resolveAuthCodeAndAuthenticate(String code, String redirectUrl, String serverName) throws ResourceNotFoundException {
+    public Token resolveAuthCodeAndAuthenticate(String code, String redirectUrl, String serverName)  {
         for(OAuthService service : oAuthServices) {
             if(service.getOAuthServiceName().equalsIgnoreCase(serverName)) {
                 String accessToken = service.getAccessToken(code, redirectUrl);
@@ -69,7 +69,7 @@ public class OAuthAuthentication implements AuthenticationService {
         return null;
     }
 
-    private Token createTokenUsingAccessToken(String accessToken, OAuthService service) throws ResourceNotFoundException {
+    private Token createTokenUsingAccessToken(String accessToken, OAuthService service)  {
         String userInfo = service.getUserInfo(accessToken);
         Login login = service.createLoginObject(userInfo);
         String email = login.getUsername();

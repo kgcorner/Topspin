@@ -17,9 +17,9 @@ public interface AuthenticationService {
      * @param code
      * @param serverName
      * @return
-     * @throws ResourceNotFoundException
+     * @
      */
-    Token validateAccessTokenAndAuthenticate(String code, String serverName) throws ResourceNotFoundException;
+    Token validateAccessTokenAndAuthenticate(String code, String serverName) ;
 
     /**
      * Resolves accesstoken from given auth code returns Token Object for accessing topspin services
@@ -28,5 +28,5 @@ public interface AuthenticationService {
      * @param serverName
      * @return Token Object for accessing topspin services
      */
-    Token resolveAuthCodeAndAuthenticate(String token, String redirectUri, String serverName) throws ResourceNotFoundException;
+    Token resolveAuthCodeAndAuthenticate(String token, String redirectUri, String serverName) ;
 }

@@ -6,10 +6,7 @@ import com.kgcorner.topspin.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ import java.util.List;
  * Created on : 02/12/19
  */
 
-public class UserResourceImpl implements UserResource {
+public class UserResourceImpl extends ExceptionHandler implements UserResource {
 
     @Autowired
     private UserService userService;
@@ -52,4 +49,16 @@ public class UserResourceImpl implements UserResource {
         return userService.createUser(name, userName, email, contact, other);
     }
 
+    @ApiOperation("Updates user, only given values are set")
+    @PutMapping("/users/{id}")
+    @Override
+    public User updateUser(
+        @ApiParam("id of the user") @PathVariable("id") String id,
+        @ApiParam("name of the user") @RequestParam("name") String name,
+        @ApiParam("email of the user") @RequestParam("email") String email,
+        @ApiParam("contact of the user") @RequestParam("contact") String contact,
+        @ApiParam("any other info") @RequestParam("other") String other
+    ) {
+        return userService.updateUser(id, name, email, contact, other);
+    }
 }

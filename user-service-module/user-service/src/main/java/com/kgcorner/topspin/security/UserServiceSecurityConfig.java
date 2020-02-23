@@ -4,6 +4,7 @@ package com.kgcorner.topspin.security;
 import com.kgcorner.topspin.config.SecurityConfiguration;
 import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.util.HashMap;
@@ -47,14 +48,19 @@ public class UserServiceSecurityConfig extends SecurityConfiguration {
         } else {
             paths = adminUrls.split(",");
         }
-        rolePath.put("ROLE_ADMIN", paths);
+        rolePath.put("ADMIN", paths);
         if(Strings.isNullOrEmpty(userUrls)) {
             paths = new String[]{};
         } else {
             paths = userUrls.split(",");
         }
-        rolePath.put("ROLE_USER", paths);
+        rolePath.put("USER", paths);
 
         return rolePath;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        getDefaultSecurity(http);
     }
 }

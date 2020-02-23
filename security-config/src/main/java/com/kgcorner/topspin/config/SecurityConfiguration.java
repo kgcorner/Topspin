@@ -6,6 +6,7 @@ import com.kgcorner.topspin.filters.BearerAuthFilter;
 import com.kgcorner.topspin.filters.CORSFilter;
 import com.kgcorner.topspin.providers.DefaultBasicTokenAuthenticationProvider;
 import com.kgcorner.topspin.providers.DefaultBearerTokenAuthenticationProvider;
+import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -55,9 +56,9 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
             .antMatchers(getPublicUrl()).permitAll();
         Map<String, String[]> authenticatedUrl = getAuthenticatedUrl();
         if(authenticatedUrl != null && authenticatedUrl.size() > 0) {
-
             for(Map.Entry<String, String[]> entry : authenticatedUrl.entrySet()) {
-                registry = registry.antMatchers(entry.getValue()).hasRole(entry.getKey());
+                if(!Strings.isNullOrEmpty(entry.getKey())  && entry.getValue() != null && entry.getValue().length > 0 )
+                    registry = registry.antMatchers(entry.getValue()).hasRole(entry.getKey());
             }
         }
         return registry;

@@ -12,8 +12,25 @@
     <artifactId>spring-user-service</artifactId>
     <dependencies>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.kgcorner.topspin</groupId>
             <artifactId>user-service</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>user-service-mongo-port</artifactId>
             <version>${product.version}</version>
         </dependency>
     </dependencies>

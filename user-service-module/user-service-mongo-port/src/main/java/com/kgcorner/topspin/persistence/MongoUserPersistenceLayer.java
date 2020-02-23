@@ -6,6 +6,7 @@ import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.model.UserModel;
 import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created on : 24/11/19
  */
 
+@Repository
 public class MongoUserPersistenceLayer implements UserPersistenceLayer {
     @Autowired
     private MongoUserDao<UserModel> dao;

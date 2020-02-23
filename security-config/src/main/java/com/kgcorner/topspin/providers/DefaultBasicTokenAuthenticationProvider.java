@@ -5,13 +5,14 @@ import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.SCHEMES;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 /**
  * Description : Default basic token auth provider
  * Author: kumar
  * Created on : 02/12/19
  */
-
+@Component
 public class DefaultBasicTokenAuthenticationProvider extends DefaultTokenAuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) {

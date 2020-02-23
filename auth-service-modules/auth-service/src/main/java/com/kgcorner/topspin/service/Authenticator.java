@@ -6,7 +6,6 @@ Author: kumar
 Created on : 25/08/19
 */
 
-import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

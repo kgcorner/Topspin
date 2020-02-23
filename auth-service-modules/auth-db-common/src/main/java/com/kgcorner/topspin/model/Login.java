@@ -21,6 +21,7 @@ public interface Login extends Serializable, Requester {
 
     void setUsername(String username);
 
+    @Override
     String getPassword();
 
     void setPassword(String password);

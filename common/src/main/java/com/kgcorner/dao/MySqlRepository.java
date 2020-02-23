@@ -35,7 +35,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     public List<T> getAll(Class<T> type) {
         String className = type.getName();
         String hql = "from "+className+" as entity order by entity.id desc";
-        return (List<T>) this.entityManager.createQuery(hql).getResultList();
+        return this.entityManager.createQuery(hql).getResultList();
     }
 
     @Override
@@ -48,7 +48,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         String className = type.getName();
         String hql = "from "+className+" as entity order by entity.id desc";
         int firstResult = (page-1) * itemsPerPage + 1;
-        return (List<T>) this.entityManager.createQuery(hql).setFirstResult(firstResult)
+        return this.entityManager.createQuery(hql).setFirstResult(firstResult)
             .setMaxResults(itemsPerPage).getResultList();
     }
 

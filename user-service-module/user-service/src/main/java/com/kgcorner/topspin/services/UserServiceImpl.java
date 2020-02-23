@@ -7,6 +7,7 @@ import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.persistence.UserPersistenceLayer;
 import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,14 +17,17 @@ import java.util.List;
  * Created on : 02/12/19
  */
 
+@Service
 public class UserServiceImpl implements UserService {
     private static final String EMAIL_PATTERN = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
 
     @Autowired
-    private UserPersistenceLayer userPersistenceLayer;
+    private UserServiceModelFactory userServiceModelFactory;
 
     @Autowired
-    private UserServiceModelFactory userServiceModelFactory;
+    private UserPersistenceLayer userPersistenceLayer;
+
+
 
     @Override
     public User getUser(String userId) {

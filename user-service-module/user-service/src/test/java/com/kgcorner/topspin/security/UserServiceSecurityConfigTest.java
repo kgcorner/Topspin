@@ -73,11 +73,11 @@ public class UserServiceSecurityConfigTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("Authenticated url doesn't contain url for admin and user",
             2, response.size());
-        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ROLE_ADMIN"));
+        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ADMIN"));
 
-        Assert.assertNotNull("response doesn't contain urls for user", response.get("ROLE_USER"));
-        testUrl(adminUrls, response.get("ROLE_ADMIN"));
-        testUrl(userUrls, response.get("ROLE_USER"));
+        Assert.assertNotNull("response doesn't contain urls for user", response.get("USER"));
+        testUrl(adminUrls, response.get("ADMIN"));
+        testUrl(userUrls, response.get("USER"));
     }
 
     @Test
@@ -90,11 +90,11 @@ public class UserServiceSecurityConfigTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("Authenticated url doesn't contain url for admin and user",
             2, response.size());
-        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ROLE_ADMIN"));
+        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ADMIN"));
 
-        Assert.assertNotNull("response doesn't contain urls for user", response.get("ROLE_USER"));
-        testUrl(adminUrls, response.get("ROLE_ADMIN"));
-        testUrl(userUrls, response.get("ROLE_USER"));
+        Assert.assertNotNull("response doesn't contain urls for user", response.get("USER"));
+        testUrl(adminUrls, response.get("ADMIN"));
+        testUrl(userUrls, response.get("USER"));
     }
 
     @Test
@@ -107,11 +107,11 @@ public class UserServiceSecurityConfigTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("Authenticated url doesn't contain url for admin and user",
             2, response.size());
-        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ROLE_ADMIN"));
+        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ADMIN"));
 
-        Assert.assertNotNull("response doesn't contain urls for user", response.get("ROLE_USER"));
-        testUrl(adminUrls, response.get("ROLE_ADMIN"));
-        testUrl(userUrls, response.get("ROLE_USER"));
+        Assert.assertNotNull("response doesn't contain urls for user", response.get("USER"));
+        testUrl(adminUrls, response.get("ADMIN"));
+        testUrl(userUrls, response.get("USER"));
     }
 
     @Test
@@ -124,11 +124,11 @@ public class UserServiceSecurityConfigTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("Authenticated url doesn't contain url for admin and user",
             2, response.size());
-        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ROLE_ADMIN"));
+        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ADMIN"));
 
-        Assert.assertNotNull("response doesn't contain urls for user", response.get("ROLE_USER"));
-        testUrl(adminUrls, response.get("ROLE_ADMIN"));
-        testUrl(userUrls, response.get("ROLE_USER"));
+        Assert.assertNotNull("response doesn't contain urls for user", response.get("USER"));
+        testUrl(adminUrls, response.get("ADMIN"));
+        testUrl(userUrls, response.get("USER"));
     }
 
     @Test
@@ -141,11 +141,11 @@ public class UserServiceSecurityConfigTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("Authenticated url doesn't contain url for admin and user",
             2, response.size());
-        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ROLE_ADMIN"));
+        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ADMIN"));
 
-        Assert.assertNotNull("response doesn't contain urls for user", response.get("ROLE_USER"));
-        testUrl(adminUrls, response.get("ROLE_ADMIN"));
-        testUrl(userUrls, response.get("ROLE_USER"));
+        Assert.assertNotNull("response doesn't contain urls for user", response.get("USER"));
+        testUrl(adminUrls, response.get("ADMIN"));
+        testUrl(userUrls, response.get("USER"));
     }
 
     @Test
@@ -158,10 +158,10 @@ public class UserServiceSecurityConfigTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("Authenticated url doesn't contain url for admin and user",
             2, response.size());
-        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ROLE_ADMIN"));
+        Assert.assertNotNull("response doesn't contain urls for admin", response.get("ADMIN"));
 
-        Assert.assertNotNull("response doesn't contain urls for user", response.get("ROLE_USER"));
-        testUrl(adminUrls, response.get("ROLE_ADMIN"));
-        testUrl(userUrls, response.get("ROLE_USER"));
+        Assert.assertNotNull("response doesn't contain urls for user", response.get("USER"));
+        testUrl(adminUrls, response.get("ADMIN"));
+        testUrl(userUrls, response.get("USER"));
     }
 }

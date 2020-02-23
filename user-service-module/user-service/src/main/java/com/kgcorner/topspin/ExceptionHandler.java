@@ -15,8 +15,15 @@ public class ExceptionHandler {
         return new ResponseEntity(errorResponse, HttpStatus.FORBIDDEN);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handleCustomException(ResourceNotFoundException e) {
         BaseResponse errorResponse = new BaseResponse(e.getLocalizedMessage(), BaseResponse.RESPONSETYPE.ERROR);
         return new ResponseEntity(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleCustomException(IllegalArgumentException e) {
+        BaseResponse errorResponse = new BaseResponse(e.getLocalizedMessage(), BaseResponse.RESPONSETYPE.ERROR);
+        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

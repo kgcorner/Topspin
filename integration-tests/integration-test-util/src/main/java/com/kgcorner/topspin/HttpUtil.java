@@ -6,13 +6,15 @@ Author: kumar
 Created on : 11/10/19
 */
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.HttpClient;
-import org.apache.http.message.BasicHeader;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
@@ -56,6 +58,47 @@ public class HttpUtil {
         }
         return response;
     }
+
+    /**
+     * Sends out a post request
+     * @param url url of the resource
+     * @param headers headers to send in request
+     * @param data data to be sent out
+     * @return response returned by the server
+     */
+    public static Response doPost(String url, Map<String, Object> headers, Map<String, Object> data) {
+        Response response = new Response();
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPostClient = new HttpPost(url);
+        if(headers != null) {
+            for(Map.Entry<String, Object> entry : headers.entrySet()) {
+                if(entry.getValue() != null)
+                    httpPostClient.setHeader(entry.getKey(), entry.getValue().toString());
+                else
+                    httpPostClient.setHeader(entry.getKey(), "");
+            }
+        }
+        List<NameValuePair> entity = new ArrayList<>();
+        if(data != null) {
+            for(Map.Entry<String,Object> entry : data.entrySet()) {
+                if(entry.getValue() != null)
+                    entity.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+                else
+                    entity.add(new BasicNameValuePair(entry.getKey(), ""));
+            }
+        }
+        try {
+            httpPostClient.setEntity(new UrlEncodedFormEntity(entity));
+            HttpResponse httpResponse = client.execute(httpPostClient);
+            response.setStatus(httpResponse.getStatusLine().getStatusCode());
+            response.setData(getContent(httpResponse));
+        } catch (IOException e) {
+            response.setData(e.getLocalizedMessage());
+            response.setStatus(0);
+        }
+        return response;
+    }
+
 
     private static HttpClient getClient() {
         return new DefaultHttpClient();

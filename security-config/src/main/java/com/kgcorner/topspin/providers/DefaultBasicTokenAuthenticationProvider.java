@@ -2,7 +2,6 @@ package com.kgcorner.topspin.providers;
 
 
 import com.kgcorner.topspin.model.BasicAuthToken;
-import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.SCHEMES;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,8 @@ public class DefaultBasicTokenAuthenticationProvider extends DefaultTokenAuthent
     @Override
     public Authentication authenticate(Authentication authentication) {
         BasicAuthToken basicAuthToken = (BasicAuthToken) authentication;
-        String bearerToken = basicAuthToken.getPrincipal().toString();
-        return getAuthDetails(SCHEMES.BASIC +" " +bearerToken, BearerAuthToken.class);
+        String basicToken = basicAuthToken.getPrincipal().toString();
+        return getAuthDetails(SCHEMES.BASIC +" " +basicToken, BasicAuthToken.class);
     }
 
     @Override

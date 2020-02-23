@@ -45,7 +45,7 @@ public abstract class DefaultTokenAuthenticationProvider  implements Authenticat
         if(tokenClass.isAssignableFrom(BearerAuthToken.class))
             token = new BearerAuthToken(roleList, tokenResponse.getAccessToken());
         else
-            token = new BasicAuthToken(token, null, roleList);
+            token = new BasicAuthToken(tokenResponse.getAccessToken(), null, roleList);
         return token;
     }
 

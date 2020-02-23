@@ -31,7 +31,7 @@ services:
       - discovery
     depends_on:
       discovery:
-          condition: service_healthy
+        condition: service_healthy
   auth:
     container_name: auth
     image: kumargauravgupta3/auth-service-docker:1.0-SNAPSHOT
@@ -39,6 +39,23 @@ services:
       - '9001:9001'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9001"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - config
+      - discovery
+      - mongodb
+    depends_on:
+      config:
+        condition: service_healthy
+  user:
+    container_name: user
+    image: kumargauravgupta3/user-service-docker:1.0-SNAPSHOT
+    ports:
+      - '9002:9002'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9002"]
       interval: 30s
       timeout: 10s
       retries: 5

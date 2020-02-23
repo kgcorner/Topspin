@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Description : Fiegn Client for authentication service
+ * Description : Feign Client for authentication service
  * Author: kumar
  * Created on : 25/11/19
  */

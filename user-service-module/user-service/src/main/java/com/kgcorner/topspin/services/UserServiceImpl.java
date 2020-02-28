@@ -31,7 +31,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String userId) {
-        return userPersistenceLayer.getUser(userId);
+        User user =  userPersistenceLayer.getUser(userId);
+        if(user == null)
+            throw new ResourceNotFoundException("No such user exists");
+        return user;
     }
 
     @Override

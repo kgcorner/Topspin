@@ -10,7 +10,7 @@ if [ $? -eq 0 ]; then
   siteUp=0;
   while [ ${siteUp} -eq 0 ]
   do
-    status=`curl -Is http://localhost:9001/health | head -n 1|grep 200`
+    status=`curl -Is http://localhost:9002/health | head -n 1|grep 200`
     if [ "$status"x != x ]
     then
       siteUp=1;

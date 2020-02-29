@@ -53,7 +53,7 @@ public class NativeLoginTests {
         Assert.assertNotNull(RESPONSE_FOR_VALID_NATIVE_LOGIN, "Login responds with null");
         token = new Gson().fromJson(RESPONSE_FOR_VALID_NATIVE_LOGIN.getData(), Token.class);
         Assert.assertNotNull(token, "Login api responds with invalid token response");
-        Assert.assertNotNull(token.getRefreshToken(), "No refresh token available in token");
+        Assert.assertNotNull(token.getRefreshToken(), "No refresh token available in token " + RESPONSE_FOR_VALID_NATIVE_LOGIN.getData());
         Assert.assertNotNull(token.getAccessToken(), "No access token available in token");
         Assert.assertTrue(token.getExpiresInSeconds() > 1, "Api responds with invalid expiration value");
 

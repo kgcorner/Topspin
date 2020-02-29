@@ -55,7 +55,7 @@ public class FetchUserFeature {
             LOGGER.info("User created with ID " + user.getId() );
             createdUserId = user.getId();
         } else {
-            LOGGER.error("Failed to crate user");
+            LOGGER.error("Failed to create user");
             Assert.fail("Failed to create user for test");
         }
     }

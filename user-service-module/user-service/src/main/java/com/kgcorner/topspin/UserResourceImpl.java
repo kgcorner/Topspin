@@ -68,7 +68,7 @@ public class UserResourceImpl extends ExceptionHandler implements UserResource {
     public List<User> getAllUsers(@ApiParam(value = "Page number", required = true)
                                   @RequestParam("page") int page,
                                   @ApiParam(value = "users per page, default 30", required = false, defaultValue = "30")
-                                  @RequestParam("items") int maxPerPage) {
+                                  @RequestParam(value = "items", required = false, defaultValue = "30") int maxPerPage) {
         return userService.getAllUsers(page, maxPerPage);
     }
 }

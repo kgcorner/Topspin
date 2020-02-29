@@ -38,7 +38,7 @@ public class UserServiceTestsRunner {
     @BeforeClass
     public void setup() {
         runner = new TestNGCucumberRunner(this.getClass());
-        //prepareDb();
+        prepareDb();
     }
 
     private void prepareDb() {
@@ -47,7 +47,7 @@ public class UserServiceTestsRunner {
         if(userDb == null) {
             throw new RuntimeException("Unable to create DB");
         }
-        MongoCollection<Document> usersCollection = userDb.getCollection("users");
+        MongoCollection<Document> usersCollection = userDb.getCollection("userModel");
         Document testUser = new Document();
         testUser.append("id", "0")
             .append("userName", "user")
@@ -55,7 +55,7 @@ public class UserServiceTestsRunner {
             .append("email", "gaurav@domail.com")
             .append("contact", "4544554545")
             .append("other", "gaurav's info")
-            .append("active", true);;
+            .append("active", true);
 
         System.out.println("Creating Test user");
         usersCollection.insertOne(testUser);

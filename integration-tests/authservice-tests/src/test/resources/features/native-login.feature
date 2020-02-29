@@ -9,6 +9,7 @@ Feature: Native Login
       | user    | 200    |  password  |
       | user1   | 403    |  password1 |
 
+  @BearerTokenTest
   Scenario: User tries to get authenticated using bearer token
     Given User exists with user name "user" and password "password"
     Then User logs in in the system to obtain an access token

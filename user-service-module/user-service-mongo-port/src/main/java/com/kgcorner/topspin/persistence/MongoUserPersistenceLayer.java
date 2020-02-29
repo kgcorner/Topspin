@@ -65,7 +65,7 @@ public class MongoUserPersistenceLayer implements UserPersistenceLayer {
 
     @Override
     public List<User> getUsers(int page, int max) {
-        if(page == 0 && max == 0)
+        if(max == 0)
             return Collections.emptyList();
         List<UserModel> all = dao.getAll(page, max, UserModel.class);
         List<User> users = new ArrayList<>();

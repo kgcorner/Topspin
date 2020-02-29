@@ -58,12 +58,9 @@ public class AuthServicesTestsRunner {
         MongoCollection<Document> loginCollection = authDb.getCollection("loginModel");
         Document testUser = new Document();
         testUser.append("userId", "0")
-                .append("userName", "user")
+                .append("username", "user")
                 .append("password", Hasher.getCrypt("password", PropertiesUtil.getValue("password.salt")));
-
-        System.out.println("Creating Test user");
         loginCollection.insertOne(testUser);
-        System.out.println("Collection contains: " + loginCollection.countDocuments() + " Documents" );
         mongoClient.close();
     }
 

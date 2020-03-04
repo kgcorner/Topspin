@@ -42,7 +42,7 @@ public class UserResourceImpl extends ExceptionHandler implements UserResource {
     }
 
     @ApiOperation("Updates user, only given values are set")
-    @PutMapping("/users/{id}")
+    @PutMapping("/manage/users/{id}")
     @Override
     public User updateUser(
         @ApiParam("id of the user") @PathVariable("id") String id,

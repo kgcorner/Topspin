@@ -6,6 +6,8 @@ import com.kgcorner.topspin.model.SCHEMES;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
+
 /**
  * Description : Default basic token auth provider
  * Author: kumar
@@ -16,7 +18,9 @@ public class DefaultBasicTokenAuthenticationProvider extends DefaultTokenAuthent
     @Override
     public Authentication authenticate(Authentication authentication) {
         BasicAuthToken basicAuthToken = (BasicAuthToken) authentication;
-        String basicToken = basicAuthToken.getPrincipal().toString();
+        String principle = basicAuthToken.getPrincipal().toString();
+        String credentials = basicAuthToken.getCredentials().toString();
+        String basicToken = new String(Base64.getEncoder().encode((principle+":"+credentials).getBytes()));
         return getAuthDetails(SCHEMES.BASIC +" " +basicToken, BasicAuthToken.class);
     }
 

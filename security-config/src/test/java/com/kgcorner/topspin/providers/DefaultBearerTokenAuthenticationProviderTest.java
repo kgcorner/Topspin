@@ -2,8 +2,8 @@ package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.clients.AuthServiceClient;
+import com.kgcorner.topspin.clients.model.TokenModel;
 import com.kgcorner.topspin.model.BearerAuthToken;
-import com.kgcorner.topspin.model.DummyToken;
 import com.kgcorner.topspin.model.Role;
 import com.kgcorner.topspin.model.SCHEMES;
 import org.junit.Before;
@@ -47,9 +47,9 @@ public class DefaultBearerTokenAuthenticationProviderTest {
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 String token = invocationOnMock.getArgument(0).toString();
                 if(token.startsWith(SCHEMES.BEARER+" ")) {
-                    DummyToken dummyToken = new DummyToken();
-                    dummyToken.setAccessToken(accessToken);
-                    return dummyToken;
+                    TokenModel tokenModel = new TokenModel();
+                    tokenModel.setAccessToken(accessToken);
+                    return tokenModel;
                 }
                 return null;
             }

@@ -3,10 +3,10 @@ package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.clients.AuthServiceClient;
+import com.kgcorner.topspin.clients.model.TokenModel;
 import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.Role;
-import com.kgcorner.topspin.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,7 +28,7 @@ public abstract class DefaultTokenAuthenticationProvider  implements Authenticat
 
 
     public Authentication getAuthDetails(String tokenString, Class tokenClass) {
-        Token tokenResponse = client.getToken(tokenString);
+        TokenModel tokenResponse = client.getToken(tokenString);
         String roleClaim = JwtUtility.getClaim("ROLE", tokenResponse.getAccessToken());
         List<Role> roleList = new ArrayList<>();
         if(roleClaim.contains(",")) {

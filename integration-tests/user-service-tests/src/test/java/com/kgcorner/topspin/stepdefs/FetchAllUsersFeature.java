@@ -69,6 +69,7 @@ public class FetchAllUsersFeature {
     public void requestIsMadeForFetchingAllAvailableUser() {
         String host = PropertiesUtil.getValue(HOST_KEY);
         String url = host + PropertiesUtil.getValue(GET_USERS_URL);
+        url = String.format(url, userCount);
         response = HttpUtil.doGet(url, null);
     }
 

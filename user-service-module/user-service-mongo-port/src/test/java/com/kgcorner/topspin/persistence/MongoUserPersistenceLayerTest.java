@@ -10,6 +10,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
@@ -102,5 +105,23 @@ public class MongoUserPersistenceLayerTest {
     public void deleteUserByNullUser() {
         when(mongoUserDao.getById("id", UserModel.class)).thenReturn(null);
         persistenceLayer.deleteUser("id");
+    }
+
+    @Test
+    public void getUsersEmptyList() {
+        List<User> users = persistenceLayer.getUsers(1, 0);
+        assertEquals(0, users.size());
+    }
+
+    @Test
+    public void getUsersEmpty() {
+        List<UserModel> found = new ArrayList<>();
+        int countPerPage = 10;
+        for (int i = 0; i < countPerPage; i++)
+            found.add(new UserModel());
+        when(mongoUserDao.getAll(1, countPerPage, UserModel.class)).thenReturn(found);
+        List<User> users = persistenceLayer.getUsers(1, 10);
+        assertEquals(countPerPage, users.size());
+
     }
 }

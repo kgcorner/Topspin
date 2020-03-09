@@ -1,8 +1,11 @@
 package com.kgcorner.topspin.clients.model;
 
 
+import com.kgcorner.utils.Strings;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -97,9 +100,7 @@ public class LoginModel {
 
     public List<Role> getRoles() {
         if(roles == null) {
-            roles = new ArrayList<>();
-            Role role = new Role(DEFAULT_ROLE);
-            roles.add(role);
+            return Collections.emptyList();
         }
         return roles;
     }
@@ -108,6 +109,8 @@ public class LoginModel {
         Role roleObj = null;
         if(roles == null)
             roles = new ArrayList<>();
+        if(Strings.isNullOrEmpty(role))
+            return;
         if(role.startsWith("ROLE_")) {
             roleObj = new Role(role);
         }

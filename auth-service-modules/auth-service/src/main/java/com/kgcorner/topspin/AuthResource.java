@@ -13,6 +13,7 @@ import com.kgcorner.topspin.service.RegistrationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -61,6 +62,7 @@ public class AuthResource extends ExceptionHandler {
 
     @ApiOperation("creates a login for user")
     @PostMapping("/login")
+    @ResponseStatus(HttpStatus.CREATED)
     public Login createLogin(
         @ApiParam(value = "User name of the user, incase of oauth login, consider user id from oauth server to be user name" , required = true)
         @RequestParam(value="user-name", required = true) String userName,

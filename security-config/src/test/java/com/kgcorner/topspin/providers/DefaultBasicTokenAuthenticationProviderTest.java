@@ -2,7 +2,7 @@ package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.clients.AuthServiceClient;
-import com.kgcorner.topspin.clients.model.TokenModel;
+import com.kgcorner.topspin.clients.model.Token;
 import com.kgcorner.topspin.model.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class DefaultBasicTokenAuthenticationProviderTest {
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 String token = invocationOnMock.getArgument(0).toString();
                 if(token.startsWith(SCHEMES.BASIC+" ")) {
-                    TokenModel tokenModel = new TokenModel();
+                    Token tokenModel = new Token();
                     tokenModel.setAccessToken(accessToken);
                     return tokenModel;
                 }
@@ -72,7 +72,7 @@ public class DefaultBasicTokenAuthenticationProviderTest {
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 String token = invocationOnMock.getArgument(0).toString();
                 if(token.startsWith(SCHEMES.BASIC+" ")) {
-                    TokenModel tokenModel = new TokenModel();
+                    Token tokenModel = new Token();
                     tokenModel.setAccessToken(accessToken);
                     return tokenModel;
                 }

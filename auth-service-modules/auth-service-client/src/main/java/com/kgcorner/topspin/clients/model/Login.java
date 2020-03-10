@@ -14,7 +14,7 @@ import java.util.List;
  * Created on : 04/03/20
  */
 
-public class LoginModel {
+public class Login {
     private String username;
     private String password;
     private String refreshToken;
@@ -87,8 +87,8 @@ public class LoginModel {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof LoginModel) {
-            return ((LoginModel)obj).getUserId().equals(userId);
+        if(obj instanceof Login) {
+            return ((Login)obj).getUserId().equals(userId);
         }
         return false;
     }

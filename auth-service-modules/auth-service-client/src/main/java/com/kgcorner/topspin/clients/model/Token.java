@@ -7,7 +7,7 @@ package com.kgcorner.topspin.clients.model;
  * Created on : 04/03/20
  */
 
-public class TokenModel {
+public class Token {
     private String accessToken;
     private String refreshToken;
     private int expiresInSeconds;

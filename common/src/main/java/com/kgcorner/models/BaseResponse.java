@@ -25,14 +25,15 @@ public class BaseResponse {
     public RESPONSETYPE getType() {
         return type;
     }
+
     public void setType(RESPONSETYPE type) {
         this.type = type;
         if(type == RESPONSETYPE.SUCCESS && (status >= 400 || status == 0))
             status = 200;
         else
-            if(status < 400)
+            if(status < 400 && type != RESPONSETYPE.SUCCESS)
                 status = 400;
-        if(type == RESPONSETYPE.SUCCESS && status < 400) {
+        if(type == RESPONSETYPE.SUCCESS) {
             successCode = 0;
         }
         else {
@@ -42,12 +43,11 @@ public class BaseResponse {
     public BaseResponse(String message, RESPONSETYPE type) {
         this.message = message;
         this.type = type;
-        if(type == RESPONSETYPE.SUCCESS && (status >= 400 || status == 0))
+        if(type == RESPONSETYPE.SUCCESS)
             status = 200;
         else
-            if(status < 400)
-                status = 400;
-        if(type == RESPONSETYPE.SUCCESS || status < 400) {
+            status = 400;
+        if(type == RESPONSETYPE.SUCCESS) {
             successCode = 0;
         }
         else {

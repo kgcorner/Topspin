@@ -5,18 +5,12 @@ package com.kgcorner.cache;
  * Author: kumar
  * Created on : 11/8/19
  */
-public class CacheFactory {
+public final class CacheFactory {
     public enum CACHE_TYPE  {
         REDIS_CACHE
     }
-
+    private CacheFactory(){}
     public static CacheHandler getCacheHandler (CACHE_TYPE type) {
-        if(type != null) {
-            switch (type) {
-                case REDIS_CACHE:
-                    return RedisCache.getInstance();
-            }
-        }
-        return null;
+        return type == null ? null : RedisCache.getInstance();
     }
 }

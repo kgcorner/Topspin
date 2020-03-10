@@ -17,6 +17,7 @@ public class EnvironmentVariableSanityCheckerTest {
     public void checkForFacebookAppKey() {
         String key = "098";
         assertTrue(EnvironmentVariableSanityChecker.checkForFacebookAppKey(key));
+        assertFalse(EnvironmentVariableSanityChecker.checkForFacebookAppKey(null));
     }
 
     @Test
@@ -29,6 +30,7 @@ public class EnvironmentVariableSanityCheckerTest {
     public void checkForFacebookSecretKey() {
         String key = "098";
         assertTrue(EnvironmentVariableSanityChecker.checkForFacebookSecretKey(key));
+        assertFalse(EnvironmentVariableSanityChecker.checkForFacebookSecretKey(null));
     }
 
     @Test
@@ -41,6 +43,7 @@ public class EnvironmentVariableSanityCheckerTest {
     public void checkForGoogleAppKey() {
         String key ="098.apps.googleusercontent.com";
         assertTrue(EnvironmentVariableSanityChecker.checkForGoogleAppKey(key));
+        assertFalse(EnvironmentVariableSanityChecker.checkForGoogleAppKey(null));
     }
 
     @Test
@@ -53,6 +56,7 @@ public class EnvironmentVariableSanityCheckerTest {
     public void checkForGoogleSecretKey() {
         String key ="098";
         assertTrue(EnvironmentVariableSanityChecker.checkForGoogleSecretKey(key));
+        assertFalse(EnvironmentVariableSanityChecker.checkForGoogleSecretKey(null));
     }
 
     @Test

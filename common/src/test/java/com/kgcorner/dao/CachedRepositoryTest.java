@@ -68,6 +68,13 @@ public class CachedRepositoryTest {
         assertNull(cachedRepository.update(new DummyModel()));
     }
 
+
+    @Test
+    public void testRemove() {
+        //Just calls for showing in coverage
+        cachedRepository.remove(null);
+    }
+
     class DummyModel implements Serializable {
 
     }

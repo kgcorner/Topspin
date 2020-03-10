@@ -37,7 +37,7 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForFacebookAppKey(String key) {
-       return key != null? FACEBOOK_APP_KEY_PATTERN.matcher(key).matches() : true;
+       return key != null? FACEBOOK_APP_KEY_PATTERN.matcher(key).matches() : false;
     }
 
     /**
@@ -46,7 +46,7 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForFacebookSecretKey(String key) {
-        return key != null ? FACEBOOK_APP_SECRET_PATTERN.matcher(key).matches() : true;
+        return key != null ? FACEBOOK_APP_SECRET_PATTERN.matcher(key).matches() : false;
     }
 
     /**
@@ -55,7 +55,7 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForGoogleAppKey(String key) {
-        return key != null ? GOOGLE_APP_KEY_PATTERN.matcher(key).matches() : true;
+        return key != null ? GOOGLE_APP_KEY_PATTERN.matcher(key).matches() : false;
     }
 
     /**
@@ -64,6 +64,6 @@ public final class EnvironmentVariableSanityChecker {
      * @return true if passed false otherwise
      */
     public static boolean checkForGoogleSecretKey(String key) {
-        return key != null ? GOOGLE_APP_SECRET_PATTERN.matcher(key).matches() : true;
+        return key != null ? GOOGLE_APP_SECRET_PATTERN.matcher(key).matches() : false;
     }
 }

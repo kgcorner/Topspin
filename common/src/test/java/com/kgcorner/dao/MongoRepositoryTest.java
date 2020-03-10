@@ -9,10 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.when;
-import static org.junit.Assert.*;
 /**
  * Description : Unit test for MongoRepository
  * Author: kumar
@@ -79,7 +79,7 @@ public class MongoRepositoryTest {
     public void remove() {
         DummyModel model = new DummyModel("1");
         when(mockedMongoTemplate.remove(model)).thenReturn(null);
-        mockedMongoTemplate.remove(model);
+        repository.remove(model);
         assertNotNull("Response is null", model);
         assertEquals("model's id is not matching", "1", model.getId());
     }

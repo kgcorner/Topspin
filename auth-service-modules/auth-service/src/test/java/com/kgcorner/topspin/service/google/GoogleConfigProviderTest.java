@@ -1,17 +1,13 @@
 package com.kgcorner.topspin.service.google;
 
-import com.kgcorner.topspin.service.google.GoogleConfigProvider;
+import com.kgcorner.topspin.util.EnvironmentUtility;
 import com.kgcorner.utils.Strings;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.mockito.PowerMockito;
-import static org.powermock.api.mockito.PowerMockito.*;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
-import java.util.Map;
-
-import static org.junit.Assert.*;
 
 
 /*
@@ -19,7 +15,7 @@ Description : Tests for GoogleConfigProvider
 Author: kumar
 Created on : 06/11/19
 */
-
+@RunWith(PowerMockRunner.class)
 public class GoogleConfigProviderTest {
     private static final String GOOGLE_APP_KEY = "GOOGLE_APP_KEY";
     private static final String GOOGLE_APP_SECRET = "GOOGLE_APP_SECRET";
@@ -34,15 +30,11 @@ public class GoogleConfigProviderTest {
     public void setup() {
 
         if(Strings.isNullOrEmpty(System.getenv(GOOGLE_APP_KEY))) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Map<String, String> environment = processBuilder.environment();  // Sensitive
-            environment.put(GOOGLE_APP_KEY, MOCKED_GG_APP_KEY);
+            EnvironmentUtility.setEnvironmentValue(GOOGLE_APP_KEY, MOCKED_GG_APP_KEY);
         }
 
         if(Strings.isNullOrEmpty(System.getenv(GOOGLE_APP_SECRET))) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Map<String, String> environment = processBuilder.environment();  // Sensitive
-            environment.put(GOOGLE_APP_SECRET, MOCKED_GG_APP_SEC);
+            EnvironmentUtility.setEnvironmentValue(GOOGLE_APP_SECRET, MOCKED_GG_APP_SEC);
         }
         this.googleConfigProvider = new GoogleConfigProvider();
     }

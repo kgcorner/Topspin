@@ -10,8 +10,9 @@ if [ $? -eq 0 ]; then
   siteUp=0;
   while [ ${siteUp} -eq 0 ]
   do
-    status=`curl -Is http://localhost:9002/health | head -n 1|grep 200`
-    if [ "$status"x != x ]
+    userServiceStatus=`curl -Is http://localhost:9002/health | head -n 1|grep 200`
+    authServiceStatus=`curl -Is http://localhost:9001/health | head -n 1|grep 200`
+    if [ "userServiceStatus"x != x ]
     then
       siteUp=1;
       echo "Service is up"
@@ -21,8 +22,8 @@ if [ $? -eq 0 ]; then
       sleep 5s
     fi
   done;
-  echo "Running tests"
-  mvn -f integration-tests/pom.xml clean install
+  #echo "Running tests"
+  #mvn -f integration-tests/pom.xml clean install
   kill %1
 else
   echo "Build failed"

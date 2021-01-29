@@ -1,7 +1,6 @@
 package com.kgcorner.topspin.model.factory;
 
 
-import com.kgcorner.topspin.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.LoginModel;
 import com.kgcorner.topspin.model.Token;

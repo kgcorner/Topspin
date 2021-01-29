@@ -1,4 +1,4 @@
-package com.kgcorner.topspin.factory;
+package com.kgcorner.topspin.model.factory;
 
 import com.kgcorner.topspin.model.User;
 import org.junit.Test;

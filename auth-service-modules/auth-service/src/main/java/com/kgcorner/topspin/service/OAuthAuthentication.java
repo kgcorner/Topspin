@@ -12,7 +12,7 @@ import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
-import com.kgcorner.topspin.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

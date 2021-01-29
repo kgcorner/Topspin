@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.services;
 
 import com.kgcorner.exceptions.ResourceNotFoundException;
-import com.kgcorner.topspin.factory.UserServiceModelFactory;
+import com.kgcorner.topspin.model.factory.UserServiceModelFactory;
 import com.kgcorner.topspin.model.User;
 import com.kgcorner.topspin.persistence.UserPersistenceLayer;
 import com.kgcorner.topspin.util.UserServiceTestUtility;

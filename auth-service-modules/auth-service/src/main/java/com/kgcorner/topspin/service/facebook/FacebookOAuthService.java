@@ -7,7 +7,7 @@ Created on : 25/08/19
 */
 
 import com.kgcorner.topspin.model.Login;
-import com.kgcorner.topspin.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.service.OAuthService;
 import com.kgcorner.utils.Strings;
 import com.kgcorner.web.HttpUtil;

@@ -6,7 +6,7 @@ import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
-import com.kgcorner.topspin.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import com.kgcorner.topspin.models.DummyLogin;
 import com.kgcorner.topspin.models.DummyToken;

@@ -1,4 +1,4 @@
-package com.kgcorner.topspin.factory;
+package com.kgcorner.topspin.model.factory;
 
 /*
 Description : Contract for Model factory

@@ -15,6 +15,7 @@
         <module>spring-config-service</module>
         <module>spring-discovery-service</module>
         <module>fake-spring-config-service</module>
+        <module>spring-store-service</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

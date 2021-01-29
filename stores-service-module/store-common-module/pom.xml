@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>stores-service-module</artifactId>
+        <groupId>com.kgcorner.topspin</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>Provides data transfer object as per HATEOS specification so that it can be shared among service and client to avoid code duplicacy</description>
+    <artifactId>store-common-module</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>store-db-common</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

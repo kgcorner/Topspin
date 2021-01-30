@@ -1,20 +1,11 @@
 package com.kgcorner.topspin.service.facebook;
 
+import com.kgcorner.topspin.util.EnvironmentUtility;
 import com.kgcorner.utils.Strings;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
-import java.util.Map;
-
-import static org.powermock.api.mockito.PowerMockito.when;
-
-import static org.junit.Assert.*;
 
 
 /*
@@ -39,15 +30,11 @@ public class FacebookConfigProviderTest {
     public void setup() {
         this.facebookConfigProvider = new FacebookConfigProvider();
         if(Strings.isNullOrEmpty(System.getenv(FACEBOOK_APP_KEY))) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Map<String, String> environment = processBuilder.environment();  // Sensitive
-            environment.put(FACEBOOK_APP_KEY, MOCKED_FB_APP_KEY);
+            EnvironmentUtility.setEnvironmentValue(FACEBOOK_APP_KEY, MOCKED_FB_APP_KEY);
         }
 
         if(Strings.isNullOrEmpty(System.getenv(FACEBOOK_APP_SECRET))) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Map<String, String> environment = processBuilder.environment();  // Sensitive
-            environment.put(FACEBOOK_APP_SECRET, MOCKED_FB_APP_SEC);
+            EnvironmentUtility.setEnvironmentValue(FACEBOOK_APP_SECRET, MOCKED_FB_APP_SEC);
         }
     }
 

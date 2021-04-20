@@ -11,6 +11,7 @@
         <module>agent-service-docker</module>
         <module>mongodb</module>
         <module>fake-config-docker</module>
+        <module>store-service-docker</module>
         <!-- <module>mysqldb</module>
         <module>redis-cache</module> -->
     </modules>

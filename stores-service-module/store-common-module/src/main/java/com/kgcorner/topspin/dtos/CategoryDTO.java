@@ -112,4 +112,8 @@ public class CategoryDTO extends ResourceSupport implements Category {
     public List<Category> getChildren() {
         return children;
     }
+
+    public void addChild(Category child) {
+        children.add(child);
+    }
 }

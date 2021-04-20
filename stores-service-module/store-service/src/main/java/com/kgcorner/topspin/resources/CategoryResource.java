@@ -47,9 +47,9 @@ public class CategoryResource {
     @GetMapping("/categories")
     public ResponseEntity<Resources<CategoryDTO>> getAll(
         @ApiParam("page number")
-        @RequestParam("page") int page,
+        @RequestParam(name = "page", defaultValue = "0") int page,
         @ApiParam("number of categories per page")
-        @RequestParam("item-count") int itemCount
+        @RequestParam(name = "item-count", defaultValue = "30") int itemCount
     ) {
 
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories(page, itemCount);
@@ -62,6 +62,7 @@ public class CategoryResource {
                 .methodOn(CategoryResource.class).get(dto.getCategoryId())).withSelfRel();
             dto.add(selfRel);
         }
+
         return ResponseEntity.ok(resources);
     }
 

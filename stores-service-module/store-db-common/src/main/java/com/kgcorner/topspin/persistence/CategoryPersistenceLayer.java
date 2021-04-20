@@ -59,5 +59,4 @@ public interface CategoryPersistenceLayer {
      * @param categoryId
      */
     void updateCategory(Category updatedCategory, String categoryId);
-
 }

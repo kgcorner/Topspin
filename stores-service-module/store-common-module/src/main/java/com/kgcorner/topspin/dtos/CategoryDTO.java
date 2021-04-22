@@ -15,105 +15,64 @@ import java.util.List;
 
 public class CategoryDTO extends ResourceSupport implements Category {
 
-    private String id;
+    private final Category category;
+    private final List<CategoryDTO> children = new ArrayList<>();
 
-    private String name;
-    private String description;
-    private String longDescription;
-    private String bannerImage;
-    private String thumbnailImage;
-    private String largeImage;
-    private Category parent;
-    private String tagline;
-    private List<Category> children = new ArrayList<>();
-
+    public CategoryDTO(Category category) {
+        this.category = category;
+    }
 
     @Override
     public String getName() {
-        return name;
+        return category.getName();
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return category.getDescription();
     }
 
     @Override
     public String getLongDescription() {
-        return longDescription;
+        return category.getLongDescription();
     }
 
     @Override
     public String getBannerImage() {
-        return bannerImage;
+        return category.getBannerImage();
     }
 
     @Override
     public String getThumbNailImage() {
-        return thumbnailImage;
+        return category.getThumbNailImage();
     }
 
     @Override
     public String getLargeImage() {
-        return largeImage;
+        return category.getLargeImage();
     }
 
     @Override
     public Category getParent() {
-        return parent;
+        return category.getParent();
     }
 
     @Override
     public String getTagLine() {
-        return tagline;
+        return category.getTagLine();
     }
 
     @Override
     public String getCategoryId() {
-        return id;
+        return category.getCategoryId();
     }
 
-    public void setCategoryId(String id) {
-        this.id = id;
+    public void addChildren(Category child) {
+        this.children.add(new CategoryDTO(child));
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
-    }
-
-    public void setBannerImage(String bannerImage) {
-        this.bannerImage = bannerImage;
-    }
-
-    public void setThumbnailImage(String thumbnailImage) {
-        this.thumbnailImage = thumbnailImage;
-    }
-
-    public void setLargeImage(String largeImage) {
-        this.largeImage = largeImage;
-    }
-
-    public void setParent(Category parent) {
-        this.parent = parent;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
-    public List<Category> getChildren() {
-        return children;
-    }
-
-    public void addChild(Category child) {
-        children.add(child);
+    @Override
+    public List<? extends Category> getChildren() {
+        return this.children;
     }
 }

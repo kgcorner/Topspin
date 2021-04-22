@@ -1,6 +1,8 @@
 package com.kgcorner.topspin.resources;
 
 import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.AbstractStore;
+import com.kgcorner.topspin.model.Category;
 import com.kgcorner.topspin.service.StoreService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,6 +14,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,19 +31,21 @@ public class StoreResourceTest {
 
     private StoreResource storeResource;
     private StoreService storeService;
+    private DemoStore demoStore;
 
     @Before
     public void setUp() throws Exception {
         storeResource = new StoreResource();
+        demoStore = new DemoStore();
         storeService = PowerMockito.mock(StoreService.class);
         Whitebox.setInternalState(storeResource, "storeService", storeService);
     }
 
     @Test
     public void createStore() {
-        StoreDTO storeDTO = new StoreDTO();
-        storeDTO.setName("name");
-        storeDTO.setStoreId("id");
+        StoreDTO storeDTO = new StoreDTO(demoStore);
+        demoStore.setName("name");
+        demoStore.setStoreId("id");
         PowerMockito.when(storeService.createStore("name", "description", "link",
             "affiliateId","surferPlaceHolder", "placeholder")).thenReturn(storeDTO);
         ResponseEntity<StoreDTO> storeResponse = storeResource.createStore("name", "description", "link",
@@ -57,9 +64,9 @@ public class StoreResourceTest {
         String surferPlaceHolder = "surferPlaceHolder";
 
 
-        StoreDTO storeDTO = new StoreDTO();
-        storeDTO.setName("newName");
-        storeDTO.setStoreId("id");
+        StoreDTO storeDTO = new StoreDTO(demoStore);
+        demoStore.setName("newName");
+        demoStore.setStoreId("id");
         PowerMockito.when(storeService.updateStore(id, name, description, link, affiliateId,
             surferPlaceHolder, placeHolder)).thenReturn(storeDTO);
         Assert.assertEquals(storeDTO.getName(), storeResource.put(id, name, affiliateId, link,
@@ -68,10 +75,29 @@ public class StoreResourceTest {
 
     @Test
     public void get() {
-        StoreDTO storeDTO = new StoreDTO();
-        storeDTO.setName("newName");
-        storeDTO.setStoreId("id");
+        StoreDTO storeDTO = new StoreDTO(demoStore);
+        demoStore.setName("newName");
+        demoStore.setStoreId("id");
         PowerMockito.when(storeService.getStore("id")).thenReturn(storeDTO);
         Assert.assertEquals(storeDTO.getName(), storeResource.get("id").getBody().getName());
+    }
+
+    class DemoStore extends AbstractStore {
+        private String storeId;
+        private List<Category> categories = new ArrayList<>();
+
+        public void setStoreId(String id) {
+            this.storeId = id;
+        }
+
+        @Override
+        public String getStoreId() {
+            return storeId;
+        }
+
+        @Override
+        public List<? extends Category> getCategories() {
+            return categories;
+        }
     }
 }

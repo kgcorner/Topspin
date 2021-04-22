@@ -1,6 +1,8 @@
 package com.kgcorner.topspin.resources;
 
 import com.kgcorner.topspin.dtos.CategoryDTO;
+import com.kgcorner.topspin.model.AbstractCategory;
+import com.kgcorner.topspin.model.Category;
 import com.kgcorner.topspin.service.CategoryService;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,10 +31,11 @@ public class CategoryResourceTest {
 
     private CategoryResource categoryResource;
     private CategoryService categoryService;
-
+    private DemoCategory demoCategory;
     @Before
     public void setUp() throws Exception {
         categoryResource = new CategoryResource();
+        demoCategory = new DemoCategory();
         categoryService = PowerMockito.mock(CategoryService.class);
         Whitebox.setInternalState(categoryResource, "categoryService", categoryService);
     }
@@ -39,7 +43,7 @@ public class CategoryResourceTest {
     @Test
     public void get() {
         String id = "id";
-        CategoryDTO category = new CategoryDTO();
+        CategoryDTO category = new CategoryDTO(demoCategory);
         PowerMockito.when(categoryService.getCategory(id)).thenReturn(category);
         Assert.notNull(categoryResource.get(id));
     }
@@ -55,7 +59,7 @@ public class CategoryResourceTest {
         PowerMockito.when(servletContext.build()).thenReturn(uri);
         PowerMockito.when(uri.toUriString()).thenReturn("HATEOS url");
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
-        categoryDTOS.add(new CategoryDTO());
+        categoryDTOS.add(new CategoryDTO(demoCategory));
         PowerMockito.when(categoryService.getAllCategories(page, maxCount)).thenReturn(categoryDTOS);
         Assert.notNull(categoryResource.getAll(page, maxCount));
     }
@@ -64,7 +68,7 @@ public class CategoryResourceTest {
     public void create() {
         String name = "name";
         String description = "description";
-        CategoryDTO categoryDTO = new CategoryDTO();
+        CategoryDTO categoryDTO = new CategoryDTO(demoCategory);
         PowerMockito.when(categoryService.createCategory(name, description)).thenReturn(categoryDTO);
         Assert.notNull(categoryResource.create(name, description));
     }
@@ -74,8 +78,25 @@ public class CategoryResourceTest {
         String name = "name";
         String id = "id";
         String description = "description";
-        CategoryDTO categoryDTO = new CategoryDTO();
+        CategoryDTO categoryDTO = new CategoryDTO(demoCategory);
         PowerMockito.when(categoryService.updateCategory(id, name, description)).thenReturn(categoryDTO);
         Assert.notNull(categoryResource.update(id, name, description));
+    }
+
+    class DemoCategory extends AbstractCategory {
+        private String cateId;
+
+        public void setCategoryId(String cateId) {
+            this.cateId = cateId;
+        }
+        @Override
+        public String getCategoryId() {
+            return cateId;
+        }
+
+        @Override
+        public List<? extends Category> getChildren() {
+            return Collections.emptyList();
+        }
     }
 }

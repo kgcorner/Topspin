@@ -1,11 +1,12 @@
 package com.kgcorner.topspin.service;
 
 
+import com.kgcorner.topspin.dtos.CategoryDTO;
 import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.Category;
 import com.kgcorner.topspin.model.Store;
 import com.kgcorner.topspin.model.factory.StoreFactory;
 import com.kgcorner.topspin.persistence.StorePersistenceLayer;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +55,10 @@ public class StoreService {
     }
 
     private StoreDTO getStoreDTO(Store store) {
-        StoreDTO storeDTO = new StoreDTO();
-        BeanUtils.copyProperties(store, storeDTO);
+        StoreDTO storeDTO = new StoreDTO(store);
+        for(Category category : store.getCategories()) {
+            storeDTO.addCategories(new CategoryDTO(category));
+        }
         return storeDTO;
     }
 

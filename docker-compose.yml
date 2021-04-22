@@ -53,3 +53,49 @@ services:
         condition: service_healthy
       mongodb:
         condition: service_started
+
+  user:
+    container_name: user
+    image: kumargauravgupta3/user-service-docker:1.0-SNAPSHOT
+    ports:
+      - '9002:9002'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9002"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - config
+      - discovery
+      - mongodb
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+
+  store:
+    container_name: store
+    image: kumargauravgupta3/store-service-docker:1.0-SNAPSHOT
+    ports:
+      - '9003:9003'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9003"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - config
+      - discovery
+      - mongodb
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+
+

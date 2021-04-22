@@ -29,16 +29,14 @@ public class CategoryService {
 
     public CategoryDTO getCategory(String categoryId) {
         Category category = categoryPersistenceLayer.getCategory(categoryId);
-        CategoryDTO dto = new CategoryDTO();
-        BeanUtils.copyProperties(category, dto);
+        CategoryDTO dto = new CategoryDTO(category);
         return dto;
     }
 
     public CategoryDTO createCategory(String name, String description) {
         Category category = categoryFactory.createCategoryModel(name, description);
         category = categoryPersistenceLayer.createCategory(category);
-        CategoryDTO dto = new CategoryDTO();
-        BeanUtils.copyProperties(category, dto);
+        CategoryDTO dto = new CategoryDTO(category);
         return dto;
     }
 
@@ -46,8 +44,7 @@ public class CategoryService {
         Category category = categoryFactory.createCategoryModel(name, description);
         categoryPersistenceLayer.updateCategory(category, id);
         category = categoryPersistenceLayer.getCategory(id);
-        CategoryDTO dto = new CategoryDTO();
-        BeanUtils.copyProperties(category, dto);
+        CategoryDTO dto = new CategoryDTO(category);
         return dto;
     }
 
@@ -55,8 +52,7 @@ public class CategoryService {
         List<Category> categories = categoryPersistenceLayer.getAllCategories(page, perPage);
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
         for(Category category : categories) {
-            CategoryDTO dto = new CategoryDTO();
-            BeanUtils.copyProperties(category, dto);
+            CategoryDTO dto = new CategoryDTO(category);
             categoryDTOS.add(dto);
         }
         return categoryDTOS;

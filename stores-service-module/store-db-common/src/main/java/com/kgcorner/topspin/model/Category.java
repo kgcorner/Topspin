@@ -2,6 +2,7 @@ package com.kgcorner.topspin.model;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Description : <Write class Description>
@@ -58,5 +59,11 @@ public interface Category extends Serializable {
      * @return
      */
     String getCategoryId();
+
+    /**
+     * Gets child category
+     * @return
+     */
+    List<? extends Category> getChildren();
 
 }

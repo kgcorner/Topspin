@@ -225,5 +225,6 @@
         <module>common</module>
         <module>auth-service-modules</module>
         <module>security-config</module>
+        <module>product-and-offers-service-module</module>
     </modules>
 </project>

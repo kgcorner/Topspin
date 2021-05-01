@@ -106,7 +106,7 @@ public class StoreResource {
 
     @ApiOperation("Get All Stores")
     @GetMapping("/stores")
-    private ResponseEntity<Resources<StoreDTO>> getAllStores(
+    public ResponseEntity<Resources<StoreDTO>> getAllStores(
         @ApiParam("page number")
             @RequestParam(name = "id", defaultValue = "0") int page,
         @ApiParam("Items per page")

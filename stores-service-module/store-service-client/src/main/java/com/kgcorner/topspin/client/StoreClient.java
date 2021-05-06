@@ -1,7 +1,7 @@
-package com.kgcorner.topispin.client;
+package com.kgcorner.topspin.client;
 
 
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class StoreClient {
     /**
      * @see StoreResourceClient#createStore(String, String, String, String, String, String)
      */
-    public StoreDTO createStore(
+    public StoreResponse createStore(
         String name,
         String description,
         String link,
@@ -32,7 +32,7 @@ public class StoreClient {
         String surferPlaceHolder,
         String placeholder
     ) {
-        ResponseEntity<StoreDTO> store = storeResourceClient.createStore(name, description, link,
+        ResponseEntity<StoreResponse> store = storeResourceClient.createStore(name, description, link,
             affiliateId, surferPlaceHolder, placeholder);
         return store.getBody();
     }
@@ -40,7 +40,7 @@ public class StoreClient {
     /**
      *  @see StoreResourceClient#put(String, String, String, String, String, String, String)
      */
-    public StoreDTO put(
+    public StoreResponse put(
         String storeId,
         String name,
         String affiliateId,
@@ -48,7 +48,7 @@ public class StoreClient {
         String surferPlaceHolder,
         String placeholder,
         String description) {
-        ResponseEntity<StoreDTO> updatedStoreResource = storeResourceClient.put(storeId, name, affiliateId, link,
+        ResponseEntity<StoreResponse> updatedStoreResource = storeResourceClient.put(storeId, name, affiliateId, link,
             surferPlaceHolder, placeholder, description);
         return updatedStoreResource.getBody();
     }
@@ -56,7 +56,7 @@ public class StoreClient {
     /**
      * @see StoreResourceClient#get(String)
      */
-    public StoreDTO get(String storeId) {
+    public StoreResponse get(String storeId) {
         return storeResourceClient.get(storeId).getBody();
     }
 
@@ -64,10 +64,10 @@ public class StoreClient {
      * @see StoreClient#getAllStores(int, int)
      * @return
      */
-    public List<StoreDTO> getAllStores(int page, int perPageItems) {
-        ResponseEntity<Resources<StoreDTO>> allStoresResourcesBody = storeResourceClient.getAllStores(page,
+    public List<StoreResponse> getAllStores(int page, int perPageItems) {
+        ResponseEntity<Resources<StoreResponse>> allStoresResourcesBody = storeResourceClient.getAllStores(page,
             perPageItems);
-        Resources<StoreDTO> allStoresResources = allStoresResourcesBody.getBody();
+        Resources<StoreResponse> allStoresResources = allStoresResourcesBody.getBody();
         return new ArrayList<>(allStoresResources.getContent());
     }
     

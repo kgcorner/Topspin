@@ -10,4 +10,7 @@ import java.io.Serializable;
  */
 
 public interface Category extends Serializable {
+    String getName();
+    String getDescription();
+    String getId();
 }

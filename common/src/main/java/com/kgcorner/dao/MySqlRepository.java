@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     private static final Logger LOGGER = Logger.getLogger(MySqlRepository.class);
 
+    @PersistenceContext
     protected EntityManager entityManager;
 
     private CacheHandler cacheHandler = getCacheHandler();
@@ -83,5 +85,9 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     @Override
     public T update(T document) {
         return super.update(document);
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }

@@ -1,7 +1,7 @@
-package com.kgcorner.topispin.client;
+package com.kgcorner.topspin.client;
 
 
-import com.kgcorner.topspin.dtos.CategoryDTO;
+import com.kgcorner.topspin.model.CategoryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Component;
@@ -24,29 +24,29 @@ public class CategoryClient {
     /**
      * @see CategoryResourceClient#get(String)
      */
-    public CategoryDTO getCategory(String categoryId) {
+    public CategoryResponse getCategory(String categoryId) {
         return categoryResourceClient.get(categoryId).getBody();
     }
 
     /**
      * @see CategoryResourceClient#getAll(int, int)
      */
-    public List<CategoryDTO> getAll(int page, int itemsPerPage) {
-        Resources<CategoryDTO> body = categoryResourceClient.getAll(page, itemsPerPage).getBody();
+    public List<CategoryResponse> getAll(int page, int itemsPerPage) {
+        Resources<CategoryResponse> body = categoryResourceClient.getAll(page, itemsPerPage).getBody();
         return new ArrayList<>(body.getContent());
     }
 
     /**
      * @see CategoryResourceClient#create(String, String)
      */
-    public CategoryDTO create(String name, String description) {
+    public CategoryResponse create(String name, String description) {
         return categoryResourceClient.create(name, description).getBody();
     }
 
     /**
      * @see CategoryResourceClient#update(String, String, String) 
      */
-    public CategoryDTO update(String categoryId, String name, String description) {
+    public CategoryResponse update(String categoryId, String name, String description) {
         return categoryResourceClient.update(categoryId, name, description).getBody();
     }
 }

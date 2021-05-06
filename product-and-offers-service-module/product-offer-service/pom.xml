@@ -38,6 +38,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>store-service-client</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>

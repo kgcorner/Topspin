@@ -22,6 +22,10 @@ public class CategoryDTO extends ResourceSupport implements Category {
         this.category = category;
     }
 
+    public CategoryDTO(){
+        category = this;
+    }
+
     @Override
     public String getName() {
         return category.getName();

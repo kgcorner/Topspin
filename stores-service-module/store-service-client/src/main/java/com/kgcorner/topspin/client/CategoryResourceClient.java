@@ -1,6 +1,6 @@
-package com.kgcorner.topispin.client;
+package com.kgcorner.topspin.client;
 
-import com.kgcorner.topspin.dtos.CategoryDTO;
+import com.kgcorner.topspin.model.CategoryResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public interface CategoryResourceClient {
      * @return
      */
     @GetMapping("categories/{categoryId}")
-    ResponseEntity<CategoryDTO> get(
+    ResponseEntity<CategoryResponse> get(
         @PathVariable("categoryId") String categoryId
     );
 
@@ -31,7 +31,7 @@ public interface CategoryResourceClient {
      * @return
      */
     @GetMapping("/categories")
-    ResponseEntity<Resources<CategoryDTO>> getAll(
+    ResponseEntity<Resources<CategoryResponse>> getAll(
         @RequestParam(name = "page", defaultValue = "0") int page,
         @RequestParam(name = "item-count", defaultValue = "30") int itemCount
     );
@@ -43,7 +43,7 @@ public interface CategoryResourceClient {
      * @return
      */
     @PostMapping("/categories")
-    ResponseEntity<CategoryDTO> create(
+    ResponseEntity<CategoryResponse> create(
         @RequestParam("name") String name,
         @RequestParam("description") String description
     );
@@ -56,7 +56,7 @@ public interface CategoryResourceClient {
      * @return
      */
     @PutMapping("/categories/{categoryId}")
-    ResponseEntity<CategoryDTO> update(
+    ResponseEntity<CategoryResponse> update(
         @PathVariable("categoryId") String categoryId,
         @RequestParam("name") String name,
         @RequestParam("description") String description

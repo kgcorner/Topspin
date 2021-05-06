@@ -1,5 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
+import com.kgcorner.topspin.dtos.Category;
+
 /**
  * Description : <Write class Description>
  * Author: kumar
@@ -7,4 +9,6 @@ package com.kgcorner.topspin.persistence;
  */
 
 public interface CategoryPersistenceLayer {
+    Category createCategory(Category category);
+    Category getCategory(String id);
 }

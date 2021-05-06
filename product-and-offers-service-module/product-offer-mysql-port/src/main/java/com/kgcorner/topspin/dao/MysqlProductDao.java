@@ -4,7 +4,6 @@ package com.kgcorner.topspin.dao;
 import com.kgcorner.dao.MySqlRepository;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
 import java.io.Serializable;
 
 /**
@@ -15,7 +14,4 @@ import java.io.Serializable;
 
 @Component
 public class MysqlProductDao<T extends Serializable> extends MySqlRepository<T> {
-    public MysqlProductDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 }

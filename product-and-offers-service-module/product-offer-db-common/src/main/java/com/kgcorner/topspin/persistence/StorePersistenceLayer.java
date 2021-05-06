@@ -1,6 +1,8 @@
 package com.kgcorner.topspin.persistence;
 
 
+import com.kgcorner.topspin.dtos.Store;
+
 /**
  * Description : <Write class Description>
  * Author: kumar
@@ -8,4 +10,6 @@ package com.kgcorner.topspin.persistence;
  */
 
 public interface StorePersistenceLayer {
+    Store createStore(Store store);
+    Store getId(String id);
 }

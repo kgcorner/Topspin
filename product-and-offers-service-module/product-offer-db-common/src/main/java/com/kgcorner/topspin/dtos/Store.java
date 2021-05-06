@@ -9,4 +9,7 @@ import java.io.Serializable;
  */
 
 public interface Store extends Serializable {
+    String getId();
+    String getName();
+    String getDescription();
 }

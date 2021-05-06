@@ -1,6 +1,8 @@
 package com.kgcorner.topspin.dtos.factory;
 
 
+import com.kgcorner.topspin.dtos.Category;
+
 /**
  * Description : <Write class Description>
  * Author: kumar
@@ -8,4 +10,5 @@ package com.kgcorner.topspin.dtos.factory;
  */
 
 public interface CategoryFactory {
+    Category createCategory(String id, String name, String description);
 }

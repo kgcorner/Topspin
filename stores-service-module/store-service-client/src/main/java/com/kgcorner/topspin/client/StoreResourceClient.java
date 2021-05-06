@@ -1,7 +1,7 @@
-package com.kgcorner.topispin.client;
+package com.kgcorner.topspin.client;
 
 
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public interface StoreResourceClient {
      * @return
      */
     @PostMapping("/stores")
-    ResponseEntity<StoreDTO> createStore(
+    ResponseEntity<StoreResponse> createStore(
         @RequestParam("name") String name,
         @RequestParam("description") String description,
         @RequestParam("link") String link,
@@ -48,7 +48,7 @@ public interface StoreResourceClient {
      * @return
      */
     @PutMapping("/stores/{storeId}")
-    ResponseEntity<StoreDTO> put(
+    ResponseEntity<StoreResponse> put(
         @PathVariable("storeId") String storeId,
         @RequestParam("name") String name,
         @RequestParam("affiliateId") String affiliateId,
@@ -63,7 +63,7 @@ public interface StoreResourceClient {
      * @return
      */
     @GetMapping("/stores/{storeId}")
-    public ResponseEntity<StoreDTO> get(
+    public ResponseEntity<StoreResponse> get(
         @PathVariable("storeId") String storeId);
 
     /**
@@ -73,7 +73,7 @@ public interface StoreResourceClient {
      * @return
      */
     @GetMapping("/stores")
-    ResponseEntity<Resources<StoreDTO>> getAllStores(
+    ResponseEntity<Resources<StoreResponse>> getAllStores(
         @RequestParam(name = "id") int page,
         @RequestParam(name = "item-count") int itemPerPage);
 }

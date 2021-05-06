@@ -5,7 +5,6 @@ import com.kgcorner.topspin.dtos.CategoryDTO;
 import com.kgcorner.topspin.model.Category;
 import com.kgcorner.topspin.model.factory.CategoryFactory;
 import com.kgcorner.topspin.persistence.CategoryPersistenceLayer;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

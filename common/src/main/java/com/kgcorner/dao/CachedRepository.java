@@ -21,11 +21,6 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     }
 
     @Override
-    public T updateOrCreate(T model) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void remove(String modelId, Class<T> model) {
         throw new UnsupportedOperationException();
     }

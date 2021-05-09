@@ -18,6 +18,7 @@ import java.util.List;
 public abstract class MySqlRepository<T extends Serializable> extends CachedRepository <T>{
 
     private static final Logger LOGGER = Logger.getLogger(MySqlRepository.class);
+    public static final String DID_NOT_FOUND = "Did not found ";
 
     @PersistenceContext
     protected EntityManager entityManager;
@@ -37,15 +38,8 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     }
 
     @Override
-    public T updateOrCreate(T model) {
-        model = this.entityManager.merge(model);
-        this.entityManager.flush();
-        return model;
-    }
-
-    @Override
     public void remove(String modelId, Class<T> model) {
-        T object = get(modelId, model);
+        var object = get(modelId, model);
         remove(object);
     }
 
@@ -59,7 +53,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     @Override
     public void remove(Object key, String modelName, String keyName) {
         String queryStr = "delete from "+modelName+" where "+keyName+"=?";
-        Query query = this.entityManager.createQuery(queryStr);
+        var query = this.entityManager.createQuery(queryStr);
         query.setParameter(1, key);
         query.executeUpdate();
     }
@@ -78,11 +72,11 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public List<T> getIn(List args, String argumentUnderCheck, Class<T> model) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+        var cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = cb.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
         Expression<String> parentExpression = entity.get(argumentUnderCheck);
-        Predicate predicate = parentExpression.in(args);
+        var predicate = parentExpression.in(args);
         criteriaQuery.select(entity).where(cb.and(predicate));
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
@@ -90,40 +84,12 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public List<T> getIn(List args, List<Operation> conditions, String argumentUnderCheck, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
         Expression<String> parentExpression = entity.get(argumentUnderCheck);
-        Predicate predicate = parentExpression.in(args);
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        T result = null;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                    break;
-                case IS_NULL:
-                    predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
-                    break;
-                case IS_NOT_NULL:
-                    predicates.add(criteriaBuilder.isNotNull(entity.get(operand.getName())));
-                    break;
-            }
-
-        }
+        var predicate = parentExpression.in(args);
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         predicates.add(predicate);
         criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
@@ -137,7 +103,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     public List<T> getAll(Class<T> model) {
         String className = model.getName();
         String hql = "from "+className+" as entity order by entity.id desc";
-        return (List<T>) this.entityManager.createQuery(hql).getResultList();
+        return this.entityManager.createQuery(hql).getResultList();
     }
 
     @Override
@@ -146,7 +112,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         String hql = "from " +className + " as entity order by entity.id desc";
         int firstResult = (page-1) * itemsPerPage + 1;
         firstResult = firstResult == 1 ? 0 : firstResult;
-        return (List<T>) this.entityManager.createQuery(hql).setFirstResult(firstResult)
+        return this.entityManager.createQuery(hql).setFirstResult(firstResult)
             .setMaxResults(itemsPerPage).getResultList();
     }
 
@@ -155,39 +121,14 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         if(conditions == null) {
             return getAll(model);
         }
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        List<T> result = null;
-        int i=0;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName()+i);
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                case LIKE:
-                    predicates.add(criteriaBuilder.like(entity.get(operand.getName()), param));
-                    break;
-            }
-            i++;
-
-        }
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
-        i=0;
+        List<T> result = null;
+        int i=0;
         for(Operation operand : conditions) {
             typedQuery.setParameter(operand.getName() + i, operand.getValue());
             i++;
@@ -196,7 +137,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
             result = typedQuery.getResultList();
         }
         catch(NoResultException e) {
-            LOGGER.error("Did not found "+model.getName());
+            LOGGER.error(DID_NOT_FOUND + model.getName());
         }
         catch(Exception x) {
             x.printStackTrace();
@@ -207,38 +148,17 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public List<T> getAll(List<Operation> conditions, List<Order> orders, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         List<T> result = null;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                    break;
-            }
-
-        }
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
         for(Order o : orders) {
             javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
             orderList.add(order);
         }
-        if(orderList.size() > 0) {
+        if(orderList.isEmpty()) {
             criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))
                 .orderBy(orderList);
         } else {
@@ -259,35 +179,11 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public T get(List<Operation> conditions, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         T result = null;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                    break;
-                case LIKE:
-                    predicates.add(criteriaBuilder.like(entity.get(operand.getName()), param));
-                    break;
-            }
-
-        }
         criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
         for(Operation operand : conditions) {
@@ -304,7 +200,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public List<Object[]> getAll(Procedure procedure) {
-        StoredProcedureQuery query =  this.entityManager.createStoredProcedureQuery(procedure.getName());
+        var query =  this.entityManager.createStoredProcedureQuery(procedure.getName());
         for(Operation o : procedure.getArguments()) {
             query.registerStoredProcedureParameter(o.getName(), o.getOperandType(), o.getMode());
             query.setParameter(o.getName(), o.getValue());
@@ -320,38 +216,16 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage, List<Order> orders, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
         entity.alias("entitySub");
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        int totalSize = 0;
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         List<T> result = null;
         int start = (page - 1) * itemPerPage;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                    break;
-            }
-
-        }
 
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
-        if(orders != null && orders.size() > 0) {
+        if(orders != null && orders.isEmpty()) {
             for (Order o : orders) {
                 javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
                 orderList.add(order);
@@ -375,7 +249,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
             Root<?> entityType = countCriteria.from(model);
             entityType.alias("entitySub");
             countCriteria.select(criteriaBuilder.count(entityType));
-            Predicate restriction = criteriaQuery.getRestriction();
+            var restriction = criteriaQuery.getRestriction();
             if (restriction != null) {
                 countCriteria.where(restriction); // Copy restrictions, throws: 'Invalid path: 'generatedAlias1.message'
             }
@@ -390,45 +264,23 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         }
 
 
-        CroppedCollection<List<T>> collection = new CroppedCollection<>(maxItems.intValue(), result);
-        return collection;
+        return new CroppedCollection<>(maxItems.intValue(), result);
     }
 
     @Override
     public List<T> getAll(List<Operation> conditions, int page, int itemPerPage, List<Order> orders, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         List<T> result = null;
         int start = (page - 1) * itemPerPage;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                    break;
-            }
-
-        }
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
         for(Order o : orders) {
             javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
             orderList.add(order);
         }
-        if(orderList.size() > 0) {
+        if(orderList.isEmpty()) {
             criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))
                 .orderBy(orderList);
         } else {
@@ -453,7 +305,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public Object runSelectNativeQuery(String query, Object... params) {
-        Query nativeQuery = this.entityManager.createNativeQuery(query);
+        var nativeQuery = this.entityManager.createNativeQuery(query);
 
         for (int i = 1; i <= params.length; i++) {
             nativeQuery.setParameter(i, params[i-1]);
@@ -464,7 +316,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public int runUpdateNativeQuery(String query, Object... params) {
-        Query nativeQuery = this.entityManager.createNativeQuery(query);
+        var nativeQuery = this.entityManager.createNativeQuery(query);
 
         for (int i = 1; i <= params.length; i++) {
             nativeQuery.setParameter(i, params[i-1]);
@@ -475,38 +327,10 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public long getCount(List<Operation> conditions, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
         Root<T> entity = criteriaQuery.from(model);
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        T result = null;
-        for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
-            switch(operand.getOperator()) {
-                case EQ:
-                    predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
-                    break;
-                case GE:
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LE:
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(entity.get(operand.getName()), param));
-                    break;
-                case LT:
-                    predicates.add(criteriaBuilder.lessThan(entity.get(operand.getName()), param));
-                    break;
-                case GT:
-                    predicates.add(criteriaBuilder.greaterThan(entity.get(operand.getName()), param));
-                    break;
-                case IS_NULL:
-                    predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
-                    break;
-                case IS_NOT_NULL:
-                    predicates.add(criteriaBuilder.isNotNull(entity.get(operand.getName())));
-                    break;
-            }
-
-        }
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
 
         criteriaQuery.select(criteriaBuilder.count(entity))
             .where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
@@ -526,7 +350,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public Object[] callProc(String procedureName, List<Operation> Operation) {
-        StoredProcedureQuery storedProcedureQuery = this.entityManager.createStoredProcedureQuery(procedureName);
+        var storedProcedureQuery = this.entityManager.createStoredProcedureQuery(procedureName);
         if(Operation != null) {
             for(Operation o : Operation) {
                 storedProcedureQuery.registerStoredProcedureParameter(o.getName(), o.getOperandType(), o.getMode());
@@ -539,14 +363,32 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public List<Object[]> get(List<String> groupBy, List<Operation> conditions, Class<T> model) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createQuery(Tuple.class);
         Root<T> entity = criteriaQuery.from(model);
-        List<Predicate> predicates = new ArrayList<Predicate>();
         List<Object[]>  result = new ArrayList<>();
-        int i=0;
+        List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+
+        for(String groupByProperty : groupBy) {
+            criteriaQuery.groupBy(entity.get(groupByProperty));
+            criteriaQuery.multiselect(entity.get(groupByProperty), criteriaBuilder.count(entity));
+        }
+        List<Tuple> resultList = entityManager.createQuery(criteriaQuery).getResultList();
+        for(Tuple tuple : resultList) {
+            Object[] objects = new Object[2];
+            objects[0] = tuple.get(0);
+            objects[1] = tuple.get(1);
+            result.add(objects);
+        }
+        return result;
+    }
+
+    private List<Predicate> getPredicates(List<Operation> conditions, CriteriaBuilder criteriaBuilder, Root<T> entity) {
+        List<Predicate> predicates = new ArrayList<>();
+        int i = 0;
         for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName()+i);
+            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName() + i);
             switch(operand.getOperator()) {
                 case EQ:
                     predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
@@ -565,27 +407,22 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
                 case LIKE:
                     predicates.add(criteriaBuilder.like(entity.get(operand.getName()), param));
                     break;
+                case IS_NOT_NULL:
+                    predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
+                    break;
+                case IS_NULL:
+                    predicates.add(criteriaBuilder.isNotNull(entity.get(operand.getName())));
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + operand.getOperator());
             }
             i++;
-
         }
-        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-
-        for(String groupByProperty : groupBy) {
-            criteriaQuery.groupBy(entity.get(groupByProperty));
-            criteriaQuery.multiselect(entity.get(groupByProperty), criteriaBuilder.count(entity));
-        }
-        List<Tuple> resultList = entityManager.createQuery(criteriaQuery).getResultList();
-        for(Tuple tuple : resultList) {
-            Object[] objects = new Object[2];
-            objects[0] = tuple.get(0);
-            objects[1] = tuple.get(1);
-            result.add(objects);
-        }
-        return result;
+        return predicates;
     }
 
     public EntityManager getEntityManager() {
         return entityManager;
     }
+
 }

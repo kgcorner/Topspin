@@ -26,8 +26,6 @@ public class Operation {
         LE,
         GT,
         LT,
-        TRUTH,
-        FAKE,
         LIKE,
         IS_NOT_NULL,
         IS_NULL;

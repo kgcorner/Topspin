@@ -49,13 +49,6 @@ public interface DataRepository<T extends Serializable> {
     T update(T model);
 
     /***
-     * Updates given entity
-     * @param model
-     * @return the updated entity
-     */
-    T updateOrCreate(T model);
-
-    /***
      * removes the entity from database
      * @param modelId id (primary key) of the entity to be removed
      * @param model

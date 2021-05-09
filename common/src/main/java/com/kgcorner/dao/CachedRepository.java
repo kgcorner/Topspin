@@ -7,47 +7,121 @@ Created on : 11/8/19
 */
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 public class CachedRepository<T extends Serializable> implements  DataRepository <T> {
     @Override
-    public List<T> getAll(Class<T> type) {
-        return Collections.emptyList();
+    public T create(T model) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<T> getAll(int maxCount, Class<T> type) {
-        return Collections.emptyList();
+    public T update(T model) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<T> getAll(int page, int itemsCount, Class<T> type) {
-        return Collections.emptyList();
+    public T updateOrCreate(T model) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public T getById(String id, Class<T> type) {
-        return null;
+    public void remove(int modelId, Class<T> model) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public T getByKey(String key, String value, Class<T> type) {
-        return null;
+    public void remove(T model) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public T create(T document) {
-        return null;
+    public void remove(Object key, String modelName, String keyName) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public T update(T document) {
-        return null;
+    public T get(int modelId, Class<T> model) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void remove(T document) {
+    public List<T> getIn(List args, String argumentUnderCheck, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
 
+    @Override
+    public List<T> getIn(List args, List<Operation> conditions, String argumentUnderCheck, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<T> getAll(Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<T> getAll(int page, int itemsPerPage, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<T> getAll(List<Operation> conditions, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<T> getAll(List<Operation> conditions, List<Order> orders, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public T get(List<Operation> conditions, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Object[]> getAll(Procedure procedure) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage, List<Order> orders, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<T> getAll(List<Operation> conditions, int page, int itemPerPage, List<Order> orders, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object runSelectNativeQuery(String query, Object... params) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int runUpdateNativeQuery(String query, Object... params) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getCount(List<Operation> OperationList, Class<T> entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object[] callProc(String procedureName, List<Operation> Operation) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Object[]> get(List<String> groupBy, List<Operation> conditions, Class<T> model) {
+        throw new UnsupportedOperationException();
     }
 }

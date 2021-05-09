@@ -12,64 +12,216 @@ import java.util.List;
  */
 
 public interface DataRepository<T extends Serializable> {
-    /**
-     * Get documents available in database
-     * @param type type of the com.kgcorner.topspin.model
-     * @return list of documents
+
+    class Order {
+        private String name;
+        private boolean isAsending;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public boolean isAsending() {
+            return isAsending;
+        }
+
+        public void setAsending(boolean asending) {
+            isAsending = asending;
+        }
+    }
+
+    /***
+     * Persists given entity into database
+     * @param model
+     * @return the created entity
      */
-    List<T> getAll(Class<T> type);
+    T create(T model);
+
+    /***
+     * Creates an entity if it doesn't exist updates otherwise
+     * @param model
+     * @return the updated entity
+     */
+    T update(T model);
+
+    /***
+     * Updates given entity
+     * @param model
+     * @return the updated entity
+     */
+    T updateOrCreate(T model);
+
+    /***
+     * removes the entity from database
+     * @param modelId id (primary key) of the entity to be removed
+     * @param model
+     */
+    void remove(int modelId, Class<T> model );
+
+    /***
+     * removes the entity from database
+     * @param model Object to remove
+     */
+    void remove(T model);
 
     /**
-     * Get at most given number of documents
-     * @param maxCount max number of documents to be fetched
-     * @param type type of the com.kgcorner.topspin.model
-     * @return list of documents
+     * removes a models by its primary key
+     * @param key
+     * @param modelName
+     * @param keyName
      */
-    List<T> getAll(int maxCount, Class<T> type);
+    void remove(Object key, String modelName, String keyName);
+
 
     /**
-     *  Get at most given number of documents from given offset
-     * @param page page number
-     * @param itemsCount number of items in page
-     * @param type type of the com.kgcorner.topspin.model
-     * @return list of documents
-     */
-    List<T> getAll(int page, int itemsCount, Class<T> type);
-
-    /**
-     * Get document identified by given id
-     * @param id
-     * @param type type of the com.kgcorner.topspin.model
+     * Get models which is identified by modelId
+     * @param modelId
+     * @param model
      * @return
      */
-    T getById(String id, Class<T> type);
+    T get(int modelId, Class<T> model);
 
     /**
-     * Get document identified by given id
-     * @param key key to check
-     * @param value key to check
-     * @param type type of the com.kgcorner.topspin.model
-     * @return found document
+     * Performs IN query
+     * @param args list of comma separated values
+     * @param argumentUnderCheck argument on which in clause will be appllied
+     * @param model entity
+     * @return
      */
-    T getByKey(String key, String value, Class<T> type);
+    List<T> getIn(List args, String argumentUnderCheck, Class<T> model);
 
     /**
-     * Creates and return document
-     * @param document
-     * @return saved document
+     * Performs IN query
+     * @param args list of comma separated values
+     * @param conditions list of other conditions
+     * @param argumentUnderCheck argument on which in clause will be appllied
+     * @param model entity
+     * @return
      */
-    T create(T document);
+    List<T> getIn(List args, List<Operation> conditions, String argumentUnderCheck, Class<T> model);
+
+    /***
+     * returns list of models
+     * @return
+     */
+    List<T> getAll(Class<T> model);
+
+    /***
+     * returns list of models
+     * @param page page number
+     * @param model
+     * @param itemsPerPage number of items per page
+     *
+     * @return
+     */
+    List<T> getAll(int page, int itemsPerPage, Class<T> model);
+
+    /***
+     * Fetches entity using given conditions
+     * @param conditions
+     * @param model
+     * @return return extracted entities
+     */
+    List<T> getAll(List<Operation> conditions, Class<T> model);
+
+    /***
+     * Fetches entity using given conditions
+     * @param conditions
+     * @param orders order list
+     * @param model
+     * @return return extracted entities
+     */
+    List<T> getAll(List<Operation> conditions, List<Order> orders, Class<T> model);
+
+    /***
+     * Fetches entity using given conditions
+     * @param conditions
+     * @param model
+     * @return return extracted entities
+     */
+    T get(List<Operation> conditions, Class<T> model);
+
+    /***
+     * executes a procedure
+     * @param procedure
+     * @return output of the procedure
+     */
+    List<Object[]> getAll(Procedure procedure);
 
     /**
-     * Updates given document
-     * @param document
-     * @return returns updated document
+     * Returns paged List
+     * @param conditions
+     * @param page
+     * @param itemPerPage
+     * @param model
+     * @return
      */
-    T update(T document);
+    CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage, Class<T> model);
 
     /**
-     * Deletes the document
-     * @param document
+     * Returns paged List
+     * @param model
+     * @param conditions
+     * @param page
+     * @param itemPerPage
+     * @param orders
+     * @return
      */
-    void remove(T document);
+    CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage,
+                                              List<Order> orders, Class<T> model);
+
+    /**
+     * Fetches entity using given conditions in given order
+     * @param conditions
+     * @param page
+     * @param itemPerPage
+     * @param orders
+     * @param model
+     * @return
+     */
+    List<T> getAll(List<Operation> conditions, int page, int itemPerPage, List<Order> orders, Class<T> model);
+
+    /**
+     * runs a select native query
+     * @param query
+     * @param params
+     * @return
+     */
+    Object runSelectNativeQuery(String query, Object ... params );
+
+    /**
+     * runs a select native query
+     * @param query
+     * @param params
+     * @return
+     */
+    int runUpdateNativeQuery(String query, Object ... params );
+
+    /**
+     * returns count of the items for given conditions
+     * @param OperationList
+     * @param entity
+     */
+    long getCount(List<Operation> OperationList, Class<T> entity);
+
+    /**
+     * Runs given stroed procedure
+     * @param procedureName
+     * @param Operation params
+     * @return result
+     */
+    Object[] callProc(String procedureName, List<Operation> Operation);
+
+    /**
+     * Returns result of group by operation on a table with give condition and group by params
+     * @param groupBy
+     * @param conditions
+     * @param model
+     * @return
+     */
+    List<Object[]> get(List<String> groupBy,List<Operation> conditions, Class<T> model);
 }

@@ -1,7 +1,6 @@
 package com.kgcorner.topspin.service;
 
 
-import com.google.common.base.Strings;
 import com.kgcorner.topspin.dtos.Product;
 import com.kgcorner.topspin.dtos.ProductDTO;
 import com.kgcorner.topspin.dtos.factory.ProductFactory;
@@ -46,6 +45,7 @@ public class ProductService {
                                     String currency, String smallImageUrl, String mediumImageUrl, String largeImageUrl,
                                     String categoryId, String storeId, String brand ) {
         Product product = productPersistenceLayer.getProduct(productId);
-        productFactory
+        //productFactory
+        return null;
     }
 }

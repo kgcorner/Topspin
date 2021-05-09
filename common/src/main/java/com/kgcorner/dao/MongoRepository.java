@@ -20,10 +20,6 @@ import java.util.List;
 public abstract class MongoRepository<T extends Serializable> extends CachedRepository <T> {
     protected MongoTemplate template;
 
-    /**
-     * @see DataRepository#getAll(int, Class)
-     */
-    @Override
     public List getAll(int maxCount, Class<T> type) {
         return getAll(0, maxCount, type);
     }
@@ -40,20 +36,10 @@ public abstract class MongoRepository<T extends Serializable> extends CachedRepo
         return template.find(query, type);
     }
 
-    /**
-     * @see DataRepository#getById(String, Class)
-     */
-    @Override
     public T getById(String id, Class<T> type) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(id));
-        return template.findOne(query, type);
+        return getByKey("id", id, type);
     }
 
-    /**
-     * @see DataRepository#getByKey(String, String, Class)
-     */
-    @Override
     public T getByKey(String key, String value, Class<T> type) {
         Query query = new Query();
         query.addCriteria(Criteria.where(key).is(value));

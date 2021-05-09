@@ -25,7 +25,7 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
 
     @Override
     public Offer getOffer(String offerId) {
-        return offerDao.getById(offerId, OfferModel.class);
+        return offerDao.get(offerId, OfferModel.class);
     }
 
     @Override

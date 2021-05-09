@@ -26,7 +26,7 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     }
 
     @Override
-    public void remove(int modelId, Class<T> model) {
+    public void remove(String modelId, Class<T> model) {
         throw new UnsupportedOperationException();
     }
 
@@ -41,7 +41,7 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     }
 
     @Override
-    public T get(int modelId, Class<T> model) {
+    public T get(String modelId, Class<T> model) {
         throw new UnsupportedOperationException();
     }
 

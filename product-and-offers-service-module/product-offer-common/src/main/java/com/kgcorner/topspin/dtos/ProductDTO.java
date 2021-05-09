@@ -31,7 +31,7 @@ public class ProductDTO extends ResourceSupport implements Product {
     }
 
     @Override
-    public String getProductPrice() {
+    public double getProductPrice() {
         return product.getProductPrice();
     }
 
@@ -41,12 +41,12 @@ public class ProductDTO extends ResourceSupport implements Product {
     }
 
     @Override
-    public String getWasPrice() {
+    public double getWasPrice() {
         return product.getWasPrice();
     }
 
     @Override
-    public String getDiscountedPrice() {
+    public double getDiscountedPrice() {
         return product.getDiscountedPrice();
     }
 

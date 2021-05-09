@@ -48,7 +48,7 @@ public class ProductModel extends AbstractProduct {
 
     @Column(name = "PRODUCT_PRICE")
     @Override
-    public String getProductPrice() {
+    public double getProductPrice() {
         return super.getProductPrice();
     }
 
@@ -60,13 +60,13 @@ public class ProductModel extends AbstractProduct {
 
     @Column(name = "WAS_PRICE")
     @Override
-    public String getWasPrice() {
+    public double getWasPrice() {
         return super.getWasPrice();
     }
 
     @Column(name = "DISCOUNTED_PRICE")
     @Override
-    public String getDiscountedPrice() {
+    public double getDiscountedPrice() {
         return super.getDiscountedPrice();
     }
 

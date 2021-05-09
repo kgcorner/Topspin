@@ -25,7 +25,7 @@ public class MysqlProductPersistenceLayer implements ProductPersistenceLayer {
 
     @Override
     public Product getProduct(String productId) {
-        return productDao.getById(productId, ProductModel.class);
+        return productDao.get(productId, ProductModel.class);
     }
 
     @Override

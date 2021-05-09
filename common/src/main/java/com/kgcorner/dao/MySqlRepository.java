@@ -44,7 +44,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     }
 
     @Override
-    public void remove(int modelId, Class<T> model) {
+    public void remove(String modelId, Class<T> model) {
         T object = get(modelId, model);
         remove(object);
     }
@@ -65,7 +65,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     }
 
     @Override
-    public T get(int modelId, Class<T> model) {
+    public T get(String modelId, Class<T> model) {
         T entity = null;
         try {
             entity = this.entityManager.find(model, modelId);
@@ -583,5 +583,9 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
             result.add(objects);
         }
         return result;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }

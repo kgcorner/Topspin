@@ -60,7 +60,7 @@ public interface DataRepository<T extends Serializable> {
      * @param modelId id (primary key) of the entity to be removed
      * @param model
      */
-    void remove(int modelId, Class<T> model );
+    void remove(String modelId, Class<T> model );
 
     /***
      * removes the entity from database
@@ -83,7 +83,7 @@ public interface DataRepository<T extends Serializable> {
      * @param model
      * @return
      */
-    T get(int modelId, Class<T> model);
+    T get(String modelId, Class<T> model);
 
     /**
      * Performs IN query

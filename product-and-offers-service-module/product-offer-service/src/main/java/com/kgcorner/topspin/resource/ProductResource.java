@@ -15,4 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductResource {
     @Autowired
     private ProductService productService;
+
+
 }

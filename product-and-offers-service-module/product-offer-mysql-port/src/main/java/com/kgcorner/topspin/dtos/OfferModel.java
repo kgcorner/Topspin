@@ -11,7 +11,8 @@ import java.util.List;
  * Author: kumar
  * Created on : 29/04/21
  */
-
+@Entity
+@Table(name="OFFERS")
 public class OfferModel extends AbstractOffer {
 
     @Id

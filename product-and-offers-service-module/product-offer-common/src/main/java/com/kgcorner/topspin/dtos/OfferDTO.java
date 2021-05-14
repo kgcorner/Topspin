@@ -16,7 +16,7 @@ public class OfferDTO extends ResourceSupport implements Offer {
     private AbstractOffer offer;
 
     public OfferDTO(AbstractOffer offer) {
-        offer = offer;
+        this.offer = offer;
     }
 
     @Override

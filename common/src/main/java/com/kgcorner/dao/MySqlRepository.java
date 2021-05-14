@@ -8,6 +8,7 @@ Created on : 11/8/19
 
 import org.apache.log4j.Logger;
 import org.hibernate.jpa.criteria.OrderImpl;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
@@ -45,8 +46,9 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public void remove(T model) {
+        Assert.notNull(model, "entity is null");
         if(!entityManager.contains(model))
-            model = entityManager.merge(model);
+            throw new IllegalArgumentException("No such entity found");
         this.entityManager.remove(model);
     }
 
@@ -65,7 +67,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
             entity = this.entityManager.find(model, modelId);
         }
         catch(NoResultException x) {
-            LOGGER.error("No "+model.getName()+" found with ID:"+modelId);
+            throw new IllegalArgumentException("No "+model.getName()+" found with ID:"+modelId);
         }
         return entity;
     }
@@ -77,7 +79,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         Root<T> entity = criteriaQuery.from(model);
         Expression<String> parentExpression = entity.get(argumentUnderCheck);
         var predicate = parentExpression.in(args);
-        criteriaQuery.select(entity).where(cb.and(predicate));
+        criteriaQuery = criteriaQuery.select(entity).where(cb.and(predicate));
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }
@@ -118,7 +120,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     @Override
     public List<T> getAll(List<Operation> conditions, Class<T> model) {
-        if(conditions == null) {
+        if(conditions == null || conditions.isEmpty()) {
             return getAll(model);
         }
         var criteriaBuilder = this.entityManager.getCriteriaBuilder();
@@ -133,17 +135,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
             typedQuery.setParameter(operand.getName() + i, operand.getValue());
             i++;
         }
-        try{
-            result = typedQuery.getResultList();
-        }
-        catch(NoResultException e) {
-            LOGGER.error(DID_NOT_FOUND + model.getName());
-        }
-        catch(Exception x) {
-            x.printStackTrace();
-        }
-
-        return result;
+        return typedQuery.getResultList();
     }
 
     @Override
@@ -152,24 +144,19 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
         List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
-        List<T> result = null;
-        TypedQuery<T> typedQuery = gettTypedQuery(conditions, orders, criteriaBuilder, (CriteriaQuery<T>) criteriaQuery, (Root<T>) entity, predicates);
-        try{
-            result = typedQuery.getResultList();
-        }
-        catch(NoResultException e) {
-            LOGGER.error(DID_NOT_FOUND +model.getName());
-        }
-        return result;
+        TypedQuery<T> typedQuery = getTypedQuery(conditions, orders, criteriaBuilder,
+            criteriaQuery, entity, predicates);
+        return typedQuery.getResultList();
     }
 
-    private TypedQuery<T> gettTypedQuery(List<Operation> conditions, List<Order> orders, CriteriaBuilder criteriaBuilder, CriteriaQuery<T> criteriaQuery, Root<T> entity, List<Predicate> predicates) {
+    private TypedQuery<T> getTypedQuery(List<Operation> conditions, List<Order> orders, CriteriaBuilder criteriaBuilder,
+                                        CriteriaQuery<T> criteriaQuery, Root<T> entity, List<Predicate> predicates) {
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
         for (Order o : orders) {
             javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
             orderList.add(order);
         }
-        if (orderList.isEmpty()) {
+        if (!orderList.isEmpty()) {
             criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))
                 .orderBy(orderList);
         } else {
@@ -194,13 +181,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         for(Operation operand : conditions) {
             typedQuery.setParameter(operand.getName(), operand.getValue());
         }
-        try{
-            result = typedQuery.getSingleResult();
-        }
-        catch(NoResultException e) {
-            LOGGER.error(DID_NOT_FOUND + model.getName());
-        }
-        return result;
+        return typedQuery.getSingleResult();
     }
 
     @Override
@@ -220,24 +201,25 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     }
 
     @Override
-    public CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage, List<Order> orders, Class<T> model) {
+    public CroppedCollection<List<T>> getCroppedList(List<Operation> conditions, int page, int itemPerPage,
+                                                     List<Order> orders, Class<T> model) {
         var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
         entity.alias("entitySub");
         List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         List<T> result = null;
-        int start = (page - 1) * itemPerPage;
+        int start = (page - 1) * itemPerPage + 1;
 
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
-        if(orders != null && orders.isEmpty()) {
+        if(orders != null && !orders.isEmpty()) {
             for (Order o : orders) {
                 javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
                 orderList.add(order);
             }
         }
 
-        if(orderList.isEmpty()) {
+        if(!orderList.isEmpty()) {
             criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))
                 .orderBy(orderList);
         } else {
@@ -248,27 +230,20 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         for(Operation operand : conditions) {
             typedQuery.setParameter(operand.getName(), operand.getValue());
         }
-        try{
-            result = typedQuery.setFirstResult(start).setMaxResults(itemPerPage).getResultList();
-            CriteriaQuery<Long> countCriteria = criteriaBuilder.createQuery(Long.class);
-            Root<?> entityType = countCriteria.from(model);
-            entityType.alias("entitySub");
-            countCriteria.select(criteriaBuilder.count(entityType));
-            var restriction = criteriaQuery.getRestriction();
-            if (restriction != null) {
-                countCriteria.where(restriction); // Copy restrictions, throws: 'Invalid path: 'generatedAlias1.message'
-            }
-            TypedQuery<Long> countTypedQuery = this.entityManager.createQuery(countCriteria);
-            for(Operation operand : conditions) {
-                countTypedQuery.setParameter(operand.getName(), operand.getValue());
-            }
-            maxItems = countTypedQuery.getSingleResult();
+        result = typedQuery.setFirstResult(start).setMaxResults(itemPerPage).getResultList();
+        CriteriaQuery<Long> countCriteria = criteriaBuilder.createQuery(Long.class);
+        Root<?> entityType = countCriteria.from(model);
+        entityType.alias("entitySub");
+        countCriteria.select(criteriaBuilder.count(entityType));
+        var restriction = criteriaQuery.getRestriction();
+        if (restriction != null) {
+            countCriteria.where(restriction); // Copy restrictions, throws: 'Invalid path: 'generatedAlias1.message'
         }
-        catch(NoResultException e) {
-            LOGGER.error(DID_NOT_FOUND + model.getName());
+        TypedQuery<Long> countTypedQuery = this.entityManager.createQuery(countCriteria);
+        for(Operation operand : conditions) {
+            countTypedQuery.setParameter(operand.getName(), operand.getValue());
         }
-
-
+        maxItems = countTypedQuery.getSingleResult();
         return new CroppedCollection<>(maxItems.intValue(), result);
     }
 
@@ -279,17 +254,12 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         Root<T> entity = criteriaQuery.from(model);
         List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         List<T> result = null;
-        int start = (page - 1) * itemPerPage;
-        TypedQuery<T> typedQuery = gettTypedQuery(conditions, orders, criteriaBuilder, criteriaQuery, entity, predicates);
-        try{
-            if(page > 0) {
-                result = typedQuery.setFirstResult(start).setMaxResults(itemPerPage).getResultList();
-            } else {
-                result = typedQuery.getResultList();
-            }
-        }
-        catch(NoResultException e) {
-            LOGGER.error(DID_NOT_FOUND + model.getName());
+        int start = (page - 1) * itemPerPage + 1;
+        TypedQuery<T> typedQuery = getTypedQuery(conditions, orders, criteriaBuilder, criteriaQuery, entity, predicates);
+        if(page > 0) {
+            result = typedQuery.setFirstResult(start).setMaxResults(itemPerPage).getResultList();
+        } else {
+            result = typedQuery.getResultList();
         }
         return result;
     }
@@ -330,13 +300,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         for(Operation operand : conditions) {
             typedQuery.setParameter(operand.getName(), operand.getValue());
         }
-        try{
-            return typedQuery.getSingleResult();
-        }
-        catch(NoResultException e) {
-            LOGGER.error(DID_NOT_FOUND + model.getName());
-        }
-        return 0;
+        return typedQuery.getSingleResult();
     }
 
     @Override
@@ -400,13 +364,11 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
                     predicates.add(criteriaBuilder.like(entity.get(operand.getName()), param));
                     break;
                 case IS_NOT_NULL:
-                    predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
-                    break;
-                case IS_NULL:
                     predicates.add(criteriaBuilder.isNotNull(entity.get(operand.getName())));
                     break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + operand.getOperator());
+                case IS_NULL:
+                    predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
+                    break;
             }
             i++;
         }

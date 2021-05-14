@@ -7,6 +7,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,7 +34,10 @@ public class CategoryClient {
      */
     public List<CategoryResponse> getAll(int page, int itemsPerPage) {
         Resources<CategoryResponse> body = categoryResourceClient.getAll(page, itemsPerPage).getBody();
-        return new ArrayList<>(body.getContent());
+        if(body != null)
+            return new ArrayList<>(body.getContent());
+        else
+            return Collections.emptyList();
     }
 
     /**

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,7 +69,10 @@ public class StoreClient {
         ResponseEntity<Resources<StoreResponse>> allStoresResourcesBody = storeResourceClient.getAllStores(page,
             perPageItems);
         Resources<StoreResponse> allStoresResources = allStoresResourcesBody.getBody();
-        return new ArrayList<>(allStoresResources.getContent());
+        if(allStoresResourcesBody != null)
+            return new ArrayList<>(allStoresResources.getContent());
+        else
+            return Collections.emptyList();
     }
     
 }

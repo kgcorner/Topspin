@@ -36,14 +36,10 @@ public final class JwtUtility {
     }
 
     public static boolean validateToken(String salt, String token) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(salt);
-            JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
-            verifier.verify(token);
-            return true;
-        } catch (Exception x) {
-            return false;
-        }
+        Algorithm algorithm = Algorithm.HMAC256(salt);
+        JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+        verifier.verify(token);
+        return true;
     }
 
     public static String getClaim(String key, String token) {

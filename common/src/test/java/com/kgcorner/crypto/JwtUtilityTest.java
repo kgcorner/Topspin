@@ -1,8 +1,6 @@
 package com.kgcorner.crypto;
 
-import com.auth0.jwt.JWT;
 import org.junit.Test;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +13,6 @@ import static org.junit.Assert.*;
  * Created on : 18/11/19
  */
 
-@PrepareForTest(JWT.class)
 public class JwtUtilityTest {
     private static final String SALT = "salt";
     private static final int EXPIRE_IN = 100;
@@ -35,6 +32,7 @@ public class JwtUtilityTest {
         assertEquals("Submitted payload is not matching", "abc", payload);
     }
 
+
     @Test
     public void validateToken() {
         Map<String, String> claims = new HashMap<>();
@@ -43,5 +41,4 @@ public class JwtUtilityTest {
         assertNotNull("Generated toke is null", token);
         assertTrue("Token validation failed", JwtUtility.validateToken(SALT, token));
     }
-
 }

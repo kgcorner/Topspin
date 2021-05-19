@@ -56,10 +56,10 @@ public class OfferService {
         } catch (Exception x) {
             throw new IllegalArgumentException("Failed to find store with id " + storeId, x);
         }
-        Category category = categoryFactory.createCategory(categoryDTO.getCategoryId(),
+        var category = categoryFactory.createCategory(categoryDTO.getCategoryId(),
             categoryDTO.getName(), categoryDTO.getDescription());
-        Store store = storeFactory.createStore(storeDTO.getStoreId(), storeDTO.getName(), storeDTO.getDescription());
-        Offer offer = offerFactory.createOffer(title, description, lastDate,category, store, url,
+        var store = storeFactory.createStore(storeDTO.getStoreId(), storeDTO.getName(), storeDTO.getDescription());
+        var offer = offerFactory.createOffer(title, description, lastDate,category, store, url,
             maxDiscount, thumbnails, String.format(storeDTO.getSurferPlaceHolder(), url), featured);
 
         offer = offerPersistenceLayer.createOffer(offer);
@@ -67,7 +67,7 @@ public class OfferService {
     }
 
     public OfferDTO getOffer(String offerId) {
-        Offer offer = offerPersistenceLayer.getOffer(offerId);
+        var offer = offerPersistenceLayer.getOffer(offerId);
         return new OfferDTO((AbstractOffer) offer);
     }
 }

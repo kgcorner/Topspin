@@ -131,8 +131,8 @@ public class ProductDTO extends ResourceSupport implements Product {
     }
 
     @Override
-    public String getCategoryId() {
-        return product.getCategoryId();
+    public Category getCategory() {
+        return product.getCategory();
     }
 
     @Override
@@ -141,8 +141,8 @@ public class ProductDTO extends ResourceSupport implements Product {
     }
 
     @Override
-    public String getStoreId() {
-        return product.getStoreId();
+    public Store getStore() {
+        return product.getStore();
     }
 
     @Override

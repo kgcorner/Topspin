@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.dtos;
 
 import org.junit.Test;
+import org.powermock.api.mockito.PowerMockito;
 
 import static org.junit.Assert.assertEquals;
 
@@ -60,11 +61,11 @@ public class ProductModelTest {
 
         String custom5 = "c5";
 
-        String categoryId = "cid";
+        Category category = PowerMockito.mock(Category.class);
 
         String categoryPathAsString = " cat1";
 
-        String storeId = "sid";
+        Store store = PowerMockito.mock(Store.class);
 
         int viewCount = 500;
 
@@ -73,7 +74,7 @@ public class ProductModelTest {
         ProductModel demoProductDTO = new ProductModel();
         demoProductDTO.setProductId(id);
         demoProductDTO.setBrand(brand);
-        demoProductDTO.setCategoryId(categoryId);
+        demoProductDTO.setCategory(category);
         demoProductDTO.setColor(color);
         demoProductDTO.setCategoryPathAsString(categoryPathAsString);
         demoProductDTO.setCustom1(custom1);
@@ -99,7 +100,7 @@ public class ProductModelTest {
         demoProductDTO.setStockAvailability(stockAvailability);
         demoProductDTO.setStoreName(storeName);
         demoProductDTO.setViewCount(viewCount);
-        demoProductDTO.setStoreId(storeId);
+        demoProductDTO.setStore(store);
         demoProductDTO.setWasPrice(wasPrice);
         assertEquals(productName, demoProductDTO.getProductName());
 
@@ -145,11 +146,11 @@ public class ProductModelTest {
 
         assertEquals(custom5, demoProductDTO.getCustom5());
 
-        assertEquals(categoryId, demoProductDTO.getCategoryId());
+        assertEquals(category, demoProductDTO.getCategory());
 
         assertEquals(categoryPathAsString, demoProductDTO.getCategoryPathAsString());
 
-        assertEquals(storeId, demoProductDTO.getStoreId());
+        assertEquals(store, demoProductDTO.getStore());
 
         assertEquals(viewCount, demoProductDTO.getViewCount());
 

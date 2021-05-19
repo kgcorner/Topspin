@@ -55,11 +55,11 @@ public abstract class AbstractProduct implements Product{
 
     private String custom5;
 
-    private String categoryId;
+    private Category category;
 
     private String categoryPathAsString;
 
-    private String storeId;
+    private Store store;
 
     private int viewCount;
 
@@ -157,16 +157,16 @@ public abstract class AbstractProduct implements Product{
         return custom5;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
     public String getCategoryPathAsString() {
         return categoryPathAsString;
     }
 
-    public String getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
     public int getViewCount() {
@@ -269,16 +269,16 @@ public abstract class AbstractProduct implements Product{
         this.custom5 = custom5;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public void setCategoryPathAsString(String categoryPathAsString) {
         this.categoryPathAsString = categoryPathAsString;
     }
 
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public void setViewCount(int viewCount) {

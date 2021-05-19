@@ -168,8 +168,8 @@ public class ProductModel extends AbstractProduct {
 
     @Column(name = "CATEGORY_ID")
     @Override
-    public String getCategoryId() {
-        return super.getCategoryId();
+    public Category getCategory() {
+        return super.getCategory();
     }
 
     @Column(name = "CATEGORY_PATH_AS_STRING")
@@ -180,8 +180,8 @@ public class ProductModel extends AbstractProduct {
 
     @Column(name = "STORE_ID")
     @Override
-    public String getStoreId() {
-        return super.getStoreId();
+    public Store getStore() {
+        return super.getStore();
     }
 
     @Column(name = "VIEW_COUNT")

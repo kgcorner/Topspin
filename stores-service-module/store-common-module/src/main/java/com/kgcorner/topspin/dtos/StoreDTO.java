@@ -23,10 +23,6 @@ public class StoreDTO extends ResourceSupport implements Store {
         this.categories = new ArrayList<>();
     }
 
-    public StoreDTO() {
-        store = this;
-    }
-
     @Override
     public String getStoreId() {
         return store.getStoreId();

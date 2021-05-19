@@ -62,9 +62,9 @@ public interface Product extends Serializable {
 
     String getCategoryPathAsString();
 
-    String getStoreId();
+    Store getStore();
 
-    String getCategoryId();
+    Category getCategory();
 
     int getViewCount();
 

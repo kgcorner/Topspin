@@ -14,5 +14,5 @@ import com.kgcorner.topspin.dtos.Store;
 public interface ProductFactory {
     Product createProduct(String title, String description, double price, double discountedPrice,
                           String currency, String smallImageUrl, String mediumImageUrl, String largeImageUrl,
-                          Category category, Store store, String brand);
+                          Category category, Store store, String brand, String url);
 }

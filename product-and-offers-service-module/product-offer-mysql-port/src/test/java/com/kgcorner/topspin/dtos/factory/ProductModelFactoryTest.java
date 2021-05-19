@@ -29,11 +29,12 @@ public class ProductModelFactoryTest {
         String productMediumImageUrl = "mediumUrl";
         String productLargeImageUrl = "largeUrl";
         String brand = "Brand";
+        String url = "url";
         Category category = PowerMockito.mock(Category.class);
         Store store = PowerMockito.mock(Store.class);
         Product product = new ProductModelFactory().createProduct(productName, productDescription, productPrice,
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl
-        ,productLargeImageUrl, category, store, brand);
+        ,productLargeImageUrl, category, store, brand, url);
 
         assertEquals(productName, product.getProductName());
 

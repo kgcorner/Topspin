@@ -50,7 +50,7 @@ public class ProductService {
 
     public ProductDTO createProduct(String title, String description, double price, double discountedPrice,
                                     String currency, String smallImageUrl, String mediumImageUrl, String largeImageUrl,
-                                    String categoryId, String storeId, String brand) {
+                                    String categoryId, String storeId, String brand, String url) {
         CategoryResponse categoryDTO;
         StoreResponse storeDTO;
         try {
@@ -68,7 +68,7 @@ public class ProductService {
         var store = storeFactory.createStore(storeDTO.getStoreId(), storeDTO.getName(), storeDTO.getDescription());
         Product product = productFactory.createProduct(title, description, price, discountedPrice,
             currency, smallImageUrl, mediumImageUrl,
-            largeImageUrl, category, store, brand);
+            largeImageUrl, category, store, brand, String.format(storeDTO.getSurferPlaceHolder(), url));
         product = productPersistenceLayer.createProduct(product);
         return new ProductDTO(product);
     }

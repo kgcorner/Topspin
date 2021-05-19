@@ -19,7 +19,7 @@ public class ProductModelFactory implements ProductFactory {
     @Override
     public Product createProduct(String title, String description, double price, double discountedPrice,
                                  String currency, String smallImageUrl, String mediumImageUrl,
-                                 String largeImageUrl, Category category, Store store, String brand) {
+                                 String largeImageUrl, Category category, Store store, String brand, String url) {
         ProductModel productModel = new ProductModel();
         productModel.setProductId(generateProductId());
         productModel.setCategory(category);
@@ -33,6 +33,7 @@ public class ProductModelFactory implements ProductFactory {
         productModel.setProductMediumImageUrl(mediumImageUrl);
         productModel.setProductLargeImageUrl(largeImageUrl);
         productModel.setStore(store);
+        productModel.setProductUrl(url);
         return productModel;
     }
 

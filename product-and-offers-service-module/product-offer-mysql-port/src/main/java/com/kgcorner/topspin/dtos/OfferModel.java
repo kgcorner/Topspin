@@ -52,7 +52,15 @@ public class OfferModel extends AbstractOffer {
 
     @Override
     public void setThumbnails(List<String> thumbnails) {
-        super.setThumbnails(thumbnails);
+        StringBuilder sb = new StringBuilder();
+        for(String t : thumbnails) {
+            sb.append(t+",");
+        }
+        int len = sb.length();
+        if(len > 1)
+            this.thumbnails = sb.substring(0, len -1);
+        else
+            this.thumbnails = "";
     }
 
     @Column(name ="URL")

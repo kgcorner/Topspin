@@ -69,7 +69,7 @@ public class StoreClient {
         ResponseEntity<Resources<StoreResponse>> allStoresResourcesBody = storeResourceClient.getAllStores(page,
             perPageItems);
         Resources<StoreResponse> allStoresResources = allStoresResourcesBody.getBody();
-        if(allStoresResourcesBody != null)
+        if(allStoresResources != null)
             return new ArrayList<>(allStoresResources.getContent());
         else
             return Collections.emptyList();

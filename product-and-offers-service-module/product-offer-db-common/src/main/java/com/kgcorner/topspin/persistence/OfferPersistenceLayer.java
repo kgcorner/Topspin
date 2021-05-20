@@ -1,6 +1,8 @@
 package com.kgcorner.topspin.persistence;
 
+import com.kgcorner.topspin.dtos.Category;
 import com.kgcorner.topspin.dtos.Offer;
+import com.kgcorner.topspin.dtos.Store;
 
 import java.util.List;
 
@@ -50,19 +52,19 @@ public interface OfferPersistenceLayer {
 
     /**
      * Returns offer per page from a category
-     * @param categoryId
+     * @param category
      * @param page
      * @param itemsPerPage
      * @return
      */
-    List<Offer> getAllOfferFromCategory(String categoryId, int page, int itemsPerPage);
+    List<Offer> getAllOfferFromCategory(Category category, int page, int itemsPerPage);
 
     /**
      * Returns all offer from a store
-     * @param storeId
+     * @param store
      * @param page
      * @param itemsPerPage
      * @return
      */
-    List<Offer> getAllOfferFromStore(String storeId, int page, int itemsPerPage);
+    List<Offer> getAllOfferFromStore(Store store, int page, int itemsPerPage);
 }

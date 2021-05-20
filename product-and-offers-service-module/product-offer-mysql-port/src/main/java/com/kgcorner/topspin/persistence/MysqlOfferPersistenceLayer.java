@@ -1,13 +1,12 @@
 package com.kgcorner.topspin.persistence;
 
 
+import com.kgcorner.dao.Operation;
 import com.kgcorner.topspin.dao.MysqlOfferDao;
-import com.kgcorner.topspin.dtos.Offer;
-import com.kgcorner.topspin.dtos.OfferModel;
+import com.kgcorner.topspin.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +39,8 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
 
     @Override
     public List<Offer> getAll(int page, int itemPerPage) {
-        List<OfferModel> all = offerDao.getAll(page, itemPerPage, OfferModel.class);
-        List<Offer> offers = new ArrayList<>();
-        for(Offer offer : all) {
-            offers.add(offer);
-        }
-        return offers;
+        List<OfferModel> models = offerDao.getAll(page, itemPerPage, OfferModel.class);
+        return createOfferList(models);
     }
 
     @Override
@@ -57,22 +52,34 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
     }
 
     @Override
-    public List<Offer> getAllOfferFromCategory(String categoryId, int page, int itemsPerPage) {
-        String hql = "from offer where category=:category";
-        Query query = this.offerDao.getEntityManager().createQuery(hql);
-        query.setParameter("category", categoryId);
-        int first = page * itemsPerPage;
-        query.setFirstResult(first).setMaxResults(itemsPerPage);
-        return query.getResultList();
+    public List<Offer> getAllOfferFromCategory(Category category, int page, int itemsPerPage) {
+        if(!(category instanceof CategoryReferenceModel)) {
+            throw new IllegalArgumentException("Unexpected Category type");
+        }
+        List<Operation> operations = new ArrayList<>();
+        operations.add(new Operation(category, CategoryReferenceModel.class,
+            "category", Operation.OPERATORS.EQ));
+        List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage, null, OfferModel.class);
+        return createOfferList(models);
     }
 
     @Override
-    public List<Offer> getAllOfferFromStore(String storeId, int page, int itemsPerPage) {
-        String hql = "from offer where store =:store";
-        Query query = this.offerDao.getEntityManager().createQuery(hql);
-        query.setParameter("store", storeId);
-        int first = page * itemsPerPage;
-        query.setFirstResult(first).setMaxResults(itemsPerPage);
-        return query.getResultList();
+    public List<Offer> getAllOfferFromStore(Store store, int page, int itemsPerPage) {
+        if(!(store instanceof StoreReferenceModel)) {
+            throw new IllegalArgumentException("Unexpected store type");
+        }
+        List<Operation> operations = new ArrayList<>();
+        operations.add(new Operation(store, StoreReferenceModel.class,
+            "store", Operation.OPERATORS.EQ));
+        List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage, null, OfferModel.class);
+        return createOfferList(models);
+    }
+
+    private List<Offer> createOfferList(List<OfferModel> models) {
+        List<Offer> offers = new ArrayList<>();
+        for(Offer o : models) {
+            offers.add(o);
+        }
+        return offers;
     }
 }

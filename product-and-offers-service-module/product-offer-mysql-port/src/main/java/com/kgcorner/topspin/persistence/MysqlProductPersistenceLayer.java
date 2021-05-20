@@ -1,14 +1,14 @@
 package com.kgcorner.topspin.persistence;
 
 
+import com.kgcorner.dao.Operation;
 import com.kgcorner.topspin.dao.MysqlProductDao;
-import com.kgcorner.topspin.dtos.Product;
-import com.kgcorner.topspin.dtos.ProductModel;
+import com.kgcorner.topspin.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,32 +40,34 @@ public class MysqlProductPersistenceLayer implements ProductPersistenceLayer {
 
     @Override
     public List<Product> getAll(int page, int itemPerPage) {
-        List<Product> products = new ArrayList<>();
         List<ProductModel> models = productDao.getAll(page, itemPerPage, ProductModel.class);
-        for(Product p : models) {
-            products.add(p);
+        return createProductList(models);
+    }
+
+    @Override
+    public List<Product> getAllFromCategory(Category category, int page, int itemPerPage) {
+        if(!(category instanceof CategoryReferenceModel)) {
+            throw new IllegalArgumentException("Unexpected Category type");
         }
-        return products;
+        List<Operation> operations = new ArrayList<>();
+        operations.add(new Operation(category, CategoryReferenceModel.class,
+            "category", Operation.OPERATORS.EQ));
+        List<ProductModel> models = productDao.getAll(operations, page, itemPerPage,
+            null, ProductModel.class);
+        return createProductList(models);
     }
 
     @Override
-    public List<Product> getAllFromCategory(String categoryId, int page, int itemPerPage) {
-        String hql = "from product where category=:category";
-        Query query = this.productDao.getEntityManager().createQuery(hql);
-        query.setParameter("category", categoryId);
-        int first = page * itemPerPage;
-        query.setFirstResult(first).setMaxResults(itemPerPage);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Product> getAllFromStore(String storeId, int page, int itemPerPage) {
-        String hql = "from product where store=:store";
-        Query query = this.productDao.getEntityManager().createQuery(hql);
-        query.setParameter("store", storeId);
-        int first = page * itemPerPage;
-        query.setFirstResult(first).setMaxResults(itemPerPage);
-        return query.getResultList();
+    public List<Product> getAllFromStore(Store store, int page, int itemPerPage) {
+        if(!(store instanceof StoreReferenceModel)) {
+            throw new IllegalArgumentException("Unexpected store type");
+        }
+        List<Operation> operations = new ArrayList<>();
+        operations.add(new Operation(store, StoreReferenceModel.class,
+            "store", Operation.OPERATORS.EQ));
+        List<ProductModel> models = productDao.getAll(operations, page, itemPerPage,
+            Collections.emptyList(), ProductModel.class);
+        return createProductList(models);
     }
 
     @Override
@@ -74,5 +76,13 @@ public class MysqlProductPersistenceLayer implements ProductPersistenceLayer {
         if(product == null)
             throw new IllegalArgumentException("No such product exists");
         productDao.remove((ProductModel) product);
+    }
+
+    private List<Product> createProductList(List<ProductModel> models) {
+        List<Product> products = new ArrayList<>();
+        for(Product p : models) {
+            products.add(p);
+        }
+        return products;
     }
 }

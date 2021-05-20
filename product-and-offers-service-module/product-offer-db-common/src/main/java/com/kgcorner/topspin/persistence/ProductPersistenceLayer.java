@@ -1,6 +1,8 @@
 package com.kgcorner.topspin.persistence;
 
+import com.kgcorner.topspin.dtos.Category;
 import com.kgcorner.topspin.dtos.Product;
+import com.kgcorner.topspin.dtos.Store;
 
 import java.util.List;
 
@@ -44,21 +46,21 @@ public interface ProductPersistenceLayer {
 
     /**
      * Fetch product by category
-     * @param categoryId
+     * @param category
      * @param page
      * @param itemPerPage
      * @return
      */
-    List<Product> getAllFromCategory(String categoryId, int page, int itemPerPage);
+    List<Product> getAllFromCategory(Category category, int page, int itemPerPage);
 
     /**
      * Get all product from a given store
-     * @param categoryId
+     * @param store
      * @param page
      * @param itemPerPage
      * @return
      */
-    List<Product> getAllFromStore(String categoryId, int page, int itemPerPage);
+    List<Product> getAllFromStore(Store store, int page, int itemPerPage);
 
     /**
      * Removes the product with given id

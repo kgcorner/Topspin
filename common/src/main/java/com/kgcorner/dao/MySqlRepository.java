@@ -152,9 +152,11 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     private TypedQuery<T> getTypedQuery(List<Operation> conditions, List<Order> orders, CriteriaBuilder criteriaBuilder,
                                         CriteriaQuery<T> criteriaQuery, Root<T> entity, List<Predicate> predicates) {
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
-        for (Order o : orders) {
-            javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
-            orderList.add(order);
+        if(orders != null) {
+            for (Order o : orders) {
+                javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
+                orderList.add(order);
+            }
         }
         if (!orderList.isEmpty()) {
             criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))

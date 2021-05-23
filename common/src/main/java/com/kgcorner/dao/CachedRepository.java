@@ -41,12 +41,12 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     }
 
     @Override
-    public List<T> getIn(List args, String argumentUnderCheck, Class<T> model) {
+    public List<T> getIn(List<?> args, String argumentUnderCheck, Class<T> model) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<T> getIn(List args, List<Operation> conditions, String argumentUnderCheck, Class<T> model) {
+    public List<T> getIn(List<?> args, List<Operation> conditions, String argumentUnderCheck, Class<T> model) {
         throw new UnsupportedOperationException();
     }
 
@@ -106,12 +106,12 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
     }
 
     @Override
-    public long getCount(List<Operation> OperationList, Class<T> entity) {
+    public long getCount(List<Operation> operationList, Class<T> entity) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Object[] callProc(String procedureName, List<Operation> Operation) {
+    public Object[] callProc(String procedureName, List<Operation> operation) {
         throw new UnsupportedOperationException();
     }
 

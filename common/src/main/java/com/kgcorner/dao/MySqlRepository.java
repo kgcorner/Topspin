@@ -6,7 +6,6 @@ Author: kumar
 Created on : 11/8/19
 */
 
-import org.apache.log4j.Logger;
 import org.hibernate.jpa.criteria.OrderImpl;
 import org.springframework.util.Assert;
 
@@ -17,9 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MySqlRepository<T extends Serializable> extends CachedRepository <T>{
-
-    private static final Logger LOGGER = Logger.getLogger(MySqlRepository.class);
-    public static final String DID_NOT_FOUND = "Did not found ";
 
     @PersistenceContext
     protected EntityManager entityManager;
@@ -73,7 +69,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     }
 
     @Override
-    public List<T> getIn(List args, String argumentUnderCheck, Class<T> model) {
+    public List<T> getIn(List<?> args, String argumentUnderCheck, Class<T> model) {
         var cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = cb.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
@@ -85,7 +81,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
     }
 
     @Override
-    public List<T> getIn(List args, List<Operation> conditions, String argumentUnderCheck, Class<T> model) {
+    public List<T> getIn(List<?> args, List<Operation> conditions, String argumentUnderCheck, Class<T> model) {
         var criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(model);
         Root<T> entity = criteriaQuery.from(model);
@@ -129,7 +125,6 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         List<Predicate> predicates = getPredicates(conditions, criteriaBuilder, entity);
         criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
-        List<T> result = null;
         var i=0;
         for(Operation operand : conditions) {
             typedQuery.setParameter(operand.getName() + i, operand.getValue());
@@ -228,7 +223,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
             criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         }
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
-        Long maxItems = 0L;
+
         for(Operation operand : conditions) {
             typedQuery.setParameter(operand.getName(), operand.getValue());
         }
@@ -245,7 +240,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         for(Operation operand : conditions) {
             countTypedQuery.setParameter(operand.getName(), operand.getValue());
         }
-        maxItems = countTypedQuery.getSingleResult();
+        Long maxItems = countTypedQuery.getSingleResult();
         return new CroppedCollection<>(maxItems.intValue(), result);
     }
 

@@ -85,7 +85,7 @@ public interface DataRepository<T extends Serializable> {
      * @param model entity
      * @return
      */
-    List<T> getIn(List args, String argumentUnderCheck, Class<T> model);
+    List<T> getIn(List<?> args, String argumentUnderCheck, Class<T> model);
 
     /**
      * Performs IN query
@@ -95,7 +95,7 @@ public interface DataRepository<T extends Serializable> {
      * @param model entity
      * @return
      */
-    List<T> getIn(List args, List<Operation> conditions, String argumentUnderCheck, Class<T> model);
+    List<T> getIn(List<?> args, List<Operation> conditions, String argumentUnderCheck, Class<T> model);
 
     /***
      * returns list of models
@@ -196,18 +196,18 @@ public interface DataRepository<T extends Serializable> {
 
     /**
      * returns count of the items for given conditions
-     * @param OperationList
+     * @param operationList
      * @param entity
      */
-    long getCount(List<Operation> OperationList, Class<T> entity);
+    long getCount(List<Operation> operationList, Class<T> entity);
 
     /**
      * Runs given stroed procedure
      * @param procedureName
-     * @param Operation params
+     * @param operation params
      * @return result
      */
-    Object[] callProc(String procedureName, List<Operation> Operation);
+    Object[] callProc(String procedureName, List<Operation> operation);
 
     /**
      * Returns result of group by operation on a table with give condition and group by params

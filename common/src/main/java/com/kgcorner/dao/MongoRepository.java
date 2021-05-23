@@ -20,7 +20,7 @@ import java.util.List;
 public abstract class MongoRepository<T extends Serializable> extends CachedRepository <T> {
     protected MongoTemplate template;
 
-    public List getAll(int maxCount, Class<T> type) {
+    public List<T> getAll(int maxCount, Class<T> type) {
         return getAll(0, maxCount, type);
     }
 

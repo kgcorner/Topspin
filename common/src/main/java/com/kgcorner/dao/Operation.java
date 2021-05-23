@@ -16,9 +16,9 @@ public class Operation {
         NUMBER
     }
 
-    public Class classType;
+    private Class<?> classType;
 
-    public ParameterMode mode;
+    private ParameterMode mode;
 
     public enum OPERATORS {
         GE,
@@ -74,7 +74,7 @@ public class Operation {
      * @param name name of the field in this object which will be used for comparision
      * @param operator {@link Operation} which will be applied on this operand
      */
-    public Operation(Object value, Class type, String name, OPERATORS operator) {
+    public Operation(Object value, Class<?> type, String name, OPERATORS operator) {
         super();
         this.value = value;
         this.classType = type;
@@ -108,25 +108,25 @@ public class Operation {
         this.name = name;
     }
 
-    public Class getOperandType() {
-        Class type = null;
+    public Class<?> getOperandType() {
+        Class tmpType = null;
         if(this.type != null) {
             switch (this.type) {
                 case BOOLEAN:
-                    type = Boolean.class;
+                    tmpType = Boolean.class;
                     break;
                 case STRING:
-                    type = String.class;
+                    tmpType = String.class;
                     break;
                 case NUMBER:
-                    type = Integer.class;
+                    tmpType = Integer.class;
                     break;
             }
         }
         else {
-            type = classType;
+            tmpType = classType;
         }
-        return type;
+        return tmpType;
     }
 
     public ParameterMode getMode() {

@@ -1,12 +1,9 @@
 package com.kgcorner.dao;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.ParameterMode;
-
-import static org.junit.Assert.*;
 
 
 /**
@@ -90,5 +87,8 @@ public class OperationTest {
 
     @Test
     public void getOperator() {
+        Operation operation = new Operation("Some Value", Operation.TYPES.STRING, "TmpName",
+            Operation.OPERATORS.EQ);
+        Assert.assertEquals(Operation.OPERATORS.EQ, operation.getOperator());
     }
 }

@@ -3,7 +3,6 @@ package com.kgcorner.topspin.dtos;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Description : <Write class Description>
@@ -30,7 +29,7 @@ public class OfferDTO extends ResourceSupport implements Offer {
     }
 
     @Override
-    public List<String> getThumbnails() {
+    public String getThumbnails() {
         return offer.getThumbnails();
     }
 

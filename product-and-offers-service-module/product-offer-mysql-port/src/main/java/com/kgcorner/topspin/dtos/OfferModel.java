@@ -2,9 +2,7 @@ package com.kgcorner.topspin.dtos;
 
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Description : <Write class Description>
@@ -15,11 +13,8 @@ import java.util.List;
 @Table(name="OFFERS")
 public class OfferModel extends AbstractOffer {
 
-    @Id
-    @Column(name = "ID")
     private String id;
 
-    @Column(name ="THUMBNAILS")
     private String thumbnails;
 
     @Column(name ="TITLE")
@@ -45,22 +40,14 @@ public class OfferModel extends AbstractOffer {
     }
 
 
-    @Override
-    public List<String> getThumbnails() {
-        return Arrays.asList(thumbnails.split(","));
+    @Column(name ="THUMBNAILS")
+    public String getThumbnails() {
+        return thumbnails;
     }
 
-    @Override
-    public void setThumbnails(List<String> thumbnails) {
-        StringBuilder sb = new StringBuilder();
-        for(String t : thumbnails) {
-            sb.append(t+",");
-        }
-        int len = sb.length();
-        if(len > 1)
-            this.thumbnails = sb.substring(0, len -1);
-        else
-            this.thumbnails = "";
+    @Column(name ="THUMBNAILS")
+    public void setThumbnails(String thumbnails) {
+        this.thumbnails = thumbnails;
     }
 
     @Column(name ="URL")
@@ -86,10 +73,10 @@ public class OfferModel extends AbstractOffer {
     }
 
     @ManyToOne
-    @JoinColumn(name ="CATEGORY", nullable = false)
+    @JoinColumn(name ="CATEGORY_ID", nullable = false)
     @Override
-    public Category getCategory() {
-        return super.getCategory();
+    public CategoryReferenceModel getCategory() {
+        return (CategoryReferenceModel) super.getCategory();
     }
 
     @Override
@@ -98,10 +85,10 @@ public class OfferModel extends AbstractOffer {
     }
 
     @ManyToOne
-    @JoinColumn(name ="STORE", nullable = false)
+    @JoinColumn(name ="STORE_ID", nullable = false)
     @Override
-    public Store getStore() {
-        return super.getStore();
+    public StoreReferenceModel getStore() {
+        return (StoreReferenceModel) super.getStore();
     }
 
     @Override
@@ -142,12 +129,14 @@ public class OfferModel extends AbstractOffer {
         super.setFeatured(featured);
     }
 
+    @Id
+    @Column(name = "ID")
     @Override
     public String getOfferId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setOfferId(String id) {
         this.id = id;
     }
 }

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.33, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.34, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: topspin
 -- ------------------------------------------------------
--- Server version	5.7.33-0ubuntu0.18.04.1
+-- Server version	5.7.34-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,14 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `OFFER`
+-- Table structure for table `CATEGORY`
 --
 
-DROP TABLE IF EXISTS `OFFER`;
+DROP TABLE IF EXISTS `CATEGORY`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `OFFER` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE `CATEGORY` (
+  `ID` varchar(100) NOT NULL,
+  `DESCRIPTION` varchar(500) DEFAULT NULL,
+  `NAME` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORY`
+--
+
+LOCK TABLES `CATEGORY` WRITE;
+/*!40000 ALTER TABLE `CATEGORY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CATEGORY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `OFFERS`
+--
+
+DROP TABLE IF EXISTS `OFFERS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `OFFERS` (
+  `ID` varchar(100) NOT NULL,
   `TITLE` varchar(500) DEFAULT NULL,
   `DESCRIPTION` text,
   `FEATURED` tinyint(4) DEFAULT NULL,
@@ -33,9 +57,92 @@ CREATE TABLE `OFFER` (
   `URL` varchar(2000) DEFAULT NULL,
   `SURFER_PLACEHOLDER` varchar(2000) DEFAULT NULL,
   `MAX_DISCOUNT` varchar(45) DEFAULT NULL,
+  `THUMBNAILS` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `OFFERS`
+--
+
+LOCK TABLES `OFFERS` WRITE;
+/*!40000 ALTER TABLE `OFFERS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `OFFERS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PRODUCTS`
+--
+
+DROP TABLE IF EXISTS `PRODUCTS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PRODUCTS` (
+  `PRODUCT_ID` varchar(45) DEFAULT NULL,
+  `PRODUCT_SKU` varchar(45) DEFAULT NULL,
+  `PRODUCT_NAME` varchar(200) DEFAULT NULL,
+  `PRODUCT_DESCRIPTION` varchar(2000) DEFAULT NULL,
+  `PRODUCT_PRICE` decimal(10,0) DEFAULT NULL,
+  `PRODUCT_PRICE_CURRENCY` varchar(45) DEFAULT NULL,
+  `WAS_PRICE` decimal(10,0) DEFAULT NULL,
+  `DISCOUNTED_PRICE` decimal(10,0) DEFAULT NULL,
+  `PRODUCT_URL` varchar(1000) DEFAULT NULL,
+  `PID` varchar(45) DEFAULT NULL,
+  `MID` varchar(45) DEFAULT NULL,
+  `PRODUCT_IMAGE_SMALL_URL` varchar(1000) DEFAULT NULL,
+  `PRODUCT_IMAGE_MEDIUM_URL` varchar(1000) DEFAULT NULL,
+  `PRODUCT_IMAGE_LARGE_URL` varchar(1000) DEFAULT NULL,
+  `MPN` varchar(45) DEFAULT NULL,
+  `STOCK_AVAILABILITY` varchar(45) DEFAULT NULL,
+  `BRAND` varchar(1000) DEFAULT NULL,
+  `LOCATION` varchar(45) DEFAULT NULL,
+  `COLOR` varchar(45) DEFAULT NULL,
+  `CUSTOM1` varchar(45) DEFAULT NULL,
+  `CUSTOM2` varchar(45) DEFAULT NULL,
+  `CUSTOM3` varchar(45) DEFAULT NULL,
+  `CUSTOM4` varchar(45) DEFAULT NULL,
+  `CUSTOM5` varchar(45) DEFAULT NULL,
+  `CATEGORY_NAME` varchar(200) DEFAULT NULL,
+  `CATEGORY_PATH_AS_STRING` varchar(200) DEFAULT NULL,
+  `STORE_ID` varchar(45) DEFAULT NULL,
+  `ID` varchar(200) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PRODUCTS`
+--
+
+LOCK TABLES `PRODUCTS` WRITE;
+/*!40000 ALTER TABLE `PRODUCTS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PRODUCTS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `STORE`
+--
+
+DROP TABLE IF EXISTS `STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `STORE` (
+  `ID` varchar(100) NOT NULL,
+  `NAME` varchar(100) DEFAULT NULL,
+  `DESCRIPTION` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `STORE`
+--
+
+LOCK TABLES `STORE` WRITE;
+/*!40000 ALTER TABLE `STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `STORE` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'topspin'
@@ -50,4 +157,4 @@ CREATE TABLE `OFFER` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-05  7:53:08
+-- Dump completed on 2021-06-03  7:50:24

@@ -2,9 +2,7 @@ package com.kgcorner.topspin.dtos;
 
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -22,7 +20,7 @@ public class AbstractOfferTest {
     public void testAbstractOffer() {
         String title = "title";
         String description = "description";
-        List<String> thumbnails = Collections.emptyList();
+        String thumbnails = "t";
         String url = "url";
         String surferPlaceholderUrl = "surferPlaceHolder";
         Date lastDate = new Date();

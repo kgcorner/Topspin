@@ -41,7 +41,7 @@ public class MysqlOfferPersistenceLayerTest {
     public void getOffer() {
         String id = "id";
         OfferModel offer = new OfferModel();
-        offer.setId(id);
+        offer.setOfferId(id);
         when(offerDao.get(id, OfferModel.class)).thenReturn(offer);
         assertEquals(id, persistenceLayer.getOffer(id).getOfferId());
     }
@@ -50,7 +50,7 @@ public class MysqlOfferPersistenceLayerTest {
     public void createOffer() {
         String id = "id";
         OfferModel offer = new OfferModel();
-        offer.setId(id);
+        offer.setOfferId(id);
         when(offerDao.create(offer)).thenReturn(offer);
         assertEquals(id, persistenceLayer.createOffer(offer).getOfferId());
     }
@@ -59,7 +59,7 @@ public class MysqlOfferPersistenceLayerTest {
     public void updateOffer() {
         String id = "id";
         OfferModel offer = new OfferModel();
-        offer.setId(id);
+        offer.setOfferId(id);
         when(offerDao.update(offer)).thenReturn(offer);
         assertEquals(id, persistenceLayer.updateOffer(offer).getOfferId());
     }
@@ -78,7 +78,7 @@ public class MysqlOfferPersistenceLayerTest {
     public void deleteOffer() {
         String id = "id";
         OfferModel offer = new OfferModel();
-        offer.setId(id);
+        offer.setOfferId(id);
         when(offerDao.get(id, OfferModel.class)).thenReturn(offer);
         persistenceLayer.deleteOffer(id);
     }

@@ -15,13 +15,11 @@
             <groupId>com.kgcorner.topspin</groupId>
             <artifactId>product-offer-db-common</artifactId>
             <version>${product.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>mysql-util</artifactId>
             <version>${product.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

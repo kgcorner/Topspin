@@ -61,11 +61,11 @@ public class ProductModelTest {
 
         String custom5 = "c5";
 
-        Category category = PowerMockito.mock(Category.class);
+        Category category = PowerMockito.mock(CategoryReferenceModel.class);
 
         String categoryPathAsString = " cat1";
 
-        Store store = PowerMockito.mock(Store.class);
+        Store store = PowerMockito.mock(StoreReferenceModel.class);
 
         int viewCount = 500;
 

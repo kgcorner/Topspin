@@ -1,10 +1,12 @@
 package com.kgcorner.topspin.dtos.factory;
 
 
-import com.kgcorner.topspin.dtos.*;
+import com.kgcorner.topspin.dtos.Category;
+import com.kgcorner.topspin.dtos.Offer;
+import com.kgcorner.topspin.dtos.OfferModel;
+import com.kgcorner.topspin.dtos.Store;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,14 +28,14 @@ public class OfferModelFactory implements OfferFactory {
         offer.setCategory(category);
         offer.setStore(store);
         offer.setDescription(description);
-        offer.setThumbnails(Arrays.asList(thumbnails.split(",")));
+        offer.setThumbnails(thumbnails);
         offer.setFeatured(featured);
         offer.setLastDate(lastDate);
         offer.setMaxDiscount(maxDiscount);
         offer.setSurferPlaceholderUrl(surferPlaceHolder);
         offer.setUrl(url);
         offer.setTitle(title);
-        offer.setId(generateId());
+        offer.setOfferId(generateId());
         return offer;
     }
 

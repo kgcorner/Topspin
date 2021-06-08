@@ -32,7 +32,7 @@ public class OfferModelFactoryTest {
             maxDiscount, thumbnails, surferPlaceholderUrl, true);
         assertEquals(title, offer.getTitle());
         assertEquals(description, offer.getDescription());
-        assertEquals(thumbnails, offer.getThumbnails().get(0));
+        assertEquals(thumbnails, offer.getThumbnails());
         assertEquals(url, offer.getUrl());
         assertEquals(surferPlaceholderUrl, offer.getSurferPlaceholderUrl());
         assertEquals(lastDate, offer.getLastDate());

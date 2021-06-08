@@ -1,8 +1,6 @@
 package com.kgcorner.topspin.dtos.factory;
 
-import com.kgcorner.topspin.dtos.Category;
-import com.kgcorner.topspin.dtos.Product;
-import com.kgcorner.topspin.dtos.Store;
+import com.kgcorner.topspin.dtos.*;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
@@ -30,8 +28,8 @@ public class ProductModelFactoryTest {
         String productLargeImageUrl = "largeUrl";
         String brand = "Brand";
         String url = "url";
-        Category category = PowerMockito.mock(Category.class);
-        Store store = PowerMockito.mock(Store.class);
+        Category category = PowerMockito.mock(CategoryReferenceModel.class);
+        Store store = PowerMockito.mock(StoreReferenceModel.class);
         Product product = new ProductModelFactory().createProduct(productName, productDescription, productPrice,
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl
         ,productLargeImageUrl, category, store, brand, url);

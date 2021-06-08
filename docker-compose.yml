@@ -6,12 +6,15 @@ services:
     ports:
       - '27018:27017'
   mysqldb:
-      container_name: mysqldb
-      image: kumargauravgupta3/mysqldb:1.0-SNAPSHOT
-      ports:
-        - '33000:3306'
-      environment:
-        MYSQL_ROOT_PASSWORD: root
+    container_name: mysqldb
+    image: kumargauravgupta3/mysqldb:1.0-SNAPSHOT
+    ports:
+      - '33000:3306'
+    environment:
+      MYSQL_DATABASE: "topspin"
+      MYSQL_USER: "topspin"
+      MYSQL_PASSWORD: "topspin"
+      MYSQL_ROOT_PASSWORD: "root"
   discovery:
     container_name: discovery
     image: kumargauravgupta3/discovery-service-docker:1.0-SNAPSHOT
@@ -110,6 +113,7 @@ services:
     image: kumargauravgupta3/product-offer-docker:1.0-SNAPSHOT
     ports:
       - '9004:9004'
+      - '5005:5005'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9004"]
       interval: 30s

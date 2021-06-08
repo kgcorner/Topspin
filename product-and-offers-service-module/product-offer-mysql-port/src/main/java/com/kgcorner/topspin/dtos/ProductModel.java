@@ -1,10 +1,7 @@
 package com.kgcorner.topspin.dtos;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Description : <Write class Description>
@@ -14,11 +11,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PRODUCTS")
 public class ProductModel extends AbstractProduct {
-    @Id
-    @Column(name="ID")
+
     private String productId;
 
-
+    @Id
+    @Column(name="ID")
     @Override
     public String getProductId() {
         return productId;
@@ -166,10 +163,11 @@ public class ProductModel extends AbstractProduct {
         return super.getCustom5();
     }
 
-    @Column(name = "CATEGORY_ID")
+    @ManyToOne
+    @JoinColumn(name ="CATEGORY_ID", nullable = false)
     @Override
-    public Category getCategory() {
-        return super.getCategory();
+    public CategoryReferenceModel getCategory() {
+        return (CategoryReferenceModel)super.getCategory();
     }
 
     @Column(name = "CATEGORY_PATH_AS_STRING")
@@ -178,10 +176,11 @@ public class ProductModel extends AbstractProduct {
         return super.getCategoryPathAsString();
     }
 
-    @Column(name = "STORE_ID")
+    @ManyToOne
+    @JoinColumn(name ="STORE_ID", nullable = false)
     @Override
-    public Store getStore() {
-        return super.getStore();
+    public StoreReferenceModel getStore() {
+        return (StoreReferenceModel) super.getStore();
     }
 
     @Column(name = "VIEW_COUNT")

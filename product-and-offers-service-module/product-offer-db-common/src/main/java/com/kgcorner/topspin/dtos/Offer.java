@@ -2,7 +2,6 @@ package com.kgcorner.topspin.dtos;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Description : <Write class Description>
@@ -18,7 +17,7 @@ public interface Offer extends Serializable {
 
     String getDescription();
 
-    List<String> getThumbnails();
+    String getThumbnails();
 
     String getUrl();
 

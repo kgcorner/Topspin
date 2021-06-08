@@ -6,6 +6,7 @@ import com.kgcorner.topspin.dao.MysqlOfferDao;
 import com.kgcorner.topspin.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * Author: kumar
  * Created on : 29/04/21
  */
-
+@Transactional
 @Repository
 public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
 

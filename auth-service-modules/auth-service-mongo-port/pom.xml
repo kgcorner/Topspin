@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>mongodb-util</artifactId>
             <version>${product.version}</version>
         </dependency>
         <dependency>

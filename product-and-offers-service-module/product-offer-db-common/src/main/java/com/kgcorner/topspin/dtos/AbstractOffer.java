@@ -2,7 +2,6 @@ package com.kgcorner.topspin.dtos;
 
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Description : <Write class Description>
@@ -14,7 +13,7 @@ public abstract class AbstractOffer implements Offer {
 
     private String title;
     private String description;
-    private List<String> thumbnails;
+    private String thumbnails;
     private String url;
     private String surferPlaceholderUrl;
     private Category category;
@@ -42,12 +41,8 @@ public abstract class AbstractOffer implements Offer {
     }
 
     @Override
-    public List<String> getThumbnails() {
+    public String getThumbnails() {
         return thumbnails;
-    }
-
-    public void setThumbnails(List<String> thumbnails) {
-        this.thumbnails = thumbnails;
     }
 
     @Override
@@ -108,5 +103,9 @@ public abstract class AbstractOffer implements Offer {
 
     public void setFeatured(boolean featured) {
         this.featured = featured;
+    }
+
+    public void setThumbnails(String thumbnails) {
+        this.thumbnails = thumbnails;
     }
 }

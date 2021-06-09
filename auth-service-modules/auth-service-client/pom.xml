@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>topspin-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

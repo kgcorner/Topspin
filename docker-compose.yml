@@ -1,10 +1,20 @@
-version: '2.1'
+version: '2.2'
 services:
   mongodb:
     container_name: mongodb
     image: kumargauravgupta3/mongodb:1.0-SNAPSHOT
     ports:
       - '27018:27017'
+  mysqldb:
+    container_name: mysqldb
+    image: kumargauravgupta3/mysqldb:1.0-SNAPSHOT
+    ports:
+      - '33000:3306'
+    environment:
+      MYSQL_DATABASE: "topspin"
+      MYSQL_USER: "topspin"
+      MYSQL_PASSWORD: "topspin"
+      MYSQL_ROOT_PASSWORD: "root"
   discovery:
     container_name: discovery
     image: kumargauravgupta3/discovery-service-docker:1.0-SNAPSHOT
@@ -96,6 +106,31 @@ services:
       discovery:
         condition: service_healthy
       mongodb:
+        condition: service_started
+
+  product_offer:
+    container_name: product_offer
+    image: kumargauravgupta3/product-offer-docker:1.0-SNAPSHOT
+    ports:
+      - '9004:9004'
+      - '5005:5005'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9004"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - config
+      - discovery
+      - mongodb
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      store:
+        condition: service_healthy
+      mysqldb:
         condition: service_started
 
 

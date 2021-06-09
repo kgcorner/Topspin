@@ -12,8 +12,9 @@
         <module>mongodb</module>
         <module>fake-config-docker</module>
         <module>store-service-docker</module>
-        <!-- <module>mysqldb</module>
-        <module>redis-cache</module> -->
+        <module>product-offer-docker</module>
+        <module>mysqldb</module>
+        <!-- <module>redis-cache</module> -->
     </modules>
     <parent>
         <artifactId>packaging</artifactId>

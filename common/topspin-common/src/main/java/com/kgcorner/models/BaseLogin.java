@@ -1,6 +1,8 @@
 package com.kgcorner.models;
 
 
+import org.springframework.util.Assert;
+
 /**
  * Description : <Write class Description>
  * Author: kumar
@@ -81,5 +83,12 @@ public abstract class BaseLogin {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Assert.notNull(obj);
+        Assert.isTrue(obj instanceof BaseLogin);
+        return username.equals(((BaseLogin)obj).username);
     }
 }

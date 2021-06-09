@@ -17,13 +17,6 @@ import java.util.List;
 
 public class Login  extends BaseLogin {
     private List<Role> roles;
-    @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof Login) {
-            return ((Login)obj).getUserId().equals(getUserId());
-        }
-        return false;
-    }
 
     public List<Role> getRoles() {
         if(roles == null) {
@@ -50,5 +43,18 @@ public class Login  extends BaseLogin {
 
     public Collection<Role> getAuthorities() {
         return getRoles();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Login) {
+            return ((Login)obj).getUserId().equals(getUserId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

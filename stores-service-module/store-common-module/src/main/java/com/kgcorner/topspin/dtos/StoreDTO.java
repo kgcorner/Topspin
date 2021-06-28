@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.dtos;
 
 
+import com.kgcorner.topspin.model.Category;
 import com.kgcorner.topspin.model.Store;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -84,8 +85,11 @@ public class StoreDTO extends ResourceSupport implements Store {
     }
 
     @Override
-    public List<CategoryDTO> getCategories() {
-        return categories;
+    public List<Category> getCategories() {
+        List<Category> categoryList = new ArrayList<>();
+        for(Category c : categories)
+            categoryList.add(c);
+        return categoryList;
     }
 
     @Override

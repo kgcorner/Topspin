@@ -15,7 +15,7 @@ public class LoginTest {
 
     @Test
     public void testLoginModel() {
-        Login login = new Login();
+        LoginResponse login = new LoginResponse();
         login.setId("1");
         login.setLoginProvider("Google");
         login.setOAuthAccessToken("AccessToken");
@@ -36,19 +36,19 @@ public class LoginTest {
         assertEquals(1, login.getAuthorities().size());
         assertEquals("ROLE_user", login.getRoles().get(0).getAuthority());
         assertEquals(login.getId().hashCode(), login.hashCode());
-        assertEquals(0, new Login().hashCode());
+        assertEquals(0, new LoginResponse().hashCode());
     }
 
     @Test
     public void testRoleWithNull() {
-        Login login = new Login();
+        LoginResponse login = new LoginResponse();
         login.addRole(null);
         assertEquals(0, login.getRoles().size());
     }
 
     @Test
     public void testRoleWithRole_() {
-        Login login = new Login();
+        LoginResponse login = new LoginResponse();
         login.addRole("ROLE_USER");
         assertEquals(1, login.getRoles().size());
         assertEquals("ROLE_USER", login.getRoles().get(0).getAuthority());
@@ -58,20 +58,23 @@ public class LoginTest {
 
     @Test
     public void testEquals() {
-        Login lg1 = new Login();
+        LoginResponse lg1 = new LoginResponse();
         lg1.setUserId("1");
 
-        Login lg2 = new Login();
+        LoginResponse lg2 = new LoginResponse();
         lg2.setUserId("1");
-        assertTrue(lg1.equals(lg2));
+        boolean isEqual = lg1.equals(lg2);
+        assertTrue(isEqual);
         lg2.setUserId("0");
-        assertFalse(lg1.equals(lg2));
-        assertFalse(lg1.equals(new Object()));
+        isEqual = lg1.equals(lg2);
+        assertFalse(isEqual);
+        isEqual = lg1.equals(new Object());
+        assertFalse(isEqual);
     }
 
     @Test
     public void testWithNoRole() {
-        Login login = new Login();
+        LoginResponse login = new LoginResponse();
         assertEquals(0, login.getRoles().size());
     }
 

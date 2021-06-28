@@ -82,4 +82,11 @@ public abstract class BaseLogin {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || (this.getClass() != obj.getClass()))
+            return false;
+        return username.equals(((BaseLogin)obj).username);
+    }
 }

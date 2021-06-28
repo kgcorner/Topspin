@@ -11,7 +11,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-import org.springframework.util.Assert;
+import org.junit.Assert;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
@@ -45,7 +45,7 @@ public class CategoryResourceTest {
         String id = "id";
         CategoryDTO category = new CategoryDTO(demoCategory);
         PowerMockito.when(categoryService.getCategory(id)).thenReturn(category);
-        Assert.notNull(categoryResource.get(id));
+        Assert.assertNotNull(categoryResource.get(id));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class CategoryResourceTest {
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
         categoryDTOS.add(new CategoryDTO(demoCategory));
         PowerMockito.when(categoryService.getAllCategories(page, maxCount)).thenReturn(categoryDTOS);
-        Assert.notNull(categoryResource.getAll(page, maxCount));
+        Assert.assertNotNull(categoryResource.getAll(page, maxCount));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CategoryResourceTest {
         String description = "description";
         CategoryDTO categoryDTO = new CategoryDTO(demoCategory);
         PowerMockito.when(categoryService.createCategory(name, description)).thenReturn(categoryDTO);
-        Assert.notNull(categoryResource.create(name, description));
+        Assert.assertNotNull(categoryResource.create(name, description));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class CategoryResourceTest {
         String description = "description";
         CategoryDTO categoryDTO = new CategoryDTO(demoCategory);
         PowerMockito.when(categoryService.updateCategory(id, name, description)).thenReturn(categoryDTO);
-        Assert.notNull(categoryResource.update(id, name, description));
+        Assert.assertNotNull(categoryResource.update(id, name, description));
     }
 
     class DemoCategory extends AbstractCategory {
@@ -95,7 +95,7 @@ public class CategoryResourceTest {
         }
 
         @Override
-        public List<? extends Category> getChildren() {
+        public List<Category> getChildren() {
             return Collections.emptyList();
         }
     }

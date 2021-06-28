@@ -17,7 +17,7 @@ import java.util.List;
  * Created on : 02/12/19
  */
 @RestController
-public class UserResourceImpl extends ExceptionHandler implements UserResource {
+public class UserResourceImpl extends UserServiceExceptionHandler implements UserResource {
 
     @Autowired
     private UserService userService;

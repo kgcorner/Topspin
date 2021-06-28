@@ -108,7 +108,7 @@ public class CategoryServiceTest {
         }
 
         @Override
-        public List<? extends Category> getChildren() {
+        public List<Category> getChildren() {
             return Collections.emptyList();
         }
     }

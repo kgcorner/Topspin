@@ -77,7 +77,7 @@ public interface Store extends Serializable {
     /**
      * @return categories this store belongs to
      */
-    List<? extends Category> getCategories();
+    List<Category> getCategories();
 
     /**
      * @return whether affiliation on the store is active or not

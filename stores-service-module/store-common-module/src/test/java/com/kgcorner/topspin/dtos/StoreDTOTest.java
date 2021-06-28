@@ -203,7 +203,7 @@ public class StoreDTOTest {
         }
 
         @Override
-        public List<? extends Category> getCategories() {
+        public List<Category> getCategories() {
             return categories;
         }
     }

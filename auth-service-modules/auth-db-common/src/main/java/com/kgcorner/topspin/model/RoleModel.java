@@ -8,17 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
  * Created on : 26/11/19
  */
 
-public class Role implements GrantedAuthority {
+public class RoleModel implements GrantedAuthority {
     private String authority;
-
-    public Role() {
-    }
 
     public void setAuthority(String authority) {
         this.authority = authority;
     }
 
-    public Role(String role) {
+    public RoleModel(String role) {
         this.authority = role;
     }
 

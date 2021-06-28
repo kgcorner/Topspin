@@ -11,7 +11,6 @@ import com.kgcorner.crypto.Hasher;
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
-import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
@@ -51,7 +50,7 @@ public class BasicTokenAuthentication implements AuthenticationService {
         if(credential.length != 2) {
             throw new IllegalArgumentException("Not a valid basic token");
         }
-        Login login = loginPersistentLayer.getLogin(credential[0]);
+        var login = loginPersistentLayer.getLogin(credential[0]);
         if(login == null)
             throw new  ForbiddenException("invalid username and password provided");
         if(!Hasher.checkPassword(credential[1], login.getPassword())) {
@@ -61,19 +60,19 @@ public class BasicTokenAuthentication implements AuthenticationService {
         claims.put("USER_NAME", login.getUsername());
         claims.put("USER_ID", login.getUserId()+"");
         Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
-        StringBuilder rolesBuilder = new StringBuilder();
+        var rolesBuilder = new StringBuilder();
         for(GrantedAuthority authority : authorities) {
             rolesBuilder.append(authority.getAuthority()+",");
         }
-        String roles = rolesBuilder.toString();
+        var roles = rolesBuilder.toString();
         roles = roles.substring(0, roles.length() -1);
         claims.put("ROLE", roles );
-        String refreshToken = BigStringGenerator.generateBigString();
+        var refreshToken = BigStringGenerator.generateBigString();
         login.setRefreshToken(refreshToken);
         loginPersistentLayer.update(login);
         String accessToken = JwtUtility.createJWTToken(properties.getTokenSalt(), claims,
             properties.getTokenExpirationInSecond());
-        Token authToken = authServiceModelFactory.createNewToken();
+        var authToken = authServiceModelFactory.createNewToken();
         authToken.setAccessToken(accessToken);
         authToken.setRefreshToken(refreshToken);
         authToken.setExpiresInSeconds(properties.getTokenExpirationInSecond());

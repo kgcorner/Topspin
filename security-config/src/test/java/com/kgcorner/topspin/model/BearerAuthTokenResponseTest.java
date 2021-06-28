@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * Created on : 23/02/20
  */
 
-public class BearerAuthTokenTest {
+public class BearerAuthTokenResponseTest {
 
     @Test
     public void getCredentials() {

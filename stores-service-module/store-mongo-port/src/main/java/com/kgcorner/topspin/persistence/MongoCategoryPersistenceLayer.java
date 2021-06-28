@@ -68,7 +68,7 @@ public class MongoCategoryPersistenceLayer implements CategoryPersistenceLayer {
     public void addAChild(Category child, String parentId) {
         CategoryModel parentCategory = (CategoryModel) getCategory(parentId);
         Assert.notNull(parentCategory, "Can't find category with id:" + parentId);
-        parentCategory.getChildren().add(child);
+        parentCategory.addCategory(child);
         categoryDao.update(parentCategory);
     }
 

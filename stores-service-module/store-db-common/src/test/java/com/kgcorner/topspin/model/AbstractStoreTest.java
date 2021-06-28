@@ -184,7 +184,7 @@ public class AbstractStoreTest {
         }
 
         @Override
-        public List<? extends Category> getCategories() {
+        public List<Category> getCategories() {
             return categories;
         }
     }

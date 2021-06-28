@@ -7,7 +7,7 @@ Created on : 24/10/19
 */
 
 import com.kgcorner.topspin.model.Login;
-import com.kgcorner.topspin.model.Role;
+import com.kgcorner.topspin.model.RoleModel;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class DummyLogin implements Login {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Role r = new Role("TEST");
+        RoleModel r = new RoleModel("TEST");
         List<GrantedAuthority> objects = new ArrayList<>();
         objects.add(r);
         return objects;

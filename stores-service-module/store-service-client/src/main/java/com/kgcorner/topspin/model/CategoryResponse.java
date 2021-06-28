@@ -23,7 +23,7 @@ public class CategoryResponse extends AbstractCategory {
     }
 
     @Override
-    public List<? extends Category> getChildren() {
+    public List<Category> getChildren() {
         return children;
     }
 

@@ -9,8 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
  * Created on : 04/03/20
  */
 
-public class Role extends com.kgcorner.topspin.clients.model.Role implements GrantedAuthority {
-    public Role(String role) {
+public class RoleResponse extends com.kgcorner.topspin.clients.model.RoleResponse implements GrantedAuthority {
+    public RoleResponse(String role) {
         super(role);
     }
 }

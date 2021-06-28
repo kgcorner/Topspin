@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class AuthResource extends ExceptionHandler {
+public class AuthResource extends AuthServiceExceptionHandler {
     private static final String AUTHORIZATION = "Authorization";
     @GetMapping("/health")
     public String getHealth() {

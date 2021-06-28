@@ -3,10 +3,10 @@ package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.clients.AuthServiceClient;
-import com.kgcorner.topspin.clients.model.Token;
+import com.kgcorner.topspin.clients.model.TokenResponse;
 import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.BearerAuthToken;
-import com.kgcorner.topspin.model.Role;
+import com.kgcorner.topspin.model.RoleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,17 +28,17 @@ public abstract class DefaultTokenAuthenticationProvider  implements Authenticat
 
 
     public Authentication getAuthDetails(String tokenString, Class tokenClass) {
-        Token tokenResponse = client.getToken(tokenString);
+        TokenResponse tokenResponse = client.getToken(tokenString);
         String roleClaim = JwtUtility.getClaim("ROLE", tokenResponse.getAccessToken());
-        List<Role> roleList = new ArrayList<>();
+        List<RoleResponse> roleList = new ArrayList<>();
         if(roleClaim.contains(",")) {
             String[] roles = roleClaim.split(",");
             for(String r : roles) {
-                Role role = new Role(r);
+                RoleResponse role = new RoleResponse(r);
                 roleList.add(role);
             }
         } else {
-            Role role = new Role(roleClaim);
+            RoleResponse role = new RoleResponse(roleClaim);
             roleList.add(role);
         }
         AbstractAuthenticationToken token = null;

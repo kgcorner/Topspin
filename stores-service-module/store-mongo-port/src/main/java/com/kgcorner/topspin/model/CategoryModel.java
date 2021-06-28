@@ -28,6 +28,11 @@ public class CategoryModel extends AbstractCategory {
         this.id = id;
     }
 
+    /**
+     * returns list of child categories. Modyfing this list will not change the children of this category
+     * use {@link CategoryModel#addCategory(Category)} for that
+     * @return
+     */
     public List<Category> getChildren() {
         List<Category> childrenList = new ArrayList<>();
         for(Category c : children) {
@@ -36,6 +41,10 @@ public class CategoryModel extends AbstractCategory {
         return childrenList;
     }
 
+    /**
+     * Add child category
+     * @param category
+     */
     public void addCategory(Category category) {
         Assert.isTrue(category instanceof CategoryModel);
         children.add((CategoryModel) category);

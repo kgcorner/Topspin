@@ -3,8 +3,6 @@ package com.kgcorner.topspin.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 
 /**
  * Description : <Write class Description>
@@ -47,7 +45,7 @@ public class CategoryModelTest {
         Assert.assertEquals(categoryId, categoryModel.getCategoryId());
         Assert.assertNotNull(categoryModel.getChildren());
         Assert.assertEquals(0, categoryModel.getChildren().size());
-        categoryModel.getChildren().add(new CategoryModel());
+        categoryModel.addCategory(new CategoryModel());
         Assert.assertEquals(1, categoryModel.getChildren().size());
     }
 }

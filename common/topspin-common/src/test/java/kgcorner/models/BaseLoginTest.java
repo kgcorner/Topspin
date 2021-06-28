@@ -47,9 +47,9 @@ public class BaseLoginTest {
         assertEquals(0, login.hashCode());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testEqualFail() {
-        login.equals(new Object());
+        Assert.assertFalse(login.equals(new Object()));
     }
 
     @Test

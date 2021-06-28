@@ -1,8 +1,6 @@
 package com.kgcorner.models;
 
 
-import org.springframework.util.Assert;
-
 /**
  * Description : <Write class Description>
  * Author: kumar
@@ -87,8 +85,8 @@ public abstract class BaseLogin {
 
     @Override
     public boolean equals(Object obj) {
-        Assert.notNull(obj);
-        Assert.isTrue(obj instanceof BaseLogin);
+        if (obj == null || (this.getClass() != obj.getClass()))
+            return false;
         return username.equals(((BaseLogin)obj).username);
     }
 }

@@ -97,7 +97,7 @@ public class AbstractCategoryTest {
         }
 
         @Override
-        public List<? extends Category> getChildren() {
+        public List<Category> getChildren() {
             return Collections.emptyList();
         }
     }

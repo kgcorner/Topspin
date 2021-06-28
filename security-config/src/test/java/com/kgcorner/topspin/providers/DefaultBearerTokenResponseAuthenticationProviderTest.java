@@ -2,9 +2,9 @@ package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.clients.AuthServiceClient;
-import com.kgcorner.topspin.clients.model.Token;
+import com.kgcorner.topspin.clients.model.TokenResponse;
 import com.kgcorner.topspin.model.BearerAuthToken;
-import com.kgcorner.topspin.model.Role;
+import com.kgcorner.topspin.model.RoleResponse;
 import com.kgcorner.topspin.model.SCHEMES;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(JwtUtility.class)
-public class DefaultBearerTokenAuthenticationProviderTest {
+public class DefaultBearerTokenResponseAuthenticationProviderTest {
 
     private DefaultBearerTokenAuthenticationProvider provider;
     private AuthServiceClient client;
@@ -47,9 +47,9 @@ public class DefaultBearerTokenAuthenticationProviderTest {
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 String token = invocationOnMock.getArgument(0).toString();
                 if(token.startsWith(SCHEMES.BEARER+" ")) {
-                    Token tokenModel = new Token();
-                    tokenModel.setAccessToken(accessToken);
-                    return tokenModel;
+                    TokenResponse tokenResponseModel = new TokenResponse();
+                    tokenResponseModel.setAccessToken(accessToken);
+                    return tokenResponseModel;
                 }
                 return null;
             }
@@ -62,7 +62,7 @@ public class DefaultBearerTokenAuthenticationProviderTest {
         bearerAuthToken = (BearerAuthToken) authenticatedToken;
         assertNotNull( bearerAuthToken.getAuthorities());
 
-        assertEquals("ADMIN",((Role) bearerAuthToken.getAuthorities().toArray()[0]).getAuthority());
+        assertEquals("ADMIN",((RoleResponse) bearerAuthToken.getAuthorities().toArray()[0]).getAuthority());
         assertEquals("accessToken",bearerAuthToken.getPrincipal().toString());
     }
 

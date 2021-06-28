@@ -12,7 +12,7 @@ import java.util.Collections;
  * Created on : 23/02/20
  */
 
-public class BasicAuthTokenTest {
+public class BasicAuthTokenResponseTest {
 
     @Test
     public void testImpliesWithUserNameAndPasswordOnly() {

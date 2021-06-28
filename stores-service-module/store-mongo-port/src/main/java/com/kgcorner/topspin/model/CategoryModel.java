@@ -2,6 +2,7 @@ package com.kgcorner.topspin.model;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class CategoryModel extends AbstractCategory {
 
     @Id
     private String id;
-    private List<Category> children = new ArrayList<>();
+    private List<CategoryModel> children = new ArrayList<>();
 
     @Override
     public String getCategoryId() {
@@ -28,10 +29,15 @@ public class CategoryModel extends AbstractCategory {
     }
 
     public List<Category> getChildren() {
-        return children;
+        List<Category> childrenList = new ArrayList<>();
+        for(Category c : children) {
+            childrenList.add(c);
+        }
+        return childrenList;
     }
 
     public void addCategory(Category category) {
-        children.add(category);
+        Assert.isTrue(category instanceof CategoryModel);
+        children.add((CategoryModel) category);
     }
 }

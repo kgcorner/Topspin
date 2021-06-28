@@ -9,5 +9,5 @@ import com.kgcorner.models.BaseToken;
  * Created on : 04/03/20
  */
 
-public class Token extends BaseToken {
+public class TokenResponse extends BaseToken {
 }

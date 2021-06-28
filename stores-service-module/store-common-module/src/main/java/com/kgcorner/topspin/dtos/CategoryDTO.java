@@ -72,7 +72,10 @@ public class CategoryDTO extends ResourceSupport implements Category {
     }
 
     @Override
-    public List<? extends Category> getChildren() {
-        return this.children;
+    public List<Category> getChildren() {
+        List<Category> categoryList = new ArrayList<>();
+        for (Category c : children)
+            categoryList.add(c);
+        return categoryList;
     }
 }

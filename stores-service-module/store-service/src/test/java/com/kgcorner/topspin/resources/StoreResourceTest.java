@@ -96,7 +96,7 @@ public class StoreResourceTest {
         }
 
         @Override
-        public List<? extends Category> getCategories() {
+        public List<Category> getCategories() {
             return categories;
         }
     }

@@ -141,7 +141,7 @@ public class LoginModelTest {
     public void testSetRole() {
         List<GrantedAuthority> roles = loginModel.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 1);
+        assertEquals(1, roles.size());
         assertEquals("ROLE_USER", roles.get(0).getAuthority());
     }
 
@@ -149,8 +149,8 @@ public class LoginModelTest {
     public void testGetAuthorities() {
         Collection<? extends GrantedAuthority> authorities = loginModel.getAuthorities();
         assertNotNull(authorities);
-        assertTrue(authorities.size() == 1);
-        assertEquals("ROLE_USER",((Role)((List) authorities).get(0)).getAuthority());
+        assertEquals(1, authorities.size());
+        assertEquals("ROLE_USER",((RoleModel)((List) authorities).get(0)).getAuthority());
     }
 
     @Test
@@ -159,13 +159,13 @@ public class LoginModelTest {
         loginModel.addRole(roleToSet);
         List<GrantedAuthority> roles = loginModel.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 1);
+        assertEquals(1, roles.size());
         assertEquals("ROLE_admin", roles.get(0).getAuthority());
         roleToSet = "user";
         loginModel.addRole(roleToSet);
         roles = loginModel.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 2);
+        assertEquals(2, roles.size());
         assertEquals("ROLE_user", roles.get(1).getAuthority());
     }
 
@@ -175,7 +175,7 @@ public class LoginModelTest {
         loginModel.addRole(roleToSet);
         List<GrantedAuthority> roles = loginModel.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 1);
+        assertEquals(1, roles.size());
         assertEquals("ROLE_admin", roles.get(0).getAuthority());
     }
 }

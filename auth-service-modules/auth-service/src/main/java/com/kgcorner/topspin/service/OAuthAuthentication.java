@@ -10,7 +10,6 @@ import com.kgcorner.crypto.BigStringGenerator;
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.Properties;
-import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
@@ -71,18 +70,18 @@ public class OAuthAuthentication implements AuthenticationService {
 
     private Token createTokenUsingAccessToken(String accessToken, OAuthService service)  {
         String userInfo = service.getUserInfo(accessToken);
-        Login login = service.createLoginObject(userInfo);
-        String email = login.getUsername();
+        var login = service.createLoginObject(userInfo);
+        var email = login.getUsername();
         login = loginPersistentLayer.getLogin(email);
         if(login == null)
             throw new ResourceNotFoundException("Can't find user with email:"+ email);
-        Token token = authServiceModelFactory.createNewToken();
+        var token = authServiceModelFactory.createNewToken();
         Map<String, String> claims = new HashMap<>();
         claims.put("USER_NAME", email);
         claims.put("USER_ID", login.getUserId());
-        String refreshToken = BigStringGenerator.generateBigString();
+        var refreshToken = BigStringGenerator.generateBigString();
         login.setRefreshToken(refreshToken);
-        String jwtToken = JwtUtility.createJWTToken(properties.getTokenSalt(), claims, properties.getTokenExpirationInSecond());
+        var jwtToken = JwtUtility.createJWTToken(properties.getTokenSalt(), claims, properties.getTokenExpirationInSecond());
         loginPersistentLayer.update(login);
         token.setAccessToken(jwtToken);
         token.setRefreshToken(refreshToken);

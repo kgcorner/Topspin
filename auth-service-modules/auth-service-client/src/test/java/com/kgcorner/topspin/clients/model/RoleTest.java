@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 
 public class RoleTest {
 
-    private Role role;
+    private RoleResponse role;
 
     @Before
     public void setUp() throws Exception {
-        role = new Role();
+        role = new RoleResponse();
     }
 
     @Test

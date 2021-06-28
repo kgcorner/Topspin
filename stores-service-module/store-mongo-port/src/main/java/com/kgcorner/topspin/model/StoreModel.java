@@ -28,8 +28,11 @@ public class StoreModel extends AbstractStore {
     }
 
     @Override
-    public List<CategoryModel> getCategories() {
-        return categories;
+    public List<Category> getCategories() {
+        List<Category> categoryList = new ArrayList<>();
+        for(Category c : categories)
+            categoryList.add(c);
+        return categoryList;
     }
 
     public void setCategories(List<? extends CategoryModel> categories) {

@@ -15,10 +15,10 @@ import java.util.List;
  * Created on : 04/03/20
  */
 
-public class Login  extends BaseLogin {
-    private List<Role> roles;
+public class LoginResponse extends BaseLogin {
+    private List<RoleResponse> roles;
 
-    public List<Role> getRoles() {
+    public List<RoleResponse> getRoles() {
         if(roles == null) {
             return Collections.emptyList();
         }
@@ -26,29 +26,29 @@ public class Login  extends BaseLogin {
     }
 
     public void addRole(String role) {
-        Role roleObj = null;
+        RoleResponse roleObj = null;
         if(roles == null)
             roles = new ArrayList<>();
         if(Strings.isNullOrEmpty(role))
             return;
         if(role.startsWith("ROLE_")) {
-            roleObj = new Role(role);
+            roleObj = new RoleResponse(role);
         }
         else {
-            roleObj = new Role("ROLE_" + role);
+            roleObj = new RoleResponse("ROLE_" + role);
         }
         this.roles.add(roleObj);
 
     }
 
-    public Collection<Role> getAuthorities() {
+    public Collection<RoleResponse> getAuthorities() {
         return getRoles();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Login) {
-            return ((Login)obj).getUserId().equals(getUserId());
+        if(obj instanceof LoginResponse) {
+            return ((LoginResponse)obj).getUserId().equals(getUserId());
         }
         return false;
     }

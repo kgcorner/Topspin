@@ -21,10 +21,12 @@ public class LoginModel extends BaseLogin implements Login {
     @Id
     private String id;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -46,21 +48,21 @@ public class LoginModel extends BaseLogin implements Login {
     public List<GrantedAuthority> getRoles() {
         if(roles == null) {
             roles = new ArrayList<>();
-            Role role = new Role(DEFAULT_ROLE);
+            var role = new RoleModel(DEFAULT_ROLE);
             roles.add(role);
         }
         return roles;
     }
 
     public void addRole(String role) {
-        Role roleObj = null;
+        RoleModel roleObj = null;
         if(roles == null)
             roles = new ArrayList<>();
         if(role.startsWith("ROLE_")) {
-            roleObj = new Role(role);
+            roleObj = new RoleModel(role);
         }
         else {
-            roleObj = new Role("ROLE_" + role);
+            roleObj = new RoleModel("ROLE_" + role);
         }
         this.roles.add(roleObj);
 

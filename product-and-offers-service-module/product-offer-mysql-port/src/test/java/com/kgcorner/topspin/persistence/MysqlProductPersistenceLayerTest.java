@@ -15,8 +15,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 
 /**
@@ -157,12 +157,13 @@ public class MysqlProductPersistenceLayerTest {
     }
 
     @Test
-    public void deleteProduct() {
+    public void deleteProduct() throws Exception {
         String id = "productId";
         ProductModel model = new ProductModel();
         model.setProductId(id);
         when(productDao.get(id, ProductModel.class)).thenReturn(model);
         productPersistenceLayer.deleteProduct(id);
+        verifyPrivate(productDao, times(1)).invoke("remove", model);
     }
 
     @Test(expected = IllegalArgumentException.class)

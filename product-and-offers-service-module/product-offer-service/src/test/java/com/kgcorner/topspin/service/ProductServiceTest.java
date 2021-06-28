@@ -187,8 +187,4 @@ public class ProductServiceTest {
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl
             ,productLargeImageUrl, categoryId, storeId, brand, url);
     }
-
-    @Test
-    public void updateProduct() {
-    }
 }

@@ -64,6 +64,6 @@ public interface Category extends Serializable {
      * Gets child category
      * @return
      */
-    List<? extends Category> getChildren();
+    List<Category> getChildren();
 
 }

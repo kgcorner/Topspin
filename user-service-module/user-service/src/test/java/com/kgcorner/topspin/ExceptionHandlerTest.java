@@ -17,11 +17,11 @@ import org.springframework.http.ResponseEntity;
 
 public class ExceptionHandlerTest {
 
-    private ExceptionHandler exceptionHandler;
+    private UserServiceExceptionHandler exceptionHandler;
 
     @Before
     public void setup() {
-            exceptionHandler = new ExceptionHandler();
+            exceptionHandler = new UserServiceExceptionHandler();
     }
 
     @Test

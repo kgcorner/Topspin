@@ -1,6 +1,7 @@
 package kgcorner.models;
 
 import com.kgcorner.models.BaseLogin;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,4 +47,16 @@ public class BaseLoginTest {
         assertEquals(0, login.hashCode());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testEqualFail() {
+        login.equals(new Object());
+    }
+
+    @Test
+    public void testEqualPass() {
+        login.setUsername("abc");
+        LoginTestModel testLogin = new LoginTestModel();
+        testLogin.setUsername("abc");
+        Assert.assertTrue(login.equals(testLogin));
+    }
 }

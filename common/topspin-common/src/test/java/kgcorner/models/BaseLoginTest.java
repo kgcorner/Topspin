@@ -49,7 +49,7 @@ public class BaseLoginTest {
 
     @Test
     public void testEqualFail() {
-        Assert.assertEquals(login, new Object());
+        Assert.assertNotEquals(login, new Object());
     }
 
     @Test

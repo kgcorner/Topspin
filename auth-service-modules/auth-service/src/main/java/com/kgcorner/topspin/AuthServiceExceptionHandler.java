@@ -17,6 +17,6 @@ public class AuthServiceExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<BaseResponse> handleCustomException(ForbiddenException e) {
         var errorResponse = new BaseResponse(e.getLocalizedMessage(), BaseResponse.RESPONSETYPE.ERROR);
-        return new ResponseEntity(errorResponse, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 }

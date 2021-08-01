@@ -123,6 +123,7 @@ services:
       - config
       - discovery
       - mongodb
+      - mysqldb
     depends_on:
       config:
         condition: service_healthy
@@ -130,7 +131,5 @@ services:
         condition: service_healthy
       store:
         condition: service_healthy
-      mysqldb:
-        condition: service_started
 
 

@@ -49,7 +49,7 @@ public class BaseLoginTest {
 
     @Test
     public void testEqualFail() {
-        Assert.assertFalse(login.equals(new Object()));
+        Assert.assertEquals(login, new Object());
     }
 
     @Test
@@ -57,6 +57,6 @@ public class BaseLoginTest {
         login.setUsername("abc");
         LoginTestModel testLogin = new LoginTestModel();
         testLogin.setUsername("abc");
-        Assert.assertTrue(login.equals(testLogin));
+        Assert.assertEquals(login, testLogin);
     }
 }

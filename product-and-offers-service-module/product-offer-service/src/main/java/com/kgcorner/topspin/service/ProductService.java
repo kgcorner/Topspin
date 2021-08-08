@@ -74,12 +74,6 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
-    public ProductDTO updateProduct(ProductDTO productDTO) {
-        Product product = productPersistenceLayer.getProduct(productDTO.getProductId());
-        BeanUtils.copyProperties(productDTO, product);
-        return new ProductDTO(product);
-    }
-
     public ProductDTO updateProduct(String productId, String title, String description, double price,
                                     double discountedPrice, String currency, String smallImageUrl,
                                     String mediumImageUrl, String largeImageUrl, String categoryId,
@@ -105,5 +99,9 @@ public class ProductService {
             largeImageUrl, category, store, brand, String.format(storeDTO.getSurferPlaceHolder(), url));
         BeanUtils.copyProperties(updatedProduct, existingProduct, "productId");
         return new ProductDTO(productPersistenceLayer.updateProduct(existingProduct));
+    }
+
+    public void deleteProduct(String productId) {
+        productPersistenceLayer.deleteProduct(productId);
     }
 }

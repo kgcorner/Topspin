@@ -3,10 +3,7 @@ package com.kgcorner.topspin.service;
 
 import com.kgcorner.topspin.client.CategoryClient;
 import com.kgcorner.topspin.client.StoreClient;
-import com.kgcorner.topspin.dtos.AbstractOffer;
-import com.kgcorner.topspin.dtos.Category;
-import com.kgcorner.topspin.dtos.OfferDTO;
-import com.kgcorner.topspin.dtos.Store;
+import com.kgcorner.topspin.dtos.*;
 import com.kgcorner.topspin.dtos.factory.CategoryFactory;
 import com.kgcorner.topspin.dtos.factory.OfferFactory;
 import com.kgcorner.topspin.dtos.factory.StoreFactory;
@@ -15,6 +12,7 @@ import com.kgcorner.topspin.model.StoreResponse;
 import com.kgcorner.topspin.persistence.OfferPersistenceLayer;
 import com.kgcorner.topspin.persistence.ProductOfferCategoryPersistenceLayer;
 import com.kgcorner.topspin.persistence.ProductOfferStorePersistenceLayer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +84,48 @@ public class OfferService {
 
         offer = offerPersistenceLayer.createOffer(offer);
         return new OfferDTO((AbstractOffer) offer);
+    }
+
+    public OfferDTO updateOffer(String offerId, String title, String description, Date lastDate, String categoryId,
+                                String storeId, String url, String maxDiscount, String thumbnails, boolean featured) {
+
+        Offer existingOffer = offerPersistenceLayer.getOffer(offerId);
+        CategoryResponse categoryDTO;
+        StoreResponse storeDTO;
+        try {
+            categoryDTO = categoryClient.getCategory(categoryId);
+            Category category = categoryPersistenceLayer.getCategory(categoryId);
+            if(category == null) {
+                category = categoryFactory.createCategory(categoryId, categoryDTO.getName(),
+                    categoryDTO.getDescription());
+                categoryPersistenceLayer.createCategory(category);
+            }
+        } catch (Exception x) {
+            throw new IllegalArgumentException("Failed to find category with id " + categoryId, x);
+        }
+        try {
+            Store store = storePersistenceLayer.getStore(storeId);
+            storeDTO = storeClient.get(storeId);
+            if(store == null) {
+                store = storeFactory.createStore(storeId, storeDTO.getName(), storeDTO.getDescription());
+                storePersistenceLayer.createStore(store);
+            }
+        } catch (Exception x) {
+            throw new IllegalArgumentException("Failed to find store with id " + storeId, x);
+        }
+        var category = categoryFactory.createCategory(categoryDTO.getCategoryId(),
+            categoryDTO.getName(), categoryDTO.getDescription());
+        var store = storeFactory.createStore(storeDTO.getStoreId(), storeDTO.getName(), storeDTO.getDescription());
+        var offer = offerFactory.createOffer(title, description, lastDate,category, store, url,
+            maxDiscount, thumbnails, String.format(storeDTO.getSurferPlaceHolder(), url), featured);
+        BeanUtils.copyProperties(offer, existingOffer, "offerId");
+
+        offer = offerPersistenceLayer.updateOffer(existingOffer);
+        return new OfferDTO((AbstractOffer) offer);
+    }
+
+    public void deleteOffer(String offerId) {
+        offerPersistenceLayer.deleteOffer(offerId);
     }
 
     public OfferDTO getOffer(String offerId) {

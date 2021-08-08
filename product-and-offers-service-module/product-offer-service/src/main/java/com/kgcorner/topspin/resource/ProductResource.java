@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +54,7 @@ public class ProductResource {
     ) {
         ProductDTO product = productService.createProduct(title, description, price, discountedPrice, currency, smallImageUrl,
             mediumImageUrl, largeImageUrl, categoryId, storeId, brand, url);
-        return getProductDTOResponseEntity(product);
+        return getProductDTOResponseEntity(product, HttpStatus.CREATED);
     }
 
     @ApiOperation("Get product by id")
@@ -63,7 +64,7 @@ public class ProductResource {
         @PathVariable("id")
         String productId) {
         ProductDTO product = productService.getProduct(productId);
-        return getProductDTOResponseEntity(product);
+        return getProductDTOResponseEntity(product, HttpStatus.OK);
     }
 
     @ApiOperation("Update the Product")
@@ -94,21 +95,27 @@ public class ProductResource {
         @ApiParam("url of the product")
         @RequestParam("url") String url,
         @ApiParam("id of the product")
-        String productId
+        @PathVariable("productId") String productId
     ) {
         ProductDTO product = productService.updateProduct(productId, title, description, price, discountedPrice,
             currency, smallImageUrl,
             mediumImageUrl, largeImageUrl, categoryId, storeId, brand, url);
-        return getProductDTOResponseEntity(product);
+        return getProductDTOResponseEntity(product, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable("productId") String productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
     }
 
 
 
-    private ResponseEntity<ProductDTO> getProductDTOResponseEntity(ProductDTO product) {
+    private ResponseEntity<ProductDTO> getProductDTOResponseEntity(ProductDTO product, HttpStatus status) {
         Link selfLink = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(ProductResource.class)
             .getProduct(product.getProductId())).withSelfRel();
         product.add(selfLink);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.status(status).body(product);
     }
 
 }

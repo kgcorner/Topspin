@@ -63,7 +63,7 @@ public class ProductResource {
         @ApiParam("Id of the product")
         @PathVariable("id")
         String productId) {
-        ProductDTO product = productService.getProduct(productId);
+        ProductDTO product = productService.createProduct(productId);
         return getProductDTOResponseEntity(product, HttpStatus.OK);
     }
 

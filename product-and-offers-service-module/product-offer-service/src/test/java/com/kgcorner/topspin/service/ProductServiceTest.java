@@ -67,7 +67,7 @@ public class ProductServiceTest {
         Product product = mock(AbstractProduct.class);
         when(product.getProductId()).thenReturn(productId);
         when(productPersistenceLayer.getProduct(productId)).thenReturn(product);
-        ProductDTO productDTO = productService.getProduct(productId);
+        ProductDTO productDTO = productService.createProduct(productId);
         assertEquals(productId, productDTO.getProductId());
     }
 

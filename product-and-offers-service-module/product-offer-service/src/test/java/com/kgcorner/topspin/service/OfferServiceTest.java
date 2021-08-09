@@ -168,8 +168,8 @@ public class OfferServiceTest {
         when(store.getDescription()).thenReturn("store description");
         when(store.getSurferPlaceHolder()).thenReturn("surferplaceholder%s");
         when(storeClient.get(storeId)).thenReturn( store);
-
-        when(storePersistenceLayer.getStore(storeId)).thenReturn(null);
+        when(store.getStoreId()).thenReturn(storeId);
+        when(storePersistenceLayer.getStore(storeId)).thenThrow(IllegalArgumentException.class);
         offerService.createOffer(title, description, lastDate, categoryId, storeId,
             url, maxDiscount, thumbnails, true);
         Mockito.verify(storeFactory).createStore(storeId, "Flipkart", "store description");
@@ -191,7 +191,8 @@ public class OfferServiceTest {
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);
-        when(storePersistenceLayer.getStore(storeId)).thenReturn(null);
+        when(category.getCategoryId()).thenReturn(categoryId);
+        when(categoryPersistenceLayer.getCategory(categoryId)).thenThrow(IllegalArgumentException.class);
         when(store.getName()).thenReturn("Flipkart");
         when(store.getDescription()).thenReturn("store description");
         when(store.getSurferPlaceHolder()).thenReturn("surferplaceholder%s");
@@ -309,13 +310,14 @@ public class OfferServiceTest {
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);
-        when(storePersistenceLayer.getStore(storeId)).thenReturn(null);
+        when(category.getCategoryId()).thenReturn(categoryId);
+        when(categoryPersistenceLayer.getCategory(categoryId)).thenThrow(IllegalArgumentException.class);
         when(store.getName()).thenReturn("Flipkart");
         when(store.getDescription()).thenReturn("store description");
         when(store.getSurferPlaceHolder()).thenReturn("surferplaceholder%s");
         when(storeClient.get(storeId)).thenReturn( store);
-
-        when(storePersistenceLayer.getStore(storeId)).thenReturn(null);
+        when(store.getStoreId()).thenReturn(storeId);
+        when(storePersistenceLayer.getStore(storeId)).thenThrow(IllegalArgumentException.class);
         offerService.updateOffer(offerID, title, description, lastDate, categoryId, storeId,
             url, maxDiscount, thumbnails, true);
         Mockito.verify(storeFactory).createStore(storeId, "Flipkart", "store description");
@@ -337,7 +339,8 @@ public class OfferServiceTest {
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);
-        when(storePersistenceLayer.getStore(storeId)).thenReturn(null);
+        when(category.getCategoryId()).thenReturn(categoryId);
+        when(categoryPersistenceLayer.getCategory(categoryId)).thenThrow(IllegalArgumentException.class);
         when(store.getName()).thenReturn("Flipkart");
         when(store.getDescription()).thenReturn("store description");
         when(store.getSurferPlaceHolder()).thenReturn("surferplaceholder%s");

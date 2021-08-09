@@ -70,7 +70,7 @@ public class ProductResourceTest {
     public void getProduct() throws Exception {
         String productId = "id";
         ProductDTO productDTO = mock(ProductDTO.class);
-        when(productService.getProduct(productId)).thenReturn(productDTO);
+        when(productService.createProduct(productId)).thenReturn(productDTO);
         ResponseEntity mockedResponseEntity = mock(ResponseEntity.class);
         doReturn(mockedResponseEntity).when(spy, "getProductDTOResponseEntity", productDTO, HttpStatus.OK);
         ResponseEntity<ProductDTO> responseEntity = spy.getProduct(productId);

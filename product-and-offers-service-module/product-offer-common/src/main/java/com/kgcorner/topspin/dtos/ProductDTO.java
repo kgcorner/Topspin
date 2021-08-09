@@ -159,4 +159,6 @@ public class ProductDTO extends ResourceSupport implements Product {
     public String getProductId() {
         return product.getProductId();
     }
+
+
 }

@@ -111,6 +111,8 @@ services:
   product_offer:
     container_name: product_offer
     image: kumargauravgupta3/product-offer-docker:1.0-SNAPSHOT
+    env_file:
+      - id
     ports:
       - '9004:9004'
       - '5005:5005'

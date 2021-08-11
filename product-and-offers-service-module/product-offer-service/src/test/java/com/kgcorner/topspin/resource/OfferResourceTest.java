@@ -131,6 +131,36 @@ public class OfferResourceTest {
         assertEquals(mockedResponseEntity, response);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateOfferWithFileFailed() throws Exception {
+        String title = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium";
+        String description = "description";
+        Date lastDate = new Date();
+        String categoryId = "categoryId";
+        String storeId = "storeId";
+        String url = "url";
+        String maxDiscount = "90%";
+        MultipartFile thumbNail = mock(MultipartFile.class);
+        boolean featured = true;
+        String tempFileName = title.substring(0, 59);
+        InputStream stream = mock(InputStream.class);
+        OfferDTO offer = mock(OfferDTO.class);
+        when(thumbNail.getOriginalFilename()).thenReturn(null);
+        when(thumbNail.getSize()).thenReturn(1024L);
+        when(thumbNail.getInputStream()).thenReturn(stream);
+        when(awsServices.sanitizeFileName(tempFileName)).thenReturn(tempFileName);
+        String imageFile = bucketUrl + "/" + tempFileName +".jpeg";
+        when(offerService.createOffer(title, description, lastDate, categoryId, storeId, url, maxDiscount,
+            imageFile, featured)).thenReturn(offer);
+        doNothing().when(awsServices).storeImage(s3BucketName, title + ".jpeg", stream, 1024L);
+        ResponseEntity mockedResponseEntity = mock(ResponseEntity.class);
+        doReturn(mockedResponseEntity).when(spy, "getOfferDTOResponseEntity", offer,
+            HttpStatus.CREATED);
+        ResponseEntity<OfferDTO> response = spy.createOffer(title, description, lastDate, categoryId, storeId, url, maxDiscount,
+            thumbNail, featured);
+    }
+
+
     @Test
     public void get() throws Exception {
         String offerId = "offerId";

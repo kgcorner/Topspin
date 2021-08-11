@@ -66,4 +66,38 @@ public class EnvironmentVariableSanityCheckerTest {
         String key ="098*";
         assertFalse(EnvironmentVariableSanityChecker.checkForGoogleSecretKey(key));
     }
+
+    @Test
+    public void checkForAwsApiKeyFail() {
+        String key = "987*";
+        assertFalse(EnvironmentVariableSanityChecker.checkForAwsApiKey(key));
+    }
+
+    @Test
+    public void checkForAwsApiKeyFailForNull() {
+        assertFalse(EnvironmentVariableSanityChecker.checkForAwsApiKey(null));
+    }
+
+    @Test
+    public void checkForAwsApiKey() {
+        String key = "987ACFG";
+        assertTrue(EnvironmentVariableSanityChecker.checkForAwsApiKey(key));
+    }
+
+    @Test
+    public void checkForAwsApiSecretFail() {
+        String key = "987*";
+        assertFalse(EnvironmentVariableSanityChecker.checkForAwsApiSecret(key));
+    }
+
+    @Test
+    public void checkForAwsApiSecretFailForNull() {
+        assertFalse(EnvironmentVariableSanityChecker.checkForAwsApiSecret(null));
+    }
+
+    @Test
+    public void checkForAwsApiSecret() {
+        String key = "987ahch";
+        assertTrue(EnvironmentVariableSanityChecker.checkForAwsApiSecret(key));
+    }
 }

@@ -92,7 +92,7 @@ public class OfferResource {
         fileName = awsServices.sanitizeFileName(fileName);
         fileName = fileName + thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
         awsServices.storeImage(s3BucketName, fileName, thumbnail.getInputStream(), thumbnail.getSize());
-        fileName = this.bucketUrl + fileName;
+        fileName = this.bucketUrl +"/" +fileName;
         fileName = fileName.replace("//","/");
         OfferDTO offer =   offerService.createOffer(title, description, lastDate, categoryId, storeId, url,
             maxDiscount, fileName, featured);

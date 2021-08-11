@@ -31,6 +31,12 @@ public final class EnvironmentVariableSanityChecker {
     private static final Pattern GOOGLE_APP_KEY_PATTERN = Pattern.compile(GOOGLE_APP_KEY_REGEX);
     private static final Pattern GOOGLE_APP_SECRET_PATTERN = Pattern.compile(GOOGLE_SECRET_KEY_REGEX);
 
+    //AWS
+    private static final String AWS_API_KEY_REGEX = "^[A-Z0-9]+$";
+    private static final String AWS_API_SECRET_REGEX = "^[a-zA-Z0-9]+$";
+    private static final Pattern AWS_API_KEY_PATTERN = Pattern.compile(AWS_API_KEY_REGEX);
+    private static final Pattern AWS_API_SECRET_PATTERN = Pattern.compile(AWS_API_SECRET_REGEX);
+
     /**
      * Checks whether given key fits pattern of facebook app key
      * @param key key to be tested
@@ -65,5 +71,23 @@ public final class EnvironmentVariableSanityChecker {
      */
     public static boolean checkForGoogleSecretKey(String key) {
         return key != null ? GOOGLE_APP_SECRET_PATTERN.matcher(key).matches() : false;
+    }
+
+    /**
+     * Checks if given key fits aws key pattern
+     * @param key Aws api key
+     * @return true if pattern fits, false otherwise
+     */
+    public static boolean checkForAwsApiKey(String key) {
+        return key != null ? AWS_API_KEY_PATTERN.matcher(key).matches() : false;
+    }
+
+    /**
+     * Checks if given key fits aws secret pattern
+     * @param key Aws api secret
+     * @return true if pattern fits, false otherwise
+     */
+    public static boolean checkForAwsApiSecret(String key) {
+        return key != null ? AWS_API_SECRET_PATTERN.matcher(key).matches() : false;
     }
 }

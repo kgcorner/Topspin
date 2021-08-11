@@ -58,6 +58,11 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>aws-utilities</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

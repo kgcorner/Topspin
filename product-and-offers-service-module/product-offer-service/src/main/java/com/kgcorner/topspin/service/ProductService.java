@@ -67,9 +67,8 @@ public class ProductService  extends AbstractProductOfferService {
                                   String currency, String smallImageUrl, String mediumImageUrl,
                                   String largeImageUrl, String brand, String url, CategoryResponse categoryDTO,
                                   StoreResponse storeDTO) {
-        var category = categoryFactory.createCategory(categoryDTO.getCategoryId(),
-            categoryDTO.getName(), categoryDTO.getDescription());
-        var store = storeFactory.createStore(storeDTO.getStoreId(), storeDTO.getName(), storeDTO.getDescription());
+        var category = getCategory(categoryDTO);
+        var store = getStore(storeDTO);
         return productFactory.createProduct(title, description, price, discountedPrice,
             currency, smallImageUrl, mediumImageUrl,
             largeImageUrl, category, store, brand, String.format(storeDTO.getSurferPlaceHolder(), url));

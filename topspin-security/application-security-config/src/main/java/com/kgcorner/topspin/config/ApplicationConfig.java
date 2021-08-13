@@ -30,8 +30,8 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        HttpSecurity httpSecurity = http.addFilterAfter(new ApplicationAwareFilter(), BasicAuthenticationFilter.class);
-        httpSecurity.csrf().disable()
+        http.addFilterAfter(new ApplicationAwareFilter(), BasicAuthenticationFilter.class).
+        csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()

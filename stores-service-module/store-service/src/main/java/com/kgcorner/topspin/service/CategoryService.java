@@ -28,6 +28,8 @@ public class CategoryService {
 
     public CategoryDTO getCategory(String categoryId) {
         Category category = categoryPersistenceLayer.getCategory(categoryId);
+        if(category == null)
+            throw new IllegalArgumentException("No Such category");
         CategoryDTO dto = new CategoryDTO(category);
         return dto;
     }

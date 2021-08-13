@@ -149,6 +149,11 @@
                 <artifactId>spring-security-config</artifactId>
                 <version>5.0.0.RELEASE</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.10</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -224,8 +229,9 @@
         <module>stores-service-module</module>
         <module>common</module>
         <module>auth-service-modules</module>
-        <module>security-config</module>
+        <module>topspin-security</module>
         <module>product-and-offers-service-module</module>
         <module>aws-utilities</module>
+        <module>gateway</module>
     </modules>
 </project>

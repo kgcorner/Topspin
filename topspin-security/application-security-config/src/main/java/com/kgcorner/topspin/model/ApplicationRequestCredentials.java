@@ -64,4 +64,17 @@ public class ApplicationRequestCredentials implements Authentication {
     public String getName() {
         return applicationName;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this.getClass().isAssignableFrom(obj.getClass())) {
+            return ((ApplicationRequestCredentials) obj).applicationName.equals(applicationName);
+        }
+        return false;
+    }
 }

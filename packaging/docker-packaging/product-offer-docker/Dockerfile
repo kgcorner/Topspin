@@ -4,8 +4,7 @@ FROM adoptopenjdk/openjdk11
 # Add Maintainer Info
 LABEL maintainer="kumargauravgupta3@gmail.com"
 
-COPY db_restore.sh /docker-entrypoint-initdb.d/
-
+RUN echo "gateway-key:secret">/app.lst
 # Add a volume pointing to /tmp
 VOLUME /tmp
 
@@ -19,4 +18,4 @@ ARG JAR_FILE=service-jar.jar
 ADD ${JAR_FILE} service-jar.jar
 
 # Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005","-jar","/service-jar.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005","-jar","/service-jar.jar"]

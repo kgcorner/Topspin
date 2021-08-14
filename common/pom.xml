@@ -15,5 +15,6 @@
         <module>topspin-common</module>
         <module>mongodb-util</module>
         <module>mysql-util</module>
+        <module>application-client-common</module>
     </modules>
 </project>

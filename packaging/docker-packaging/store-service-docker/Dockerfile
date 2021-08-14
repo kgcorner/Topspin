@@ -4,6 +4,8 @@ FROM adoptopenjdk/openjdk11
 # Add Maintainer Info
 LABEL maintainer="kumargauravgupta3@gmail.com"
 
+RUN echo "gateway-key:secret">/app.lst
+RUN echo "productservice-topspinkey:topspinsecret">>/app.lst
 # Add a volume pointing to /tmp
 VOLUME /tmp
 

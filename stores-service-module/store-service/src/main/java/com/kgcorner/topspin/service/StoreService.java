@@ -51,6 +51,8 @@ public class StoreService {
 
     public StoreDTO getStore(String storeId) {
         Store store = storePersistenceLayer.getStore(storeId);
+        if(store == null)
+            throw new IllegalArgumentException("No Such store");
         return getStoreDTO(store);
     }
 

@@ -8,13 +8,12 @@ import com.kgcorner.topspin.dtos.factory.ProductFactory;
 import com.kgcorner.topspin.dtos.factory.StoreFactory;
 import com.kgcorner.topspin.model.CategoryResponse;
 import com.kgcorner.topspin.model.StoreResponse;
-import com.kgcorner.topspin.persistence.ProductPersistenceLayer;
+import com.kgcorner.topspin.persistence.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -42,6 +41,9 @@ public class ProductServiceTest {
     private StoreClient storeClient;
     private CategoryClient categoryClient;
     private ProductPersistenceLayer productPersistenceLayer;
+    private ProductOfferCategoryPersistenceLayer categoryPersistenceLayer;
+    private ProductOfferStorePersistenceLayer storePersistenceLayer;
+
 
 
     @Before
@@ -53,12 +55,16 @@ public class ProductServiceTest {
         storeClient = mock(StoreClient.class);
         categoryClient = mock(CategoryClient.class);
         productPersistenceLayer = mock(ProductPersistenceLayer.class);
+        categoryPersistenceLayer = mock(ProductOfferCategoryPersistenceLayer.class);
+        storePersistenceLayer = mock(ProductOfferStorePersistenceLayer.class);
         Whitebox.setInternalState(productService, "productFactory", productFactory);
         Whitebox.setInternalState(productService, "categoryFactory", categoryFactory);
         Whitebox.setInternalState(productService, "storeFactory", storeFactory);
         Whitebox.setInternalState(productService, "storeClient", storeClient);
         Whitebox.setInternalState(productService, "categoryClient", categoryClient);
         Whitebox.setInternalState(productService, "productPersistenceLayer", productPersistenceLayer);
+        Whitebox.setInternalState(productService, "categoryPersistenceLayer", categoryPersistenceLayer);
+        Whitebox.setInternalState(productService, "storePersistenceLayer", storePersistenceLayer);
     }
 
     @Test
@@ -94,9 +100,9 @@ public class ProductServiceTest {
 
         String storeId = "storeId";
 
-        Category category = PowerMockito.mock(Category.class);
+        Category category = mock(Category.class);
 
-        Store store = PowerMockito.mock(Store.class);
+        Store store = mock(Store.class);
         String id = "productId";
 
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
@@ -117,11 +123,13 @@ public class ProductServiceTest {
         when(storeClient.get(storeId)).thenReturn(storeResponse);
         when(storeFactory.createStore(storeId, productName, productDescription)).thenReturn(store);
         when(categoryFactory.createCategory(categoryId, productName, productDescription)).thenReturn(category);
-        when(productFactory.createProduct(productName, productDescription, productPrice,
+        String placeholderUrl = String.format(surferPlaceholderUrl, url);
+        doReturn(product).when(productFactory).createProduct(productName, productDescription, productPrice,
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl
-            ,productLargeImageUrl, category, store, brand, String.format(surferPlaceholderUrl, url))
-            ).thenReturn(product);
+            ,productLargeImageUrl, category, store, brand, placeholderUrl);
         when(productPersistenceLayer.createProduct(product)).thenReturn(product);
+        when(categoryPersistenceLayer.getCategory(categoryId)).thenReturn(category);
+        when(storePersistenceLayer.getStore(storeId)).thenReturn(store);
         when(product.getProductId()).thenReturn(id);
         ProductDTO productDTO = productService.createProduct(productName, productDescription, productPrice,
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl
@@ -208,8 +216,8 @@ public class ProductServiceTest {
         String brand = "Brand";
         String categoryId = "categoryId";
         String storeId = "storeId";
-        Category category = PowerMockito.mock(Category.class);
-        Store store = PowerMockito.mock(Store.class);
+        Category category = mock(Category.class);
+        Store store = mock(Store.class);
         String id = "productId";
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";
@@ -263,8 +271,8 @@ public class ProductServiceTest {
         String brand = "Brand";
         String categoryId = "categoryId";
         String storeId = "storeId";
-        Category category = PowerMockito.mock(Category.class);
-        Store store = PowerMockito.mock(Store.class);
+        Category category = mock(Category.class);
+        Store store = mock(Store.class);
         String id = "productId";
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";
@@ -291,8 +299,8 @@ public class ProductServiceTest {
         String brand = "Brand";
         String categoryId = "categoryId";
         String storeId = "storeId";
-        Category category = PowerMockito.mock(Category.class);
-        Store store = PowerMockito.mock(Store.class);
+        Category category = mock(Category.class);
+        Store store = mock(Store.class);
         String id = "productId";
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";
@@ -316,8 +324,8 @@ public class ProductServiceTest {
         String brand = "Brand";
         String categoryId = "categoryId";
         String storeId = "storeId";
-        Category category = PowerMockito.mock(Category.class);
-        Store store = PowerMockito.mock(Store.class);
+        Category category = mock(Category.class);
+        Store store = mock(Store.class);
         String id = "productId";
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";

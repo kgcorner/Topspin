@@ -91,6 +91,7 @@ services:
     image: kumargauravgupta3/store-service-docker:1.0-SNAPSHOT
     ports:
       - '9003:9003'
+      - '5006:5006'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9003"]
       interval: 30s

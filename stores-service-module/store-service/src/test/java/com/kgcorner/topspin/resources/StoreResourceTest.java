@@ -14,6 +14,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
  */
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(ControllerLinkBuilder.class)
+@PrepareForTest({ControllerLinkBuilder.class, ServletUriComponentsBuilder.class})
 public class StoreResourceTest {
 
     private StoreResource storeResource;
@@ -80,6 +82,22 @@ public class StoreResourceTest {
         demoStore.setStoreId("id");
         PowerMockito.when(storeService.getStore("id")).thenReturn(storeDTO);
         Assert.assertEquals(storeDTO.getName(), storeResource.get("id").getBody().getName());
+    }
+
+    @Test
+    public void getAllStores() {
+        int page = 0;
+        int maxCount = 10;
+        PowerMockito.mockStatic(ServletUriComponentsBuilder.class);
+        ServletUriComponentsBuilder servletContext = PowerMockito.mock(ServletUriComponentsBuilder.class);
+        PowerMockito.when(ServletUriComponentsBuilder.fromCurrentRequest()).thenReturn(servletContext);
+        UriComponents uri = PowerMockito.mock(UriComponents.class);
+        PowerMockito.when(servletContext.build()).thenReturn(uri);
+        PowerMockito.when(uri.toUriString()).thenReturn("HATEOS url");
+        List<StoreDTO> storeDTOS = new ArrayList<>();
+        storeDTOS.add(new StoreDTO(demoStore));
+        PowerMockito.when(storeService.getAllStores(page, maxCount)).thenReturn(storeDTOS);
+        Assert.assertNotNull(storeResource.getAllStores(page, maxCount));
     }
 
     class DemoStore extends AbstractStore {

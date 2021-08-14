@@ -36,16 +36,17 @@ public class FileSourceApplicationAuthenticationService implements ApplicationAu
         File file  = new File(applicationCredentialFile);
         if(!file.exists())
             throw new IllegalStateException("Credential file location is missing");
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-        String applicationDetails = null;
-        applications = new HashMap<>();
-        while ((applicationDetails = bufferedReader.readLine()) != null) {
-            String[] appKeyNamePair = applicationDetails.split("-");
-            String appName = appKeyNamePair[0];
-            String appKeySecretPair = appKeyNamePair[1];
-            applications.put(appName, appKeySecretPair);
+
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+            String applicationDetails = null;
+            applications = new HashMap<>();
+            while ((applicationDetails = bufferedReader.readLine()) != null) {
+                String[] appKeyNamePair = applicationDetails.split("-");
+                String appName = appKeyNamePair[0];
+                String appKeySecretPair = appKeyNamePair[1];
+                applications.put(appName, appKeySecretPair);
+            }
         }
-        bufferedReader.close();
     }
 
     @Override

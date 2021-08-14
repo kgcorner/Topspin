@@ -69,6 +69,11 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        com.kgcorner.topspin.config.SecurityConfiguration.class
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

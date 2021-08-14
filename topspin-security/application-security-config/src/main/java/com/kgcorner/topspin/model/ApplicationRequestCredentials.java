@@ -72,9 +72,11 @@ public class ApplicationRequestCredentials implements Authentication {
 
     @Override
     public boolean equals(Object obj) {
-        if(this.getClass().isAssignableFrom(obj.getClass())) {
-            return ((ApplicationRequestCredentials) obj).applicationName.equals(applicationName);
-        }
-        return false;
+        if (obj == null)
+            return false;
+
+        if (this.getClass() != obj.getClass())
+            return false;
+        return ((ApplicationRequestCredentials) obj).applicationName.equals(applicationName);
     }
 }

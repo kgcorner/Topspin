@@ -50,6 +50,12 @@ public class CategoryServiceTest {
         Assert.assertEquals(category.getName(), result.getName());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void getCategoryNoCategory() {
+        String id = "id";
+        PowerMockito.when(persistenceLayer.getCategory(id)).thenReturn(null);
+        categoryService.getCategory(id);
+    }
     @Test
     public void createCategory() {
         String name = "name";
@@ -112,4 +118,6 @@ public class CategoryServiceTest {
             return Collections.emptyList();
         }
     }
+
+
 }

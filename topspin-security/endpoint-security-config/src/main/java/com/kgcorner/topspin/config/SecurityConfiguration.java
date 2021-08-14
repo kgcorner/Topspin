@@ -22,7 +22,6 @@ import java.util.Map;
  * Author: kumar
  * Created on : 26/11/19
  */
-
 public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * Returns list of urls which can be accesses publicly

@@ -34,7 +34,11 @@
             <artifactId>store-mongo-port</artifactId>
             <version>${product.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>application-security-config</artifactId>
+            <version>${product.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -66,7 +66,7 @@ public class FileSourceApplicationAuthenticationService implements ApplicationAu
         String[] pair = appKeySecretPair.split(":");
         String key = pair[0];
         String secret = pair[1];
-        String payload = String.format("%s%s%s",appName, key, requestedAt);
+        String payload = String.format("%s%s%s%s", appName, key, requestedAt, secret);
         if(!Hasher.checkPassword(payload, hash)) {
             throw new ForbiddenException("Invalid credentials");
         }

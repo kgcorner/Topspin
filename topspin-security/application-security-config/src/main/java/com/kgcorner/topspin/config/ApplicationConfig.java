@@ -35,6 +35,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
+            .antMatchers("/").permitAll()
             .anyRequest().hasRole("APPLICATION");
     }
 }

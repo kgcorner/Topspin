@@ -46,7 +46,7 @@ public class FileSourceApplicationAuthenticationServiceTest {
 
     @Test
     public void validateRequest() {
-        String hash = Hasher.getCrypt(String.format("%s%s%s",appName, appKey, "123"),appSecret);
+        String hash = Hasher.getCrypt(String.format("%s%s%s%s",appName, appKey, "123",appSecret),appSecret);
         ApplicationRequestCredentials credentials = service.validateRequest(appName, hash, "123");
         assertEquals(appKey, credentials.getApplicationKey());
     }

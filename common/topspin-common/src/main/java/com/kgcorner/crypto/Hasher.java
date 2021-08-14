@@ -28,4 +28,8 @@ public final class Hasher {
     public static boolean checkPassword(String password, String hash) {
         return BCrypt.checkpw(password, hash);
     }
+
+    public static void main(String[] args) {
+        System.out.println(getCrypt("gatewaykey123secret", "secret"));
+    }
 }

@@ -84,5 +84,6 @@ public class ApplicationRequestCredentialsTest {
         assertNotEquals(0, credentials.hashCode());
         assertNotNull(credentials.toString());
         assertFalse(credentials.equals(new Object()));
+        assertFalse(credentials.equals(null));
     }
 }

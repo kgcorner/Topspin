@@ -91,4 +91,16 @@ public interface User extends Serializable {
      * @return
      */
     boolean isActive();
+
+    /**
+     * Sets gender for a user
+     * @param gender
+     */
+    void setGender(String gender);
+
+    /**
+     * returns gender of user
+     * @return
+     */
+    String getGender();
 }

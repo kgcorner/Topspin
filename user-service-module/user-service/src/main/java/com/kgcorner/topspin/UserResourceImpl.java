@@ -37,8 +37,9 @@ public class UserResourceImpl extends UserServiceExceptionHandler implements Use
                            @ApiParam("username of the user") @RequestParam("username") String userName,
                            @ApiParam("email of the user") @RequestParam("email") String email,
                            @ApiParam("contact of the user") @RequestParam("contact") String contact,
+                           @ApiParam("contact of the user") @RequestParam("gender") String gender,
                            @ApiParam("any other info") @RequestParam("other") String other) {
-        return userService.createUser(name, userName, email, contact, other);
+        return userService.createUser(name, userName, email, contact, other, gender);
     }
 
     @ApiOperation("Updates user, only given values are set")

@@ -15,6 +15,7 @@ public class DummyUser implements User {
     private String contact;
     private String others;
     private boolean active;
+    private String gender;
 
     @Override
     public String getId() {
@@ -84,5 +85,15 @@ public class DummyUser implements User {
     @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public String getGender() {
+        return gender;
+    }
+
+    @Override
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

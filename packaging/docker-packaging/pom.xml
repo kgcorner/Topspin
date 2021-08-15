@@ -14,6 +14,7 @@
         <module>store-service-docker</module>
         <module>product-offer-docker</module>
         <module>mysqldb</module>
+        <module>gateway-service-docker</module>
         <!-- <module>redis-cache</module> -->
     </modules>
     <parent>

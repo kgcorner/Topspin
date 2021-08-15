@@ -18,6 +18,7 @@ public class UserModel implements User{
     private String email;
     private String contact;
     private String others;
+    private String gender;
     private boolean active;
 
     @Override
@@ -88,4 +89,11 @@ public class UserModel implements User{
         this.active = active;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

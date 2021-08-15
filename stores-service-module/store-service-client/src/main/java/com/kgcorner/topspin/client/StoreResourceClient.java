@@ -37,6 +37,26 @@ public interface StoreResourceClient {
     );
 
     /**
+     * Creates a store with given details
+     * @param name
+     * @param description
+     * @param link
+     * @param affiliateId
+     * @param surferPlaceHolder
+     * @param placeholder
+     * @return
+     */
+    @PostMapping("/stores")
+    ResponseEntity<String> createStorePlain(
+        @RequestParam("name") String name,
+        @RequestParam("description") String description,
+        @RequestParam("link") String link,
+        @RequestParam("affiliateId") String affiliateId,
+        @RequestParam("surferPlaceHolder") String surferPlaceHolder,
+        @RequestParam("placeholder") String placeholder
+    );
+
+    /**
      * Updates the store with given values
      * @param storeId
      * @param name

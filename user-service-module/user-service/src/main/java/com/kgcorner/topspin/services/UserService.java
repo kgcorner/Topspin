@@ -32,9 +32,10 @@ public interface UserService {
      * @param email
      * @param contact
      * @param other
+     * @param gender
      * @return
      */
-    User createUser(String name, String userName, String email, String contact, String other);
+    User createUser(String name, String userName, String email, String contact, String other, String gender);
 
     /**
      * Updates user's detail

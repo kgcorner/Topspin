@@ -53,7 +53,7 @@ public class StoreResource {
             .get(storeDto.getStoreId())).withSelfRel();
         Link updateLink = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(StoreResource.class)
             .put(storeDto.getStoreId(), "name", "affiliateId", "link", "surferPlaceHolder",
-                "placeHolder", "description")).withSelfRel();
+                "placeHolder", "description")).withRel("update");
         storeDto.add(selfLink);
         storeDto.add(updateLink);
         return ResponseEntity.ok(storeDto);

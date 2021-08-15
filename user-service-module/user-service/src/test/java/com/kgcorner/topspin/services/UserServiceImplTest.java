@@ -67,7 +67,7 @@ public class UserServiceImplTest {
         PowerMockito.when(userServiceModelFactory.createUserModel()).thenReturn(mockedUser);
         PowerMockito.when(userPersistenceLayer.createUser(Matchers.any(User.class))).thenReturn(mockedUser);
         User response = userService.createUser("Gaurav","username",
-            "email@email.com", "contact","other");
+            "email@email.com", "contact","other", "male");
         assertNotNull(response);
         assertEquals("Name is not matching", "Gaurav", response.getName());
     }
@@ -76,7 +76,7 @@ public class UserServiceImplTest {
     public void createUserWithBlankName() {
         try {
             User response = userService.createUser("", "username",
-                "email@email.com", "contact", "other");
+                "email@email.com", "contact", "other", "male");
         } catch (IllegalArgumentException x) {
             assertEquals("Name can't be blank", x.getMessage());
         }
@@ -86,7 +86,7 @@ public class UserServiceImplTest {
     public void createUserWithBlankUserName() {
         try {
             User response = userService.createUser("name", "",
-                "email@email.com", "contact", "other");
+                "email@email.com", "contact", "other", "male");
         } catch (IllegalArgumentException x) {
             assertEquals("Username can't be blank", x.getMessage());
         }
@@ -96,7 +96,7 @@ public class UserServiceImplTest {
     public void createUserWithInvalidEmail() {
         try {
             User response = userService.createUser("name", "username",
-                "email", "contact", "other");
+                "email", "contact", "other", "male");
         } catch (IllegalArgumentException x) {
             assertEquals("Invalid email", x.getMessage());
         }

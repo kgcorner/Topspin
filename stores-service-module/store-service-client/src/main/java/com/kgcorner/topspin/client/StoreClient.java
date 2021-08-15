@@ -39,6 +39,22 @@ public class StoreClient {
     }
 
     /**
+     * @see StoreResourceClient#createStore(String, String, String, String, String, String)
+     */
+    public String createStorePlain(
+        String name,
+        String description,
+        String link,
+        String affiliateId,
+        String surferPlaceHolder,
+        String placeholder
+    ) {
+        ResponseEntity<String> store = storeResourceClient.createStorePlain(name, description, link,
+            affiliateId, surferPlaceHolder, placeholder);
+        return store.getBody();
+    }
+
+    /**
      *  @see StoreResourceClient#put(String, String, String, String, String, String, String)
      */
     public StoreResponse put(

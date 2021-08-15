@@ -61,9 +61,9 @@ public class UserResourceImplTest {
     public void createUser() {
         User mockedUser = UserServiceTestUtility.createDummyUser("0","gaurav");
         when(userService.createUser("gaurav", "username", "email",
-            "contact", "other")).thenReturn(mockedUser);
+            "contact", "other", "male")).thenReturn(mockedUser);
         User response = userResource.createUser("gaurav", "username", "email",
-            "contact", "other");
+            "contact", "male", "other");
         assertNotNull(response);
         assertEquals("Name is not matching", mockedUser.getName(), response.getName());
     }

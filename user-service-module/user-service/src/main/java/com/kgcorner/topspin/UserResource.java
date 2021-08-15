@@ -33,10 +33,11 @@ public interface UserResource {
      * @param userName
      * @param email
      * @param contact
+     * @param gender
      * @param other
      * @return
      */
-    User createUser(String name, String userName, String email, String contact, String other);
+    User createUser(String name, String userName, String email, String contact, String gender, String other);
 
     /**
      * Updates User's details

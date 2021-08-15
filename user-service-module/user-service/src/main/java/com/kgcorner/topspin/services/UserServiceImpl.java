@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(String name, String userName, String email, String contact, String other) {
+    public User createUser(String name, String userName, String email, String contact, String other, String gender) {
         if(!email.matches(EMAIL_PATTERN))
             throw new IllegalArgumentException("Invalid email");
         if(Strings.isNullOrEmpty(name))
@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setOthers(other);
         user.setUserName(userName);
+        user.setGender(gender);
         return userPersistenceLayer.createUser(user);
     }
 

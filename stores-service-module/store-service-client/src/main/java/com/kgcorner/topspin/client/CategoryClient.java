@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.client;
 
 
-import com.kgcorner.topspin.model.CategoryResponse;
+import com.kgcorner.topspin.dtos.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Component;
@@ -25,15 +25,15 @@ public class CategoryClient {
     /**
      * @see CategoryResourceClient#get(String)
      */
-    public CategoryResponse getCategory(String categoryId) {
+    public CategoryDTO getCategory(String categoryId) {
         return categoryResourceClient.get(categoryId).getBody();
     }
 
     /**
      * @see CategoryResourceClient#getAll(int, int)
      */
-    public List<CategoryResponse> getAll(int page, int itemsPerPage) {
-        Resources<CategoryResponse> body = categoryResourceClient.getAll(page, itemsPerPage).getBody();
+    public List<CategoryDTO> getAll(int page, int itemsPerPage) {
+        Resources<CategoryDTO> body = categoryResourceClient.getAll(page, itemsPerPage).getBody();
         if(body != null)
             return new ArrayList<>(body.getContent());
         else
@@ -41,16 +41,16 @@ public class CategoryClient {
     }
 
     /**
-     * @see CategoryResourceClient#create(String, String)
+     * @see CategoryResourceClient#create(CategoryDTO) 
      */
-    public CategoryResponse create(String name, String description) {
-        return categoryResourceClient.create(name, description).getBody();
+    public CategoryDTO create(CategoryDTO categoryDTO) {
+        return categoryResourceClient.create(categoryDTO).getBody();
     }
 
     /**
-     * @see CategoryResourceClient#update(String, String, String) 
+     * @see CategoryResourceClient#update(String, CategoryDTO)
      */
-    public CategoryResponse update(String categoryId, String name, String description) {
-        return categoryResourceClient.update(categoryId, name, description).getBody();
+    public CategoryDTO update(String categoryId, CategoryDTO categoryDTO) {
+        return categoryResourceClient.update(categoryId, categoryDTO).getBody();
     }
 }

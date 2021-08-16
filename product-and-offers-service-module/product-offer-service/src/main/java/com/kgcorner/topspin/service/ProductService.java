@@ -1,11 +1,11 @@
 package com.kgcorner.topspin.service;
 
 
+import com.kgcorner.topspin.dtos.CategoryDTO;
 import com.kgcorner.topspin.dtos.Product;
 import com.kgcorner.topspin.dtos.ProductDTO;
+import com.kgcorner.topspin.dtos.StoreDTO;
 import com.kgcorner.topspin.dtos.factory.ProductFactory;
-import com.kgcorner.topspin.model.CategoryResponse;
-import com.kgcorner.topspin.model.StoreResponse;
 import com.kgcorner.topspin.persistence.ProductPersistenceLayer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class ProductService  extends AbstractProductOfferService {
     public ProductDTO createProduct(String title, String description, double price, double discountedPrice,
                                     String currency, String smallImageUrl, String mediumImageUrl, String largeImageUrl,
                                     String categoryId, String storeId, String brand, String url) {
-        CategoryResponse categoryDTO = getCategoryResponse(categoryId);
-        StoreResponse storeDTO = getStoreResponse(storeId);
+        CategoryDTO categoryDTO = getCategoryDTO(categoryId);
+        StoreDTO storeDTO = getStoreDTO(storeId);
         Product product = createProduct(title, description, price, discountedPrice, currency, smallImageUrl,
             mediumImageUrl, largeImageUrl, brand, url, categoryDTO, storeDTO);
         product = productPersistenceLayer.createProduct(product);
@@ -49,8 +49,8 @@ public class ProductService  extends AbstractProductOfferService {
                                     String mediumImageUrl, String largeImageUrl, String categoryId,
                                     String storeId, String brand, String url) {
         Product existingProduct = productPersistenceLayer.getProduct(productId);
-        CategoryResponse categoryDTO = getCategoryResponse(categoryId);
-        StoreResponse storeDTO = getStoreResponse(storeId);
+        CategoryDTO categoryDTO = getCategoryDTO(categoryId);
+        StoreDTO storeDTO = getStoreDTO(storeId);
         Product updatedProduct = createProduct(title, description, price, discountedPrice, currency,
             smallImageUrl, mediumImageUrl, largeImageUrl, brand, url, categoryDTO, storeDTO);
         BeanUtils.copyProperties(updatedProduct, existingProduct, "productId");
@@ -65,8 +65,8 @@ public class ProductService  extends AbstractProductOfferService {
 
     private Product createProduct(String title, String description, double price, double discountedPrice,
                                   String currency, String smallImageUrl, String mediumImageUrl,
-                                  String largeImageUrl, String brand, String url, CategoryResponse categoryDTO,
-                                  StoreResponse storeDTO) {
+                                  String largeImageUrl, String brand, String url, CategoryDTO categoryDTO,
+                                  StoreDTO storeDTO) {
         var category = getCategory(categoryDTO);
         var store = getStore(storeDTO);
         return productFactory.createProduct(title, description, price, discountedPrice,

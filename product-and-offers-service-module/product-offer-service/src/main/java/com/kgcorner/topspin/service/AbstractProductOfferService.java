@@ -4,11 +4,11 @@ package com.kgcorner.topspin.service;
 import com.kgcorner.topspin.client.CategoryClient;
 import com.kgcorner.topspin.client.StoreClient;
 import com.kgcorner.topspin.dtos.Category;
+import com.kgcorner.topspin.dtos.CategoryDTO;
 import com.kgcorner.topspin.dtos.Store;
+import com.kgcorner.topspin.dtos.StoreDTO;
 import com.kgcorner.topspin.dtos.factory.CategoryFactory;
 import com.kgcorner.topspin.dtos.factory.StoreFactory;
-import com.kgcorner.topspin.model.CategoryResponse;
-import com.kgcorner.topspin.model.StoreResponse;
 import com.kgcorner.topspin.persistence.ProductOfferCategoryPersistenceLayer;
 import com.kgcorner.topspin.persistence.ProductOfferStorePersistenceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,8 @@ public abstract class AbstractProductOfferService {
     protected ProductOfferStorePersistenceLayer storePersistenceLayer;
 
 
-    protected StoreResponse getStoreResponse(String storeId) {
-        StoreResponse storeDTO;
+    protected StoreDTO getStoreDTO(String storeId) {
+        StoreDTO storeDTO;
         try {
             storeDTO = storeClient.get(storeId);
         } catch (Exception x) {
@@ -50,7 +50,7 @@ public abstract class AbstractProductOfferService {
         return storeDTO;
     }
 
-    protected Store getStore(StoreResponse storeDTO) {
+    protected Store getStore(StoreDTO storeDTO) {
         Store store = null;
         try {
             store = storePersistenceLayer.getStore(storeDTO.getStoreId());
@@ -61,8 +61,8 @@ public abstract class AbstractProductOfferService {
         return store;
     }
 
-    protected CategoryResponse getCategoryResponse(String categoryId) {
-        CategoryResponse categoryDTO;
+    protected CategoryDTO getCategoryDTO(String categoryId) {
+        CategoryDTO categoryDTO;
         try {
             categoryDTO = categoryClient.getCategory(categoryId);
 
@@ -72,7 +72,7 @@ public abstract class AbstractProductOfferService {
         return categoryDTO;
     }
 
-    protected Category getCategory(CategoryResponse categoryDTO) {
+    protected Category getCategory(CategoryDTO categoryDTO) {
         Category category = null;
         try {
             category = categoryPersistenceLayer.getCategory(categoryDTO.getCategoryId());

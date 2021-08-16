@@ -1,13 +1,16 @@
 package com.kgcorner.topspin.dtos;
 
 import com.kgcorner.topspin.model.AbstractCategory;
-import com.kgcorner.topspin.model.Category;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.hateoas.Link;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -18,100 +21,94 @@ import java.util.List;
 
 public class CategoryDTOTest {
 
-    private CategoryDTO categoryDTO;
-    private DemoCategory category;
+    private CategoryDTO category;
+
     @Before
     public void setUp() {
-        category = new DemoCategory();
-        categoryDTO = new CategoryDTO(category);
+        category = new CategoryDTO();
     }
 
     @Test
     public void getChildren() {
         int maxCount = 10;
+        List<CategoryDTO> children = new ArrayList<>();
         for (int i = 0; i < maxCount; i++) {
-            categoryDTO.addChildren(new CategoryDTO(category));
+            children.add(new CategoryDTO());
         }
-        Assert.assertEquals(maxCount, categoryDTO.getChildren().size());
+        category.setChildren(children);
+        assertEquals(maxCount, category.getChildren().size());
     }
 
     @Test
     public void setCategoryId() {
         String categoryId = "categoryId";
         category.setCategoryId(categoryId);
-        Assert.assertEquals(categoryId, categoryDTO.getCategoryId());
+        assertEquals(categoryId, category.getCategoryId());
     }
 
     @Test
     public void setName() {
         String name = "name";
         category.setName(name);
-        Assert.assertEquals(name, categoryDTO.getName());
+        assertEquals(name, category.getName());
     }
 
     @Test
     public void setDescription() {
         String description = "description";
         category.setDescription(description);
-        Assert.assertEquals(description, categoryDTO.getDescription());
+        assertEquals(description, category.getDescription());
     }
 
     @Test
     public void setLongDescription() {
         String longDescription = "longDescription";
         category.setLongDescription(longDescription);
-        Assert.assertEquals(longDescription, categoryDTO.getLongDescription());
+        assertEquals(longDescription, category.getLongDescription());
     }
 
     @Test
     public void setBannerImage() {
         String bannerImage = "bannerImage";
         category.setBannerImage(bannerImage);
-        Assert.assertEquals(bannerImage, categoryDTO.getBannerImage());
+        assertEquals(bannerImage, category.getBannerImage());
     }
 
     @Test
     public void setThumbnailImage() {
         String thumbnailImage = "thumbnailImage";
         category.setThumbnailImage(thumbnailImage);
-        Assert.assertEquals(thumbnailImage, categoryDTO.getThumbNailImage());
+        assertEquals(thumbnailImage, category.getThumbnailImage());
     }
 
     @Test
     public void setLargeImage() {
         String largerImage = "largerImage";
         category.setLargeImage(largerImage);
-        Assert.assertEquals(largerImage, categoryDTO.getLargeImage());
+        assertEquals(largerImage, category.getLargeImage());
     }
 
     @Test
     public void setParent() {
-        Category parent = new DemoCategory();
+        CategoryDTO parent = new CategoryDTO();
         category.setParent(parent);
-        Assert.assertEquals(parent, categoryDTO.getParent());
+        assertEquals(parent, category.getParent());
     }
 
     @Test
     public void setTagline() {
         String tagline = "tagline";
         category.setTagline(tagline);
-        Assert.assertEquals(tagline, categoryDTO.getTagLine());
+        assertEquals(tagline, category.getTagline());
     }
 
-    class DemoCategory extends AbstractCategory {
-        private String cateId;
-
-        public void setCategoryId(String cateId) {
-            this.cateId = cateId;
-        }
-        @Override
-        public String getCategoryId() {
-            return cateId;
-        }
-
-        @Override
-        public List<Category> getChildren() {
-            return Collections.emptyList();
-        }
+    @Test
+    public void getLinks() {
+        String link = "link";
+        String rel = "self";
+        category.addLink(link, rel);
+        List<Link> links = category.getLinks();
+        assertEquals(link, links.get(0).getHref());
+        assertEquals(rel, links.get(0).getRel());
     }
 }

@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
 
-import com.kgcorner.topspin.model.Category;
+import com.kgcorner.topspin.model.AbstractCategory;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface CategoryPersistenceLayer {
      * Creates a category with given values and return instance of the created category
      * @return
      */
-    Category createCategory(Category category);
+    AbstractCategory createCategory(AbstractCategory category);
 
     /**
      * Returns all categories
@@ -24,39 +24,38 @@ public interface CategoryPersistenceLayer {
      * @param itemCount
      * @return
      */
-    List<Category> getAllCategories(int page, int itemCount);
+    List<AbstractCategory> getAllCategories(int page, int itemCount);
 
     /**
      * return category by given ID
      * @param categoryId
      * @return
      */
-    Category getCategory(String categoryId);
+    AbstractCategory getCategory(String categoryId);
 
     /**
      * Get instance of parent category of give child's id
      * @param childCategoryId
      * @return
      */
-    Category getCategoryParent(String childCategoryId);
+    AbstractCategory getCategoryParent(String childCategoryId);
 
     /**
      * Return children of given category
      * @return
      */
-    List<Category> getAllChildren(String parentCategoryId);
-
-    /**
-     * Add child category to a parent
-     * @param child
-     * @param parentId
-     */
-    void addAChild(Category child, String parentId);
+    List<? extends AbstractCategory> getAllChildren(String parentCategoryId);
 
     /**
      * Update given category, identified by id
      * @param updatedCategory
      * @param categoryId
      */
-    void updateCategory(Category updatedCategory, String categoryId);
+    AbstractCategory updateCategory(AbstractCategory updatedCategory, String categoryId);
+
+    /**
+     * Deletes a category by given id
+     * @param categoryId
+     */
+    void deleteCategory(String categoryId);
 }

@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
 import com.kgcorner.topspin.dao.MongoStoreDao;
-import com.kgcorner.topspin.model.Store;
+import com.kgcorner.topspin.model.AbstractStore;
 import com.kgcorner.topspin.model.StoreModel;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,9 +42,9 @@ public class MongoStorePersistenceLayerTest {
         store.setPlaceHolder("placeholder");
         store.setSurferPlaceHolder("SurferPlaceholder");
         when(mongoStoreDao.create(store)).thenReturn(store);
-        Store createdStore = mongoStorePersistenceLayer.createStore(store);
-        Assert.assertNotNull(createdStore);
-        Assert.assertEquals(store, createdStore);
+        AbstractStore createdAbstractStore = mongoStorePersistenceLayer.createStore(store);
+        Assert.assertNotNull(createdAbstractStore);
+        Assert.assertEquals(store, createdAbstractStore);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -55,7 +55,7 @@ public class MongoStorePersistenceLayerTest {
         store.setPlaceHolder("placeholder");
         store.setSurferPlaceHolder("SurferPlaceholder");
         when(mongoStoreDao.create(store)).thenReturn(store);
-        Store createdStore = mongoStorePersistenceLayer.createStore(store);
+        AbstractStore createdAbstractStore = mongoStorePersistenceLayer.createStore(store);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -66,7 +66,7 @@ public class MongoStorePersistenceLayerTest {
         store.setPlaceHolder("placeholder");
         store.setSurferPlaceHolder("SurferPlaceholder");
         when(mongoStoreDao.create(store)).thenReturn(store);
-        Store createdStore = mongoStorePersistenceLayer.createStore(store);
+        AbstractStore createdAbstractStore = mongoStorePersistenceLayer.createStore(store);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -77,7 +77,7 @@ public class MongoStorePersistenceLayerTest {
         store.setName("name");
         store.setSurferPlaceHolder("SurferPlaceholder");
         when(mongoStoreDao.create(store)).thenReturn(store);
-        Store createdStore = mongoStorePersistenceLayer.createStore(store);
+        AbstractStore createdAbstractStore = mongoStorePersistenceLayer.createStore(store);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -88,7 +88,7 @@ public class MongoStorePersistenceLayerTest {
         store.setPlaceHolder("placeholder");
         store.setName("name");
         when(mongoStoreDao.create(store)).thenReturn(store);
-        Store createdStore = mongoStorePersistenceLayer.createStore(store);
+        AbstractStore createdAbstractStore = mongoStorePersistenceLayer.createStore(store);
     }
 
     @Test

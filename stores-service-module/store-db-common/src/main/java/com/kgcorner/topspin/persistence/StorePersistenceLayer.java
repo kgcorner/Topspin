@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
 
-import com.kgcorner.topspin.model.Store;
+import com.kgcorner.topspin.model.AbstractStore;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface StorePersistenceLayer {
      * Creates a Store with given values and return instance of the created Store
      * @return
      */
-    Store createStore(Store Store);
+    AbstractStore createStore(AbstractStore AbstractStore);
 
     /**
      * Returns all Stores
@@ -25,21 +25,21 @@ public interface StorePersistenceLayer {
      * @param itemCount
      * @return
      */
-    List<Store> getAllStores(int page, int itemCount);
+    List<AbstractStore> getAllStores(int page, int itemCount);
 
     /**
      * return Store by given ID
      * @param StoreId
      * @return
      */
-    Store getStore(String StoreId);
+    AbstractStore getStore(String StoreId);
 
     /**
      * Update given Store, identified by id
-     * @param updatedStore
+     * @param store
      * @param StoreId
      */
-    void updateStore(Store updatedStore, String StoreId);
+    AbstractStore updateStore(AbstractStore store, String StoreId);
 
     /**
      * Deletes given store

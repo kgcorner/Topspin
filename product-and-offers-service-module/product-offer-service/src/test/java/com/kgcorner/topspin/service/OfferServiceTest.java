@@ -6,8 +6,6 @@ import com.kgcorner.topspin.dtos.*;
 import com.kgcorner.topspin.dtos.factory.CategoryFactory;
 import com.kgcorner.topspin.dtos.factory.OfferFactory;
 import com.kgcorner.topspin.dtos.factory.StoreFactory;
-import com.kgcorner.topspin.model.CategoryResponse;
-import com.kgcorner.topspin.model.StoreResponse;
 import com.kgcorner.topspin.persistence.OfferPersistenceLayer;
 import com.kgcorner.topspin.persistence.ProductOfferCategoryPersistenceLayer;
 import com.kgcorner.topspin.persistence.ProductOfferStorePersistenceLayer;
@@ -99,21 +97,21 @@ public class OfferServiceTest {
         Store store = mock(Store.class);
         Category category = mock(Category.class);
 
-        StoreResponse storeResponse = mock(StoreResponse.class);
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
-        when(storeResponse.getStoreId()).thenReturn(storeId);
-        when(storeResponse.getName()).thenReturn(title);
-        when(storeResponse.getDescription()).thenReturn(description);
-        when(storeResponse.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
+        StoreDTO StoreDTO = mock(StoreDTO.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
+        when(StoreDTO.getStoreId()).thenReturn(storeId);
+        when(StoreDTO.getName()).thenReturn(title);
+        when(StoreDTO.getDescription()).thenReturn(description);
+        when(StoreDTO.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
 
-        when(categoryResponse.getCategoryId()).thenReturn(categoryId);
-        when(categoryResponse.getName()).thenReturn(title);
-        when(categoryResponse.getDescription()).thenReturn(description);
+        when(CategoryDTO.getCategoryId()).thenReturn(categoryId);
+        when(CategoryDTO.getName()).thenReturn(title);
+        when(CategoryDTO.getDescription()).thenReturn(description);
 
         when(categoryFactory.createCategory(categoryId, title, description)).thenReturn(category);
         when(storeFactory.createStore(storeId, title, description)).thenReturn(store);
-        when(storeClient.get(storeId)).thenReturn(storeResponse);
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
+        when(storeClient.get(storeId)).thenReturn(StoreDTO);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
         when(offerFactory.createOffer(title, description, lastDate, category, store,
             url, maxDiscount, thumbnails, String.format(surferPlaceholderUrl, url), true))
             .thenReturn(abstractOffer);
@@ -136,14 +134,14 @@ public class OfferServiceTest {
         String maxDiscount = "maxDiscount";
         String storeId = "storeId";
         String categoryId = "categoryId";
-        StoreResponse storeResponse = mock(StoreResponse.class);
+        StoreDTO StoreDTO = mock(StoreDTO.class);
         Store store = mock(Store.class);
         Category category = mock(Category.class);
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
         when(categoryFactory.createCategory(categoryId, title, description)).thenReturn(category);
         when(storeFactory.createStore(storeId, title, description)).thenReturn(store);
-        when(storeClient.get(storeId)).thenReturn(storeResponse);
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
+        when(storeClient.get(storeId)).thenReturn(StoreDTO);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
         when(storeClient.get(storeId)).thenThrow(RuntimeException.class);
         offerService.createOffer(title, description, lastDate, categoryId, storeId,
             url, maxDiscount, thumbnails, true);
@@ -158,8 +156,8 @@ public class OfferServiceTest {
         String maxDiscount = "maxDiscount";
         String storeId = "storeId";
         String categoryId = "categoryId";
-        StoreResponse store = mock(StoreResponse.class);
-        CategoryResponse category = mock(CategoryResponse.class);
+        StoreDTO store = mock(StoreDTO.class);
+        CategoryDTO category = mock(CategoryDTO.class);
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);
@@ -186,8 +184,8 @@ public class OfferServiceTest {
         String maxDiscount = "maxDiscount";
         String storeId = "storeId";
         String categoryId = "categoryId";
-        StoreResponse store = mock(StoreResponse.class);
-        CategoryResponse category = mock(CategoryResponse.class);
+        StoreDTO store = mock(StoreDTO.class);
+        CategoryDTO category = mock(CategoryDTO.class);
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);
@@ -244,21 +242,21 @@ public class OfferServiceTest {
         Store store = mock(Store.class);
         Category category = mock(Category.class);
         Offer existingOffer = mock(AbstractOffer.class);
-        StoreResponse storeResponse = mock(StoreResponse.class);
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
-        when(storeResponse.getStoreId()).thenReturn(storeId);
-        when(storeResponse.getName()).thenReturn(title);
-        when(storeResponse.getDescription()).thenReturn(description);
-        when(storeResponse.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
+        StoreDTO StoreDTO = mock(StoreDTO.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
+        when(StoreDTO.getStoreId()).thenReturn(storeId);
+        when(StoreDTO.getName()).thenReturn(title);
+        when(StoreDTO.getDescription()).thenReturn(description);
+        when(StoreDTO.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
 
-        when(categoryResponse.getCategoryId()).thenReturn(categoryId);
-        when(categoryResponse.getName()).thenReturn(title);
-        when(categoryResponse.getDescription()).thenReturn(description);
+        when(CategoryDTO.getCategoryId()).thenReturn(categoryId);
+        when(CategoryDTO.getName()).thenReturn(title);
+        when(CategoryDTO.getDescription()).thenReturn(description);
         when(offerPersistenceLayer.getOffer(offerId)).thenReturn(existingOffer);
         when(categoryFactory.createCategory(categoryId, title, description)).thenReturn(category);
         when(storeFactory.createStore(storeId, title, description)).thenReturn(store);
-        when(storeClient.get(storeId)).thenReturn(storeResponse);
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
+        when(storeClient.get(storeId)).thenReturn(StoreDTO);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
         when(offerFactory.createOffer(title, description, lastDate, category, store,
             url, maxDiscount, thumbnails, String.format(surferPlaceholderUrl, url), true))
             .thenReturn(abstractOffer);
@@ -282,14 +280,14 @@ public class OfferServiceTest {
         String maxDiscount = "maxDiscount";
         String storeId = "storeId";
         String categoryId = "categoryId";
-        StoreResponse storeResponse = mock(StoreResponse.class);
+        StoreDTO StoreDTO = mock(StoreDTO.class);
         Store store = mock(Store.class);
         Category category = mock(Category.class);
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
         when(categoryFactory.createCategory(categoryId, title, description)).thenReturn(category);
         when(storeFactory.createStore(storeId, title, description)).thenReturn(store);
-        when(storeClient.get(storeId)).thenReturn(storeResponse);
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
+        when(storeClient.get(storeId)).thenReturn(StoreDTO);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
         when(storeClient.get(storeId)).thenThrow(RuntimeException.class);
         offerService.updateOffer("offerId", title, description, lastDate, categoryId, storeId,
             url, maxDiscount, thumbnails, true);
@@ -305,8 +303,8 @@ public class OfferServiceTest {
         String storeId = "storeId";
         String categoryId = "categoryId";
         String offerID = "id";
-        StoreResponse store = mock(StoreResponse.class);
-        CategoryResponse category = mock(CategoryResponse.class);
+        StoreDTO store = mock(StoreDTO.class);
+        CategoryDTO category = mock(CategoryDTO.class);
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);
@@ -334,8 +332,8 @@ public class OfferServiceTest {
         String maxDiscount = "maxDiscount";
         String storeId = "storeId";
         String categoryId = "categoryId";
-        StoreResponse store = mock(StoreResponse.class);
-        CategoryResponse category = mock(CategoryResponse.class);
+        StoreDTO store = mock(StoreDTO.class);
+        CategoryDTO category = mock(CategoryDTO.class);
         when(category.getName()).thenReturn("Books");
         when(category.getDescription()).thenReturn("book description");
         when(categoryClient.getCategory(categoryId)).thenReturn(category);

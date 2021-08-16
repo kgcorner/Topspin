@@ -1,6 +1,6 @@
 package com.kgcorner.topspin.client;
 
-import com.kgcorner.topspin.model.StoreResponse;
+import com.kgcorner.topspin.dtos.StoreDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,40 +34,30 @@ public class StoreClientTest {
     @Test
     public void createStore() {
         ResponseEntity entity = PowerMockito.mock(ResponseEntity.class);
-        StoreResponse StoreResponse = new StoreResponse();
-        PowerMockito.when(resourceClient.createStore("name", "description", "link",
-            "affiliateId","surferPlaceHolder", "placeholder")).thenReturn(entity);
-        PowerMockito.when(entity.getBody()).thenReturn(StoreResponse);
-        Assert.assertEquals(StoreResponse, client.createStore("name", "description", "link",
-            "affiliateId","surferPlaceHolder", "placeholder"));
+        StoreDTO storeDTO = new StoreDTO();
+        PowerMockito.when(resourceClient.createStore(storeDTO)).thenReturn(entity);
+        PowerMockito.when(entity.getBody()).thenReturn(storeDTO);
+        Assert.assertEquals(storeDTO, client.createStore(storeDTO));
     }
 
     @Test
     public void put() {
         ResponseEntity entity = PowerMockito.mock(ResponseEntity.class);
-        StoreResponse StoreResponse = new StoreResponse();
         String id = "id";
-        String name = "newName";
-        String description = "Description";
-        String link = "link";
-        String affiliateId = "affiliateId";
-        String placeHolder = "placeHolder";
-        String surferPlaceHolder = "surferPlaceHolder";
-        PowerMockito.when(resourceClient.put(id, name, description, link, affiliateId,
-            surferPlaceHolder, placeHolder)).thenReturn(entity);
-        PowerMockito.when(entity.getBody()).thenReturn(StoreResponse);
-        Assert.assertEquals(StoreResponse, client.put(id, name, description, link, affiliateId,
-            surferPlaceHolder, placeHolder ));
+        StoreDTO storeDTO = new StoreDTO();
+        PowerMockito.when(resourceClient.put(id, storeDTO)).thenReturn(entity);
+        PowerMockito.when(entity.getBody()).thenReturn(storeDTO);
+        Assert.assertEquals(storeDTO, client.put(id, storeDTO ));
     }
 
     @Test
     public void get() {
         ResponseEntity entity = PowerMockito.mock(ResponseEntity.class);
-        StoreResponse StoreResponse = new StoreResponse();
+        StoreDTO StoreDTO = new StoreDTO();
         String id = "id";
         PowerMockito.when(resourceClient.get(id)).thenReturn(entity);
-        PowerMockito.when(entity.getBody()).thenReturn(StoreResponse);
-        Assert.assertEquals(StoreResponse, client.get(id));
+        PowerMockito.when(entity.getBody()).thenReturn(StoreDTO);
+        Assert.assertEquals(StoreDTO, client.get(id));
     }
 
     @Test
@@ -77,8 +67,8 @@ public class StoreClientTest {
         Resources resources = PowerMockito.mock(Resources.class);
         PowerMockito.when(resourceClient.getAllStores(page, itemCount)).thenReturn(entity);
         PowerMockito.when(entity.getBody()).thenReturn(resources);
-        List<StoreResponse> StoreResponseS = new ArrayList<>();
-        PowerMockito.when(resources.getContent()).thenReturn(StoreResponseS);
-        Assert.assertEquals(StoreResponseS, client.getAllStores(page, itemCount));
+        List<StoreDTO> StoreDTOS = new ArrayList<>();
+        PowerMockito.when(resources.getContent()).thenReturn(StoreDTOS);
+        Assert.assertEquals(StoreDTOS, client.getAllStores(page, itemCount));
     }
 }

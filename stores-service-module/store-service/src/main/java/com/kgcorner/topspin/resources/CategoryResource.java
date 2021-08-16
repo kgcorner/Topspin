@@ -8,10 +8,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resources;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -24,22 +23,18 @@ import java.util.List;
 @RestController
 public class CategoryResource {
 
+    public static final String CATEGORIES_CATEGORY_ID = "categories/{categoryId}";
     @Autowired
     private CategoryService categoryService;
 
     @ApiOperation("Get category of given id")
-    @GetMapping("categories/{categoryId}")
+    @GetMapping(CATEGORIES_CATEGORY_ID)
     public ResponseEntity<CategoryDTO> get(
         @ApiParam("ID of the category to fetch")
         @PathVariable("categoryId") String categoryId
     ) {
         CategoryDTO category = categoryService.getCategory(categoryId);
-        Link selfRel = ControllerLinkBuilder.linkTo(ControllerLinkBuilder
-            .methodOn(CategoryResource.class).get(category.getCategoryId())).withSelfRel();
-        Link updateLink = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(CategoryResource.class)
-            .update(categoryId,"name","description")).withRel("update");
-        category.add(selfRel);
-        category.add(updateLink);
+        category.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", categoryId), Link.REL_SELF);
         return ResponseEntity.ok(category);
     }
 
@@ -54,54 +49,42 @@ public class CategoryResource {
 
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories(page, itemCount);
         final Resources<CategoryDTO> resources = new Resources<>(categoryDTOS);
-        String uriString = ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString();
+        String uriString = "categories?page="+page+"&item-count="+itemCount;
         uriString = uriString.replace("page="+page, "page="+(page+1));
         resources.add(new Link(uriString, "next-page"));
         for(CategoryDTO dto : categoryDTOS) {
-            Link selfRel = ControllerLinkBuilder.linkTo(ControllerLinkBuilder
-                .methodOn(CategoryResource.class).get(dto.getCategoryId())).withSelfRel();
-            dto.add(selfRel);
+            dto.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", dto.getCategoryId()), Link.REL_SELF);
         }
-
         return ResponseEntity.ok(resources);
     }
 
     @ApiOperation("Create category with given values")
     @PostMapping("/categories")
     public ResponseEntity<CategoryDTO> create(
-        @ApiParam("name of the category")
-        @RequestParam("name") String name,
-        @ApiParam("description of the category")
-        @RequestParam("description") String description
+        @RequestBody CategoryDTO categoryDTO
     ) {
-        CategoryDTO category = categoryService.createCategory(name, description);
-        Link selfRel = ControllerLinkBuilder.linkTo(ControllerLinkBuilder
-            .methodOn(CategoryResource.class).get(category.getCategoryId())).withSelfRel();
-        Link updateLink = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(CategoryResource.class)
-            .update(category.getCategoryId(),"name","description")).withRel("update");
-        category.add(selfRel);
-        category.add(updateLink);
-        return ResponseEntity.ok(category);
+        CategoryDTO category = categoryService.createCategory(categoryDTO);
+        category.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", category.getCategoryId()), Link.REL_SELF);
+        return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
     @ApiOperation("Update the given category")
     @PutMapping("/categories/{categoryId}")
     public ResponseEntity<CategoryDTO> update(
-        @ApiParam("ID of the category to fetch")
+        @ApiParam("id of the store")
         @PathVariable("categoryId") String categoryId,
-        @ApiParam("name of the category")
-        @RequestParam("name") String name,
-        @ApiParam("description of the category")
-        @RequestParam("description") String description
+        @RequestBody CategoryDTO categoryDTO
     ) {
-        CategoryDTO category = categoryService.updateCategory(categoryId, name, description);
-        Link selfRel = ControllerLinkBuilder.linkTo(ControllerLinkBuilder
-            .methodOn(CategoryResource.class).get(category.getCategoryId())).withSelfRel();
-        Link updateLink = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(CategoryResource.class)
-            .update(categoryId,"name","description")).withRel("update");
-        category.add(selfRel);
-        category.add(updateLink);
-
+        CategoryDTO category = categoryService.updateCategory(categoryDTO, categoryId);
+        category.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", category.getCategoryId()), Link.REL_SELF);
         return ResponseEntity.ok(category);
+    }
+
+    @ApiOperation("Deletes a CAtegory")
+    @DeleteMapping("/categories/{categoryId}")
+    public ResponseEntity<Void> deleteCategory( @ApiParam("id of the store")
+                                                    @PathVariable("categoryId") String categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

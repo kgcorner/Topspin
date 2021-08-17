@@ -5,6 +5,7 @@ import com.kgcorner.topspin.aws.AwsServices;
 import com.kgcorner.topspin.aws.exceptions.AwsServiceException;
 import com.kgcorner.topspin.dtos.OfferDTO;
 import com.kgcorner.topspin.service.OfferService;
+import com.kgcorner.utils.Strings;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,8 @@ public class OfferResource {
         AwsServices awsServices = AwsServices.getInstance();
         String fileName = title.length() > 63 ? title.substring(0, 59) : title;
         fileName = awsServices.sanitizeFileName(fileName);
-        String thumbnailFileName = "";
-        if(thumbnail.getOriginalFilename() != null) {
-            thumbnailFileName = thumbnail.getOriginalFilename();
-        } else {
+        String thumbnailFileName = thumbnail.getOriginalFilename();
+        if(Strings.isNullOrEmpty(thumbnailFileName)) {
             throw new IllegalArgumentException("Invalid file received");
         }
         fileName = fileName + thumbnailFileName.substring(thumbnailFileName.lastIndexOf("."));

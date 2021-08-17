@@ -90,9 +90,13 @@ public class OfferResource {
         AwsServices awsServices = AwsServices.getInstance();
         String fileName = title.length() > 63 ? title.substring(0, 59) : title;
         fileName = awsServices.sanitizeFileName(fileName);
-        if(thumbnail.getOriginalFilename() == null)
-            throw new IllegalArgumentException("Invalid image found");
-        fileName = fileName + thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
+        String thumbnailFileName = "";
+        if(thumbnail.getOriginalFilename() != null) {
+            thumbnailFileName = thumbnail.getOriginalFilename();
+        } else {
+            throw new IllegalArgumentException("Invalid file received");
+        }
+        fileName = fileName + thumbnailFileName.substring(thumbnailFileName.lastIndexOf("."));
         awsServices.storeImage(s3BucketName, fileName, thumbnail.getInputStream(), thumbnail.getSize());
         fileName = this.bucketUrl +"/" +fileName;
         fileName = fileName.replace("//","/");

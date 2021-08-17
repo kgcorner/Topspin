@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
 import com.kgcorner.topspin.dao.MongoUserDao;
-import com.kgcorner.topspin.model.User;
+import com.kgcorner.topspin.model.AbstractUser;
 import com.kgcorner.topspin.model.UserModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,16 +40,18 @@ public class MongoUserPersistenceLayerTest {
     public void createUser() {
         UserModel user = new UserModel();
         when(mongoUserDao.create(ArgumentMatchers.any(UserModel.class))).thenReturn(user);
-        User response = persistenceLayer.createUser(user);
+        AbstractUser response = persistenceLayer.createUser(user);
         assertNotNull(response);
     }
 
     @Test
     public void updateUser() {
+        String id = "id";
         UserModel user = new UserModel();
-        user.setId("id");
+        user.setId(id);
+        when(mongoUserDao.getById(id, UserModel.class)).thenReturn(user);
         when(mongoUserDao.update(ArgumentMatchers.any(UserModel.class))).thenReturn(user);
-        User response = persistenceLayer.updateUser(user);
+        AbstractUser response = persistenceLayer.updateUser(user, id);
         assertNotNull(response);
         assertEquals("id", response.getId());
 
@@ -60,7 +62,7 @@ public class MongoUserPersistenceLayerTest {
         UserModel user = new UserModel();
         user.setId("id");
         when(mongoUserDao.getById("id", UserModel.class)).thenReturn(user);
-        User response = persistenceLayer.getUser("id");
+        AbstractUser response = persistenceLayer.getUser("id");
         assertNotNull(response);
         assertEquals("id", response.getId());
     }
@@ -75,7 +77,7 @@ public class MongoUserPersistenceLayerTest {
         UserModel user = new UserModel();
         user.setUserName("name");
         when(mongoUserDao.getByKey("userName", "name", UserModel.class)).thenReturn(user);
-        User response = persistenceLayer.getUserByUserName("name");
+        AbstractUser response = persistenceLayer.getUserByUserName("name");
         assertNotNull(response);
         assertEquals("name", response.getUserName());
     }
@@ -109,7 +111,7 @@ public class MongoUserPersistenceLayerTest {
 
     @Test
     public void getUsersEmptyList() {
-        List<User> users = persistenceLayer.getUsers(1, 0);
+        List<AbstractUser> users = persistenceLayer.getUsers(1, 0);
         assertEquals(0, users.size());
     }
 
@@ -120,7 +122,7 @@ public class MongoUserPersistenceLayerTest {
         for (int i = 0; i < countPerPage; i++)
             found.add(new UserModel());
         when(mongoUserDao.getAll(1, countPerPage, UserModel.class)).thenReturn(found);
-        List<User> users = persistenceLayer.getUsers(1, 10);
+        List<AbstractUser> users = persistenceLayer.getUsers(1, 10);
         assertEquals(countPerPage, users.size());
 
     }

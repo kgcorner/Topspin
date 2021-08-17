@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class UserModelTest {
 
-    private User user;
+    private UserModel user;
 
     @Before
     public void setUp() throws Exception {

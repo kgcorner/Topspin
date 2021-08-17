@@ -15,5 +15,6 @@
         <module>user-service</module>
         <module>user-db-common</module>
         <module>user-service-mongo-port</module>
+        <module>user-common-module</module>
     </modules>
 </project>

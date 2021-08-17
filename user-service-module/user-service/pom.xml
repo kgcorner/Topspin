@@ -46,7 +46,7 @@
 		</dependency>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>endpoint-security-config</artifactId>
+            <artifactId>user-common-module</artifactId>
             <version>${product.version}</version>
         </dependency>
 		<dependency>

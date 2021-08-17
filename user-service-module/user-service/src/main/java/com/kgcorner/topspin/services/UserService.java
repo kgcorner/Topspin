@@ -1,7 +1,17 @@
 package com.kgcorner.topspin.services;
 
-import com.kgcorner.topspin.model.User;
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
+import com.kgcorner.topspin.dto.UserDTO;
+import com.kgcorner.topspin.model.AbstractUser;
+import com.kgcorner.topspin.persistence.UserPersistenceLayer;
+import com.kgcorner.utils.Strings;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,41 +20,59 @@ import java.util.List;
  * Created on : 02/12/19
  */
 
-public interface UserService {
-    /**
-     * Returns given user
-     * @param userId id of the user
-     * @return found user
-     */
-    User getUser(String userId);
+@Service
+public class UserService {
+    private static final String EMAIL_PATTERN = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
 
-    /**
-     * Returns all users in paginated form
-     * @param page page number
-     * @return list of all users
-     */
-    List<User> getAllUsers(int page, int maxItems);
+    @Autowired
+    private UserPersistenceLayer userPersistenceLayer;
 
-    /**
-     * Creates a user
-     * @param name
-     * @param userName
-     * @param email
-     * @param contact
-     * @param other
-     * @param gender
-     * @return
-     */
-    User createUser(String name, String userName, String email, String contact, String other, String gender);
 
-    /**
-     * Updates user's detail
-     * @param id
-     * @param name
-     * @param email
-     * @param contact
-     * @param other
-     * @return
-     */
-    User updateUser(String id, String name, String email, String contact, String other);
+
+    
+    public UserDTO getUser(String userId) {
+        AbstractUser user =  userPersistenceLayer.getUser(userId);
+        if(user == null)
+            throw new ResourceNotFoundException("No such user exists");
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user, userDTO);
+        return userDTO;
+    }
+
+    
+    public List<UserDTO> getAllUsers(int page, int maxItems) {
+        List<AbstractUser> users = userPersistenceLayer.getUsers(page, maxItems);
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for(AbstractUser user : users) {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(user, userDTO);
+            userDTOList.add(userDTO);
+        }
+        return userDTOList;
+    }
+
+    
+    public UserDTO createUser(@NotNull UserDTO userDTO) {
+        if(!userDTO.getEmail().matches(EMAIL_PATTERN))
+            throw new IllegalArgumentException("Invalid email");
+        if(Strings.isNullOrEmpty(userDTO.getName()))
+            throw new IllegalArgumentException("Name can't be blank");
+        if(Strings.isNullOrEmpty(userDTO.getUserName()))
+            throw new IllegalArgumentException("Username can't be blank");
+        AbstractUser user = userPersistenceLayer.createUser(userDTO);
+        BeanUtils.copyProperties(user, userDTO);
+        return userDTO;
+    }
+
+    
+    public UserDTO updateUser(String id, UserDTO userDTO) {
+        AbstractUser user = userPersistenceLayer.updateUser(userDTO, id);
+        BeanUtils.copyProperties(user, userDTO);
+        return userDTO;
+    }
+
+    
+    public void deleteUser(String userId) {
+        userPersistenceLayer.deleteUser(userId);
+    }
 }

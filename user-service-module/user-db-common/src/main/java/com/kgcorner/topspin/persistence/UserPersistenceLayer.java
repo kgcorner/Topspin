@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
 
-import com.kgcorner.topspin.model.User;
+import com.kgcorner.topspin.model.AbstractUser;
 
 import java.util.List;
 
@@ -18,28 +18,28 @@ public interface UserPersistenceLayer {
      * @param user user to be created
      * @return created user
      */
-    User createUser(User user);
+    AbstractUser createUser(AbstractUser user);
 
     /**
      * Updates and returns updated user
      * @param user user to be updated
      * @return updated user
      */
-    User updateUser(User user);
+    AbstractUser updateUser(AbstractUser user, String userId);
 
     /**
      * fetches user
      * @param userId id of the user
      * @return fetched user
      */
-    User getUser(String userId);
+    AbstractUser getUser(String userId);
 
     /**
      * Fetches user by user name
      * @param userName
      * @return fetched user
      */
-    User getUserByUserName(String userName);
+    AbstractUser getUserByUserName(String userName);
 
     /**
      * Deletes user
@@ -53,5 +53,5 @@ public interface UserPersistenceLayer {
      * @param max max items per page
      * @return list of user in given page
      */
-    List<User> getUsers(int page, int max);
+    List<AbstractUser> getUsers(int page, int max);
 }

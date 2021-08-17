@@ -6,8 +6,6 @@ import com.kgcorner.topspin.dtos.*;
 import com.kgcorner.topspin.dtos.factory.CategoryFactory;
 import com.kgcorner.topspin.dtos.factory.ProductFactory;
 import com.kgcorner.topspin.dtos.factory.StoreFactory;
-import com.kgcorner.topspin.model.CategoryResponse;
-import com.kgcorner.topspin.model.StoreResponse;
 import com.kgcorner.topspin.persistence.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -107,20 +105,20 @@ public class ProductServiceTest {
 
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
-        StoreResponse storeResponse = mock(StoreResponse.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
+        StoreDTO StoreDTO = mock(StoreDTO.class);
         Product product = mock(AbstractProduct.class);
-        when(storeResponse.getStoreId()).thenReturn(storeId);
-        when(storeResponse.getName()).thenReturn(productName);
-        when(storeResponse.getDescription()).thenReturn(productDescription);
-        when(storeResponse.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
+        when(StoreDTO.getStoreId()).thenReturn(storeId);
+        when(StoreDTO.getName()).thenReturn(productName);
+        when(StoreDTO.getDescription()).thenReturn(productDescription);
+        when(StoreDTO.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
 
-        when(categoryResponse.getCategoryId()).thenReturn(categoryId);
-        when(categoryResponse.getName()).thenReturn(productName);
-        when(categoryResponse.getDescription()).thenReturn(productDescription);
+        when(CategoryDTO.getCategoryId()).thenReturn(categoryId);
+        when(CategoryDTO.getName()).thenReturn(productName);
+        when(CategoryDTO.getDescription()).thenReturn(productDescription);
 
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
-        when(storeClient.get(storeId)).thenReturn(storeResponse);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
+        when(storeClient.get(storeId)).thenReturn(StoreDTO);
         when(storeFactory.createStore(storeId, productName, productDescription)).thenReturn(store);
         when(categoryFactory.createCategory(categoryId, productName, productDescription)).thenReturn(category);
         String placeholderUrl = String.format(surferPlaceholderUrl, url);
@@ -162,10 +160,10 @@ public class ProductServiceTest {
 
         String storeId = "storeId";
         String url = "url";
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
 
 
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
         when(storeClient.get(storeId)).thenThrow(RuntimeException.class);
         productService.createProduct(productName, productDescription, productPrice,
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl
@@ -221,21 +219,21 @@ public class ProductServiceTest {
         String id = "productId";
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
-        StoreResponse storeResponse = mock(StoreResponse.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
+        StoreDTO StoreDTO = mock(StoreDTO.class);
         Product exitingProduct = mock(AbstractProduct.class);
         Product updatedProduct = mock(AbstractProduct.class);
-        when(storeResponse.getStoreId()).thenReturn(storeId);
-        when(storeResponse.getName()).thenReturn(productName);
-        when(storeResponse.getDescription()).thenReturn(productDescription);
-        when(storeResponse.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
+        when(StoreDTO.getStoreId()).thenReturn(storeId);
+        when(StoreDTO.getName()).thenReturn(productName);
+        when(StoreDTO.getDescription()).thenReturn(productDescription);
+        when(StoreDTO.getSurferPlaceHolder()).thenReturn(surferPlaceholderUrl);
 
-        when(categoryResponse.getCategoryId()).thenReturn(categoryId);
-        when(categoryResponse.getName()).thenReturn(productName);
-        when(categoryResponse.getDescription()).thenReturn(productDescription);
+        when(CategoryDTO.getCategoryId()).thenReturn(categoryId);
+        when(CategoryDTO.getName()).thenReturn(productName);
+        when(CategoryDTO.getDescription()).thenReturn(productDescription);
 
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
-        when(storeClient.get(storeId)).thenReturn(storeResponse);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
+        when(storeClient.get(storeId)).thenReturn(StoreDTO);
         when(storeFactory.createStore(storeId, productName, productDescription)).thenReturn(store);
         when(categoryFactory.createCategory(categoryId, productName, productDescription)).thenReturn(category);
         when(productFactory.createProduct(
@@ -276,10 +274,10 @@ public class ProductServiceTest {
         String id = "productId";
         String surferPlaceholderUrl = "surferPlaceholderUrl%s";
         String url = "url";
-        CategoryResponse categoryResponse = mock(CategoryResponse.class);
+        CategoryDTO CategoryDTO = mock(CategoryDTO.class);
 
 
-        when(categoryClient.getCategory(categoryId)).thenReturn(categoryResponse);
+        when(categoryClient.getCategory(categoryId)).thenReturn(CategoryDTO);
         when(storeClient.get(storeId)).thenThrow(RuntimeException.class);
         productService.updateProduct(id, productName, productDescription, productPrice,
             discountedPrice, productPriceCurrency, productSmallImageUrl, productMediumImageUrl

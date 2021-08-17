@@ -3,8 +3,7 @@ package com.kgcorner.topspin.model;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Description : <Write class Description>
@@ -12,11 +11,10 @@ import java.util.List;
  * Created on : 30/01/21
  */
 
-public class StoreModel extends AbstractStore {
+public class StoreModel extends AbstractStore<CategoryModel> implements Serializable {
 
     @Id
     private String id;
-    private List<CategoryModel> categories = new ArrayList<>();
 
     @Override
     public String getStoreId() {
@@ -25,17 +23,5 @@ public class StoreModel extends AbstractStore {
 
     public void setStoreId(String storeId) {
         this.id = storeId;
-    }
-
-    @Override
-    public List<Category> getCategories() {
-        List<Category> categoryList = new ArrayList<>();
-        for(Category c : categories)
-            categoryList.add(c);
-        return categoryList;
-    }
-
-    public void setCategories(List<? extends CategoryModel> categories) {
-        this.categories = (List<CategoryModel>) categories;
     }
 }

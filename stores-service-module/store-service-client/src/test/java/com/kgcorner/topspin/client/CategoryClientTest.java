@@ -1,7 +1,6 @@
 package com.kgcorner.topspin.client;
 
-import com.kgcorner.topspin.model.Category;
-import com.kgcorner.topspin.model.CategoryResponse;
+import com.kgcorner.topspin.dtos.CategoryDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,7 @@ public class CategoryClientTest {
         ResponseEntity entity = PowerMockito.mock(ResponseEntity.class);
         String categoryId = "id";
         PowerMockito.when(resourceClient.get(categoryId)).thenReturn(entity);
-        Category category = new CategoryResponse();
+        CategoryDTO category = new CategoryDTO();
         PowerMockito.when(entity.getBody()).thenReturn(category);
         Assert.assertEquals(category, client.getCategory(categoryId));
     }
@@ -49,9 +48,9 @@ public class CategoryClientTest {
         PowerMockito.when(resourceClient.getAll(page, items)).thenReturn(entity);
         Resources resources =  PowerMockito.mock(Resources.class);
         PowerMockito.when(entity.getBody()).thenReturn(resources);
-        List<CategoryResponse> CategoryResponseS = new ArrayList<>();
-        PowerMockito.when(resources.getContent()).thenReturn(CategoryResponseS);
-        Assert.assertEquals(CategoryResponseS, client.getAll(page, items));
+        List<CategoryDTO> CategoryDTOS = new ArrayList<>();
+        PowerMockito.when(resources.getContent()).thenReturn(CategoryDTOS);
+        Assert.assertEquals(CategoryDTOS, client.getAll(page, items));
     }
 
     @Test
@@ -59,10 +58,12 @@ public class CategoryClientTest {
         ResponseEntity entity = PowerMockito.mock(ResponseEntity.class);
         String name = "name";
         String description = "description";
-        PowerMockito.when(resourceClient.create(name, description)).thenReturn(entity);
-        Category category = new CategoryResponse();
-        PowerMockito.when(entity.getBody()).thenReturn(category);
-        Assert.assertEquals(category, client.create(name, description));
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setName(name);
+        categoryDTO.setDescription(description);
+        PowerMockito.when(resourceClient.create(categoryDTO)).thenReturn(entity);
+        PowerMockito.when(entity.getBody()).thenReturn(categoryDTO);
+        Assert.assertEquals(categoryDTO, client.create(categoryDTO));
     }
 
     @Test
@@ -71,9 +72,12 @@ public class CategoryClientTest {
         String name = "name";
         String description = "description";
         String id = "id";
-        PowerMockito.when(resourceClient.update(id, name, description)).thenReturn(entity);
-        Category category = new CategoryResponse();
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setName(name);
+        categoryDTO.setDescription(description);
+        PowerMockito.when(resourceClient.update(id, categoryDTO)).thenReturn(entity);
+        CategoryDTO category = new CategoryDTO();
         PowerMockito.when(entity.getBody()).thenReturn(category);
-        Assert.assertEquals(category, client.update(id, name, description));
+        Assert.assertEquals(category, client.update(id, categoryDTO));
     }
 }

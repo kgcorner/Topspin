@@ -1,16 +1,19 @@
 package com.kgcorner.topspin.persistence;
 
 import com.kgcorner.topspin.dao.MongoCategoryDao;
-import com.kgcorner.topspin.model.Category;
+import com.kgcorner.topspin.model.AbstractCategory;
 import com.kgcorner.topspin.model.CategoryModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.powermock.api.mockito.PowerMockito.when;
 
 
 /**
@@ -54,8 +57,8 @@ public class MongoCategoryPersistenceLayerTest {
         CategoryModel model = new CategoryModel();
         model.setName("name");
         model.setDescription("description");
-        PowerMockito.when(categoryDao.create(model)).thenReturn(model);
-        Category categoryModel = persistenceLayer.createCategory(model);
+        when(categoryDao.create(model)).thenReturn(model);
+        AbstractCategory categoryModel = persistenceLayer.createCategory(model);
         Assert.assertNotNull(categoryModel);
         Assert.assertEquals("name", categoryModel.getName());
         Assert.assertEquals("description", categoryModel.getDescription());
@@ -68,18 +71,19 @@ public class MongoCategoryPersistenceLayerTest {
         List<CategoryModel> models = new ArrayList<>();
         models.add(new CategoryModel());
         models.add(new CategoryModel());
-        PowerMockito.when(categoryDao.getAll(page, itemCount, CategoryModel.class)).thenReturn(models);
-        List<Category> categories = persistenceLayer.getAllCategories(page, itemCount);
+        when(categoryDao.getAll(page, itemCount, CategoryModel.class)).thenReturn(models);
+        List<? extends AbstractCategory> categories = persistenceLayer.getAllCategories(page, itemCount);
         Assert.assertNotNull(categories);
         Assert.assertEquals(2, categories.size());
     }
+
 
     @Test
     public void getCategory() {
         String id = "categoryId";
         CategoryModel model = new CategoryModel();
-        PowerMockito.when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
-        Category categoryResult = persistenceLayer.getCategory(id);
+        when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
+        AbstractCategory categoryResult = persistenceLayer.getCategory(id);
         Assert.assertNotNull(categoryResult);
         Assert.assertEquals(model, categoryResult);
     }
@@ -89,8 +93,8 @@ public class MongoCategoryPersistenceLayerTest {
         String id = "categoryId";
         CategoryModel model = new CategoryModel();
         model.setParent(new CategoryModel());
-        PowerMockito.when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
-        Category parent = persistenceLayer.getCategoryParent(id);
+        when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
+        AbstractCategory parent = persistenceLayer.getCategoryParent(id);
         Assert.assertNotNull(parent);
         Assert.assertEquals(model.getParent(), parent);
     }
@@ -99,21 +103,14 @@ public class MongoCategoryPersistenceLayerTest {
     public void getAllChildren() {
         String id = "categoryId";
         CategoryModel model = new CategoryModel();
-        model.getChildren().add(new CategoryModel());
-        PowerMockito.when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
-        List<Category> children = persistenceLayer.getAllChildren(id);
+        CategoryModel child = new CategoryModel();
+        List<CategoryModel> children = new ArrayList<>();
+        children.add(child);
+        model.setChildren(children);
+        when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
+        List<? extends AbstractCategory> allChildren = persistenceLayer.getAllChildren(id);
         Assert.assertNotNull(children);
         Assert.assertEquals(model.getChildren().size(), children.size());
-    }
-
-    @Test
-    public void addAChild() {
-        String id = "categoryId";
-        CategoryModel model = new CategoryModel();
-        PowerMockito.when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
-        PowerMockito.when(categoryDao.update(model)).thenReturn(model);
-        persistenceLayer.addAChild(new CategoryModel(), id);
-        Assert.assertEquals(1, model.getChildren().size());
     }
 
     @Test
@@ -122,9 +119,18 @@ public class MongoCategoryPersistenceLayerTest {
         CategoryModel model = new CategoryModel();
         CategoryModel updatedModel = new CategoryModel();
         updatedModel.setName("name");
-        PowerMockito.when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
-        PowerMockito.when(categoryDao.update(model)).thenReturn(model);
+        when(categoryDao.getById(id, CategoryModel.class)).thenReturn(model);
+        when(categoryDao.update(model)).thenReturn(model);
         persistenceLayer.updateCategory(updatedModel, id);
         Assert.assertEquals(updatedModel.getName(), model.getName());
+    }
+
+    @Test
+    public void deleteCategory() {
+        String categoryId = "categoryId";
+        CategoryModel categoryModel = new CategoryModel();
+        when(categoryDao.getById(categoryId, CategoryModel.class)).thenReturn(categoryModel);
+        persistenceLayer.deleteCategory(categoryId);
+        Mockito.verify(categoryDao).remove(categoryModel);
     }
 }

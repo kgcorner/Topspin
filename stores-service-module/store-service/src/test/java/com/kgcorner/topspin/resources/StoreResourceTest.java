@@ -1,121 +1,103 @@
 package com.kgcorner.topspin.resources;
 
 import com.kgcorner.topspin.dtos.StoreDTO;
-import com.kgcorner.topspin.model.AbstractStore;
-import com.kgcorner.topspin.model.Category;
 import com.kgcorner.topspin.service.StoreService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 
 /**
  * Description : <Write class Description>
  * Author: kumar
- * Created on : 17/04/21
+ * Created on : 16/08/21
  */
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ControllerLinkBuilder.class, ServletUriComponentsBuilder.class})
 public class StoreResourceTest {
 
-    private StoreResource storeResource;
     private StoreService storeService;
-    private DemoStore demoStore;
+    private StoreResource storeResource;
 
     @Before
     public void setUp() throws Exception {
         storeResource = new StoreResource();
-        demoStore = new DemoStore();
-        storeService = PowerMockito.mock(StoreService.class);
+        storeService = mock(StoreService.class);
         Whitebox.setInternalState(storeResource, "storeService", storeService);
     }
 
     @Test
     public void createStore() {
-        StoreDTO storeDTO = new StoreDTO(demoStore);
-        demoStore.setName("name");
-        demoStore.setStoreId("id");
-        PowerMockito.when(storeService.createStore("name", "description", "link",
-            "affiliateId","surferPlaceHolder", "placeholder")).thenReturn(storeDTO);
-        ResponseEntity<StoreDTO> storeResponse = storeResource.createStore("name", "description", "link",
-            "affiliateId", "surferPlaceHolder", "placeholder");
-        Assert.assertEquals(storeDTO.getName(), storeResponse.getBody().getName());
+        StoreDTO storeDTO = new StoreDTO();
+        String storeId = "storeId";
+        storeDTO.setStoreId(storeId);
+        PowerMockito.when(storeService.createStore(storeDTO)).thenReturn(storeDTO);
+        ResponseEntity<StoreDTO> storeResponse = storeResource.createStore(storeDTO);
+        assertEquals(HttpStatus.CREATED, storeResponse.getStatusCode());
+        assertEquals(storeResponse.getBody(), storeDTO);
+        assertTrue(storeDTO.getLinks().get(0).getHref().contains(storeId));
     }
 
     @Test
     public void put() {
-        String id = "id";
-        String name = "newName";
-        String description = "Description";
-        String link = "link";
-        String affiliateId = "affiliateId";
-        String placeHolder = "placeHolder";
-        String surferPlaceHolder = "surferPlaceHolder";
-
-
-        StoreDTO storeDTO = new StoreDTO(demoStore);
-        demoStore.setName("newName");
-        demoStore.setStoreId("id");
-        PowerMockito.when(storeService.updateStore(id, name, description, link, affiliateId,
-            surferPlaceHolder, placeHolder)).thenReturn(storeDTO);
-        Assert.assertEquals(storeDTO.getName(), storeResource.put(id, name, affiliateId, link,
-            surferPlaceHolder, placeHolder, description).getBody().getName());
+        StoreDTO storeDTO = new StoreDTO();
+        String storeId = "storeId";
+        storeDTO.setStoreId(storeId);
+        PowerMockito.when(storeService.updateStore(storeDTO, storeId)).thenReturn(storeDTO);
+        ResponseEntity<StoreDTO> storeResponse = storeResource.updateStore(storeId, storeDTO);
+        assertEquals(HttpStatus.OK, storeResponse.getStatusCode());
+        assertEquals(storeResponse.getBody(), storeDTO);
+        assertTrue(storeDTO.getLinks().get(0).getHref().contains(storeId));
     }
 
     @Test
     public void get() {
-        StoreDTO storeDTO = new StoreDTO(demoStore);
-        demoStore.setName("newName");
-        demoStore.setStoreId("id");
-        PowerMockito.when(storeService.getStore("id")).thenReturn(storeDTO);
-        Assert.assertEquals(storeDTO.getName(), storeResource.get("id").getBody().getName());
+        StoreDTO storeDTO = new StoreDTO();
+        String storeId = "storeId";
+        storeDTO.setStoreId(storeId);
+        PowerMockito.when(storeService.getStore(storeId)).thenReturn(storeDTO);
+        ResponseEntity<StoreDTO> storeResponse = storeResource.getStore(storeId);
+        assertEquals(HttpStatus.OK, storeResponse.getStatusCode());
+        assertEquals(storeResponse.getBody(), storeDTO);
+        assertTrue(storeDTO.getLinks().get(0).getHref().contains(storeId));
     }
 
     @Test
     public void getAllStores() {
-        int page = 0;
-        int maxCount = 10;
-        PowerMockito.mockStatic(ServletUriComponentsBuilder.class);
-        ServletUriComponentsBuilder servletContext = PowerMockito.mock(ServletUriComponentsBuilder.class);
-        PowerMockito.when(ServletUriComponentsBuilder.fromCurrentRequest()).thenReturn(servletContext);
-        UriComponents uri = PowerMockito.mock(UriComponents.class);
-        PowerMockito.when(servletContext.build()).thenReturn(uri);
-        PowerMockito.when(uri.toUriString()).thenReturn("HATEOS url");
         List<StoreDTO> storeDTOS = new ArrayList<>();
-        storeDTOS.add(new StoreDTO(demoStore));
-        PowerMockito.when(storeService.getAllStores(page, maxCount)).thenReturn(storeDTOS);
-        Assert.assertNotNull(storeResource.getAllStores(page, maxCount));
+        int page = 1;
+        int size = 10;
+
+        for (int i = 0; i < size; i++) {
+            StoreDTO dto = new StoreDTO();
+            dto.setStoreId("storeId");
+            dto.setName("Store");
+            storeDTOS.add(dto);
+        }
+        when(storeService.getAllStores(page, size)).thenReturn(storeDTOS);
+        ResponseEntity<Resources<StoreDTO>> allStores = storeResource.getAllStores(page, size);
+        assertEquals(HttpStatus.OK, allStores.getStatusCode());
+        Resources<StoreDTO> resources = new Resources<>(storeDTOS);
+        assertEquals(((Resources<StoreDTO>) allStores.getBody()).getContent().size(), size);
+
     }
 
-    class DemoStore extends AbstractStore {
-        private String storeId;
-        private List<Category> categories = new ArrayList<>();
-
-        public void setStoreId(String id) {
-            this.storeId = id;
-        }
-
-        @Override
-        public String getStoreId() {
-            return storeId;
-        }
-
-        @Override
-        public List<Category> getCategories() {
-            return categories;
-        }
+    @Test
+    public void deleteStore() {
+        String storeId = "storeId";
+        storeResource.deleteStore(storeId);
+        Mockito.verify(storeService).deleteStore(storeId);
     }
 }

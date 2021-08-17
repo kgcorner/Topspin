@@ -2,9 +2,9 @@ package com.kgcorner.topspin.service;
 
 
 import com.kgcorner.topspin.dtos.CategoryDTO;
-import com.kgcorner.topspin.model.Category;
-import com.kgcorner.topspin.model.factory.CategoryFactory;
+import com.kgcorner.topspin.model.AbstractCategory;
 import com.kgcorner.topspin.persistence.CategoryPersistenceLayer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,41 +21,41 @@ import java.util.List;
 public class CategoryService {
 
     @Autowired
-    private CategoryFactory categoryFactory;
-
-    @Autowired
     private CategoryPersistenceLayer categoryPersistenceLayer;
 
     public CategoryDTO getCategory(String categoryId) {
-        Category category = categoryPersistenceLayer.getCategory(categoryId);
+        AbstractCategory category = categoryPersistenceLayer.getCategory(categoryId);
         if(category == null)
             throw new IllegalArgumentException("No Such category");
-        CategoryDTO dto = new CategoryDTO(category);
+        CategoryDTO dto = new CategoryDTO();
+        BeanUtils.copyProperties(category, dto);
         return dto;
     }
 
-    public CategoryDTO createCategory(String name, String description) {
-        Category category = categoryFactory.createCategoryModel(name, description);
-        category = categoryPersistenceLayer.createCategory(category);
-        CategoryDTO dto = new CategoryDTO(category);
-        return dto;
+    public CategoryDTO createCategory(CategoryDTO category) {
+        AbstractCategory abstractCategory = categoryPersistenceLayer.createCategory(category);
+        BeanUtils.copyProperties(abstractCategory, category);
+        return category;
     }
 
-    public CategoryDTO updateCategory(String id, String name, String description) {
-        Category category = categoryFactory.createCategoryModel(name, description);
-        categoryPersistenceLayer.updateCategory(category, id);
-        category = categoryPersistenceLayer.getCategory(id);
-        CategoryDTO dto = new CategoryDTO(category);
-        return dto;
+    public CategoryDTO updateCategory(CategoryDTO category, String categoryId) {
+        AbstractCategory abstractCategory = categoryPersistenceLayer.updateCategory(category, categoryId);
+        BeanUtils.copyProperties(abstractCategory, category);
+        return category;
     }
 
     public List<CategoryDTO> getAllCategories(int page, int perPage) {
-        List<Category> categories = categoryPersistenceLayer.getAllCategories(page, perPage);
+        List<? extends AbstractCategory> allCategories = categoryPersistenceLayer.getAllCategories(page, perPage);
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
-        for(Category category : categories) {
-            CategoryDTO dto = new CategoryDTO(category);
+        for(AbstractCategory category : allCategories) {
+            CategoryDTO dto = new CategoryDTO();
+            BeanUtils.copyProperties(category, dto);
             categoryDTOS.add(dto);
         }
         return categoryDTOS;
+    }
+
+    public void deleteCategory(String categoryId) {
+        categoryPersistenceLayer.deleteCategory(categoryId);
     }
 }

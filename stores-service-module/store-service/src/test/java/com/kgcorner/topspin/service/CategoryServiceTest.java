@@ -2,122 +2,116 @@ package com.kgcorner.topspin.service;
 
 import com.kgcorner.topspin.dtos.CategoryDTO;
 import com.kgcorner.topspin.model.AbstractCategory;
-import com.kgcorner.topspin.model.Category;
-import com.kgcorner.topspin.model.factory.CategoryFactory;
 import com.kgcorner.topspin.persistence.CategoryPersistenceLayer;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 
 /**
  * Description : <Write class Description>
  * Author: kumar
- * Created on : 30/01/21
+ * Created on : 16/08/21
  */
 
 public class CategoryServiceTest {
-    private CategoryFactory categoryFactory;
-    private CategoryPersistenceLayer persistenceLayer;
+
     private CategoryService categoryService;
-    private DemoCategory demoCategory;
+    private CategoryPersistenceLayer persistenceLayer;
 
     @Before
     public void setUp() throws Exception {
+        persistenceLayer = mock(CategoryPersistenceLayer.class);
         categoryService = new CategoryService();
-        demoCategory = new DemoCategory();
-        categoryFactory = PowerMockito.mock(CategoryFactory.class);
-        persistenceLayer = PowerMockito.mock(CategoryPersistenceLayer.class);
-        Whitebox.setInternalState(categoryService, "categoryFactory", categoryFactory);
         Whitebox.setInternalState(categoryService, "categoryPersistenceLayer", persistenceLayer);
     }
 
     @Test
-    public void getCategory() {
-        CategoryDTO category = new CategoryDTO(demoCategory);
-        demoCategory.setName("name");
-        String id = "id";
-        PowerMockito.when(persistenceLayer.getCategory(id)).thenReturn(category);
-        Category result = categoryService.getCategory(id);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof CategoryDTO);
-        Assert.assertEquals(category.getName(), result.getName());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getCategoryNoCategory() {
-        String id = "id";
-        PowerMockito.when(persistenceLayer.getCategory(id)).thenReturn(null);
-        categoryService.getCategory(id);
-    }
-    @Test
     public void createCategory() {
-        String name = "name";
-        String description = "description";
-        CategoryDTO category = new CategoryDTO(demoCategory);
-        demoCategory.setName(name);
-        demoCategory.setDescription(description);
-        PowerMockito.when(categoryFactory.createCategoryModel(name, description)).thenReturn(category);
-        PowerMockito.when(persistenceLayer.createCategory(category)).thenReturn(category);
-        Category result = categoryService.createCategory(name, description);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof CategoryDTO);
-        Assert.assertEquals(name, result.getName());
-        Assert.assertEquals(description, result.getDescription());
+        String name = "amazon";
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setName(name);
+        AbstractCategory createdCategory = mock(AbstractCategory.class);
+        when(createdCategory.getName()).thenReturn(name);
+
+        when(persistenceLayer.createCategory(categoryDTO)).thenReturn(createdCategory);
+        CategoryDTO category = categoryService.createCategory(categoryDTO);
+        assertEquals(name, category.getName());
     }
 
     @Test
     public void updateCategory() {
-        String name = "name";
-        String description = "description";
-        CategoryDTO category = new CategoryDTO(demoCategory);
-        demoCategory.setName(name);
-        demoCategory.setDescription(description);
-        String id = "id";
-        PowerMockito.when(categoryFactory.createCategoryModel(name, description)).thenReturn(category);
-        PowerMockito.when(persistenceLayer.getCategory(id)).thenReturn(category);
-        PowerMockito.doNothing().when(persistenceLayer).updateCategory(category, id);
-        Category result = categoryService.updateCategory(id, name, description);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof CategoryDTO);
-        Assert.assertEquals(name, result.getName());
-        Assert.assertEquals(description, result.getDescription());
+        String categoryId = "categoryID";
+        String name = "amazon";
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(categoryId);
+        categoryDTO.setName(name);
+        AbstractCategory updatedCategory = mock(AbstractCategory.class);
+        when(updatedCategory.getName()).thenReturn(name);
+        when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenReturn(updatedCategory);
+        CategoryDTO category = categoryService.updateCategory(categoryDTO, categoryId);
+        assertEquals(name, category.getName());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateCategoryWithWrongId() {
+        String categoryId = "categoryID";
+        String name = "amazon";
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(categoryId);
+        categoryDTO.setName(name);
+        AbstractCategory updatedCategory = mock(AbstractCategory.class);
+        when(updatedCategory.getName()).thenReturn(name);
+        when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenThrow(new IllegalArgumentException());
+        categoryService.updateCategory(categoryDTO, categoryId);
+    }
+
+    @Test
+    public void getCategory() {
+        String categoryId = "categoryID";
+        String name = "amazon";
+        AbstractCategory foundCategory = mock(AbstractCategory.class);
+        when(foundCategory.getName()).thenReturn(name);
+        when(persistenceLayer.getCategory(categoryId)).thenReturn(foundCategory);
+        CategoryDTO category = categoryService.getCategory(categoryId);
+        assertEquals(name, category.getName());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getCategoryNoCategory() {
+        String categoryId = "categoryID";
+        when(persistenceLayer.getCategory(categoryId)).thenReturn(null);
+        categoryService.getCategory(categoryId);
     }
 
     @Test
     public void getAllCategories() {
+        String name = "amazon";
         int page = 1;
-        int maxItem = 10;
-        List<Category> categories = new ArrayList<>();
-        categories.add(new CategoryDTO(demoCategory));
-        PowerMockito.when(persistenceLayer.getAllCategories(page, maxItem)).thenReturn(categories);
-        List<CategoryDTO> result = categoryService.getAllCategories(page, maxItem);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(categories.size(), result.size());
+        int size = 10;
+        List<AbstractCategory> categories = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            AbstractCategory foundCategory = mock(AbstractCategory.class);
+            when(foundCategory.getName()).thenReturn(name);
+            categories.add(foundCategory);
+        }
+        when(persistenceLayer.getAllCategories(page, size)).thenReturn(categories);
+        List<CategoryDTO> allCategorys = categoryService.getAllCategories(page, size);
+        assertEquals(size, allCategorys.size());
+        assertEquals(name, allCategorys.get(1).getName());
     }
 
-    class DemoCategory extends AbstractCategory {
-        private String cateId;
-
-        public void setCategoryId(String cateId) {
-            this.cateId = cateId;
-        }
-        @Override
-        public String getCategoryId() {
-            return cateId;
-        }
-
-        @Override
-        public List<Category> getChildren() {
-            return Collections.emptyList();
-        }
+    @Test
+    public void deleteCategory() {
+        String categoryId = "categoryId";
+        categoryService.deleteCategory(categoryId);
+        Mockito.verify(persistenceLayer).deleteCategory(categoryId);
     }
-
-
 }

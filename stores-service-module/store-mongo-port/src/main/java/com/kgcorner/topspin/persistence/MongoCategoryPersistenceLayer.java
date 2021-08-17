@@ -2,7 +2,7 @@ package com.kgcorner.topspin.persistence;
 
 
 import com.kgcorner.topspin.dao.MongoCategoryDao;
-import com.kgcorner.topspin.model.Category;
+import com.kgcorner.topspin.model.AbstractCategory;
 import com.kgcorner.topspin.model.CategoryModel;
 import com.kgcorner.utils.Strings;
 import org.springframework.beans.BeanUtils;
@@ -26,59 +26,58 @@ public class MongoCategoryPersistenceLayer implements CategoryPersistenceLayer {
     private MongoCategoryDao<CategoryModel> categoryDao;
 
     @Override
-    public Category createCategory(Category category) {
+    public AbstractCategory createCategory(AbstractCategory category) {
         Assert.notNull(category);
-        Assert.isTrue(category instanceof CategoryModel, "Invalid category object found");
         Assert.isTrue(!Strings.isNullOrEmpty(category.getName())," Category's name can't be null");
         Assert.isTrue(!Strings.isNullOrEmpty(category.getDescription())," Category's description can't be null");
-        return categoryDao.create((CategoryModel) category);
+        CategoryModel model = new CategoryModel();
+        BeanUtils.copyProperties(category, model);
+        return categoryDao.create(model);
     }
 
     @Override
-    public List<Category> getAllCategories(int page, int itemCount) {
-        List<Category> categories = new ArrayList<>();
+    public List<AbstractCategory> getAllCategories(int page, int itemCount) {
+        List<AbstractCategory> categories = new ArrayList<>();
         List<CategoryModel> categoryModels = categoryDao.getAll(page, itemCount,CategoryModel.class);
-        for(Category category : categoryModels) {
+        for(CategoryModel category : categoryModels) {
             categories.add(category);
         }
         return categories;
     }
 
     @Override
-    public Category getCategory(String categoryId) {
+    public AbstractCategory getCategory(String categoryId) {
         Assert.isTrue(!Strings.isNullOrEmpty(categoryId)," CategoryId can't be null");
         return categoryDao.getById(categoryId, CategoryModel.class);
     }
 
     @Override
-    public Category getCategoryParent(String childCategoryId) {
-        Category category = getCategory(childCategoryId);
+    public AbstractCategory getCategoryParent(String childCategoryId) {
+        AbstractCategory category = getCategory(childCategoryId);
         Assert.notNull(category, "Can't find category with id:" + childCategoryId);
         return category.getParent();
     }
 
     @Override
-    public List<Category> getAllChildren(String parentCategoryId) {
+    public List<? extends AbstractCategory> getAllChildren(String parentCategoryId) {
         CategoryModel category = (CategoryModel) getCategory(parentCategoryId);
         Assert.notNull(category, "Can't find category with id:" + parentCategoryId);
         return category.getChildren();
     }
 
     @Override
-    public void addAChild(Category child, String parentId) {
-        CategoryModel parentCategory = (CategoryModel) getCategory(parentId);
-        Assert.notNull(parentCategory, "Can't find category with id:" + parentId);
-        parentCategory.addCategory(child);
-        categoryDao.update(parentCategory);
-    }
-
-    @Override
-    public void updateCategory(Category updatedCategory, String categoryId) {
+    public AbstractCategory updateCategory(AbstractCategory updatedCategory, String categoryId) {
         Assert.isTrue(updatedCategory instanceof CategoryModel, "Invalid category object");
         CategoryModel oldCategory = (CategoryModel) getCategory(categoryId);
         Assert.notNull(oldCategory, "Can't find category with id:" + categoryId);
-        ((CategoryModel)updatedCategory).setCategoryId(oldCategory.getCategoryId());
         BeanUtils.copyProperties(updatedCategory, oldCategory);
-        categoryDao.update((CategoryModel)updatedCategory);
+        return categoryDao.update(oldCategory);
+    }
+
+    @Override
+    public void deleteCategory(String categoryId) {
+        AbstractCategory category = getCategory(categoryId);
+        Assert.notNull(category, "Can't find category with id:" + categoryId);
+        categoryDao.remove((CategoryModel) category);
     }
 }

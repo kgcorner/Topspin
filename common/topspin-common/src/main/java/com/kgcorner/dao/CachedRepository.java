@@ -60,6 +60,9 @@ public class CachedRepository<T extends Serializable> implements  DataRepository
         throw new UnsupportedOperationException();
     }
 
+    public List<T> getAll(List<Operation> conditions, int page, int itemPerPage, Class<T> model) {
+        throw new UnsupportedOperationException();
+    }
     @Override
     public List<T> getAll(List<Operation> conditions, Class<T> model) {
         throw new UnsupportedOperationException();

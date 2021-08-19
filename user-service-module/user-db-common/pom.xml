@@ -13,6 +13,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>topspin-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

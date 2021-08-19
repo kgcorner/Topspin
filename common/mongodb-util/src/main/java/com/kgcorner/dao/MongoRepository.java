@@ -36,6 +36,44 @@ public abstract class MongoRepository<T extends Serializable> extends CachedRepo
         return template.find(query, type);
     }
 
+
+    @Override
+    public List<T> getAll(List<Operation> conditions, int page, int itemPerPage, Class<T> model) {
+        Query query = new Query();
+        Pageable pageable = PageRequest.of(page, itemPerPage);
+        if(itemPerPage > 0)
+            query.with(pageable);
+        Criteria criteria = new Criteria();
+        for(Operation operation : conditions) {
+            switch (operation.getOperator()) {
+
+                case GE:
+                    criteria.andOperator(Criteria.where(operation.getName()).gte(operation.getValue()));
+                    break;
+                case EQ:
+                    criteria.andOperator(Criteria.where(operation.getName()).is(operation.getValue()));
+                    break;
+                case LE:
+                    criteria.andOperator(Criteria.where(operation.getName()).lte(operation.getValue()));
+                    break;
+                case GT:
+                    criteria.andOperator(Criteria.where(operation.getName()).gt(operation.getValue()));
+                    break;
+                case LT:
+                    criteria.andOperator(Criteria.where(operation.getName()).lt(operation.getValue()));
+                    break;
+                case LIKE:
+                case IS_NOT_NULL:
+                    throw new UnsupportedOperationException("Like operator is not supported for mongo yet");
+                case IS_NULL:
+                    criteria.andOperator(Criteria.where(operation.getName()).exists(false));
+                    break;
+            }
+        }
+        query.addCriteria(criteria);
+        return template.find(query, model);
+    }
+
     public T getById(String id, Class<T> type) {
         return getByKey("id", id, type);
     }

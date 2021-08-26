@@ -25,7 +25,7 @@ public class RedeemResource {
     private TransactionService transactionService;
 
     @ApiOperation("Award a point to user")
-    @PostMapping("/cashbacks")
+    @PostMapping("/redeem")
     public ResponseEntity<TransactionDTO> createRedeemRequest(@RequestBody TransactionDTO transactionDTO) {
         transactionDTO = transactionService.createRedeemRequest(transactionDTO);
         return getTransactionDTOResponseEntity(transactionDTO, HttpStatus.CREATED);

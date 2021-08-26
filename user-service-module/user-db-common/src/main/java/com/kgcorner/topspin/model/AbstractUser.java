@@ -25,7 +25,7 @@ public abstract class AbstractUser {
     private String others;
     private String gender;
     private boolean active;
-    private TransactionSummary transactionSummary;
+    private TransactionSummary transactionSummary = new TransactionSummary();
     public static class TransactionSummary {
         private final int totalAmount;
         private final int totalPendingAmount ;

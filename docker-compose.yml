@@ -69,6 +69,7 @@ services:
     image: kumargauravgupta3/user-service-docker:1.0-SNAPSHOT
     ports:
       - '9002:9002'
+      - '5008:5008'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9002"]
       interval: 30s

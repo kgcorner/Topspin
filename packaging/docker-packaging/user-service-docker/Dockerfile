@@ -19,4 +19,4 @@ ARG JAR_FILE=service-jar.jar
 ADD ${JAR_FILE} service-jar.jar
 
 # Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/service-jar.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5008","-jar","/service-jar.jar"]

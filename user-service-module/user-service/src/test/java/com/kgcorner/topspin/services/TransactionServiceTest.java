@@ -298,9 +298,13 @@ public class TransactionServiceTest {
         String userId = "userId";
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setUserId(userId);
+        transactionDTO.setRedeemedAmount(80);
         UserDTO userDTO = new UserDTO();
         int page = 0;
         int max = -1;
+        AbstractUser.TransactionSummary summary = new AbstractUser.TransactionSummary(100,
+            0,0,0,100);
+        userDTO.setTransactionSummary(summary);
         List<AbstractTransaction> transactionList = new ArrayList<>();
         when(persistenceLayer.getUsersTransactions(userId, page, max)).thenReturn(transactionList);
         when(userService.getUser(userId)).thenReturn(userDTO);
@@ -311,11 +315,35 @@ public class TransactionServiceTest {
         assertEquals(0, transactionDTO.getAwardedAmount(), 0.0);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void createRedeemRequestNotEnoughamount() {
+        String userId = "userId";
+        TransactionDTO transactionDTO = new TransactionDTO();
+        transactionDTO.setRedeemedAmount(80);
+        transactionDTO.setUserId(userId);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setTransactionSummary(new AbstractUser.TransactionSummary());
+        int page = 0;
+        int max = -1;
+        List<AbstractTransaction> transactionList = new ArrayList<>();
+        when(persistenceLayer.getUsersTransactions(userId, page, max)).thenReturn(transactionList);
+        when(userService.getUser(userId)).thenReturn(userDTO);
+        PowerMockito.when(persistenceLayer.createTransaction(transactionDTO)).thenReturn(transactionDTO);
+        transactionService.createRedeemRequest(transactionDTO);
+    }
+
     @Test
     public void approveRedeem() {
         String txId = "txId";
         String remarks = "Approving redeem";
         TransactionDTO transactionDTO = new TransactionDTO();
+        UserDTO userDTO = new UserDTO();
+        String userId = "userId";
+        transactionDTO.setUserId(userId);
+        AbstractUser.TransactionSummary summary = new AbstractUser.TransactionSummary(100,
+            0,0,0,100);
+        userDTO.setTransactionSummary(summary);
+        when(userService.getUser(userId)).thenReturn(userDTO);
         when(persistenceLayer.getTransaction(txId)).thenReturn(transactionDTO);
         when(persistenceLayer.updateTransaction(any(TransactionDTO.class), anyString())).thenAnswer(new Answer<Object>() {
             @Override
@@ -323,6 +351,7 @@ public class TransactionServiceTest {
                 return invocationOnMock.getArgument(0);
             }
         });
+
         TransactionDTO result = transactionService.approveRedeem(txId, remarks);
         assertEquals(1, result.getModeratorRemark().size());
         assertTrue(result.getModeratorRemark().get(0).contains(remarks));

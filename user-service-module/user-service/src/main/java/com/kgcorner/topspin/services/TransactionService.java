@@ -170,6 +170,9 @@ public class TransactionService {
     }
 
     public TransactionDTO createRedeemRequest(TransactionDTO transactionDTO) {
+        UserDTO userDTO = userService.getUser(transactionDTO.getUserId());
+        if(userDTO.getTransactionSummary().getTotalRedeemableAmountLeft() < transactionDTO.getRedeemedAmount())
+            throw new IllegalArgumentException("Do not have enough redeemable amount");
         transactionDTO.setTransactionState(AbstractTransaction.TRANSACTION_STATE.REDEEM_PENDING);
         transactionDTO.setTransactionKind(AbstractTransaction.TRANSACTION_KIND.DEBIT);
         transactionDTO.setAwardedAmount(0);

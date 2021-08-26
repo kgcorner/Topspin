@@ -102,7 +102,29 @@ public class Routers {
            .route("get-all-products", p-> p.path("/products")
                .filters(getGateway(requestedAT)
                ).uri(productOfferServiceHost))
-
+            //User's routes
+           .route("create-user", p-> p.path("/users")
+               .filters(getGateway(requestedAT)).uri(userServiceHost))
+           .route("delete-update-user", p-> p.path("/user/users/**")
+                    .filters(getGatewayWithRewrite(requestedAT, "/user/users/<?<userId>.*)",
+                        "users/${userId}")).uri(userServiceHost)
+                    )
+           //Transaction's route
+           .route("create-cashback", p-> p.path("/manage/cashbacks")
+               .filters(getGatewayWithRewrite(requestedAT, "/manage/cashbacks)",
+                   "/cashbacks")).uri(userServiceHost))
+           .route("delete-update-cashback", p-> p.path("/manage/cashbacks/**")
+               .filters(getGatewayWithRewrite(requestedAT, "/manage/cashbacks/<?<cashbackId>.*)",
+                   "cashbacks/${cashbackId}")).uri(userServiceHost))
+           .route("create-redeem", p-> p.path("/user/redeems/**")
+               .filters(getGatewayWithRewrite(requestedAT, "/user/redeems)",
+                   "/redeems")).uri(userServiceHost))
+           .route("delete-update-redeem", p-> p.path("/user/redeems/**")
+               .filters(getGatewayWithRewrite(requestedAT, "/user/redeems)",
+                   "/redeems")).uri(userServiceHost))
+           .route("hold transaction", p-> p.path("/manage/transactions/**/hold")
+               .filters(getGatewayWithRewrite(requestedAT, "/manage/transactions/<?<transactionId>.*/hold)",
+                   "/transactions/${transactionId}/hold")).uri(userServiceHost))
            //auth's routes
            .route("create-login", p-> p.path("/manage/login")
                .filters(getGatewayWithPath(requestedAT, "/login")).uri(authServiceHost))

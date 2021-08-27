@@ -122,7 +122,7 @@ public class Routers {
            .route("delete-update-redeem", p-> p.path("/user/redeems/**")
                .filters(getGatewayWithRewrite(requestedAT, "/user/redeems)",
                    "/redeems")).uri(userServiceHost))
-           .route("hold transaction", p-> p.path("/manage/transactions/**/hold")
+           .route("hold transaction", p-> p.path("/manage/transactions/*/hold")
                .filters(getGatewayWithRewrite(requestedAT, "/manage/transactions/<?<transactionId>.*/hold)",
                    "/transactions/${transactionId}/hold")).uri(userServiceHost))
            //auth's routes

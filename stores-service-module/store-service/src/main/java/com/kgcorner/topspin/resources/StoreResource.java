@@ -26,12 +26,13 @@ public class StoreResource {
 
     private static final Logger LOGGER = Logger.getLogger(StoreResource.class);
     public static final String STORES_STORE_ID = "/stores/{storeId}";
+    public static final String MANAGE_STORES_STORE_ID = "/manage/stores/{storeId}";
 
     @Autowired
     private StoreService storeService;
 
     @ApiOperation("Creates a Store")
-    @PostMapping("/stores")
+    @PostMapping("/manage/stores")
     public ResponseEntity<StoreDTO> createStore(
         @RequestBody
         StoreDTO storeDTO
@@ -42,7 +43,7 @@ public class StoreResource {
     }
 
     @ApiOperation("Update the store")
-    @PutMapping(STORES_STORE_ID)
+    @PutMapping(MANAGE_STORES_STORE_ID)
     public ResponseEntity<StoreDTO> updateStore(
         @ApiParam("id of the store")
         @PathVariable("storeId") String storeId,
@@ -81,7 +82,7 @@ public class StoreResource {
     }
 
     @ApiOperation("Delete Store")
-    @DeleteMapping(STORES_STORE_ID)
+    @DeleteMapping(MANAGE_STORES_STORE_ID)
     public ResponseEntity<Void> deleteStore(@ApiParam("Id of the store") @PathVariable("storeId") String storeId) {
         storeService.deleteStore(storeId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

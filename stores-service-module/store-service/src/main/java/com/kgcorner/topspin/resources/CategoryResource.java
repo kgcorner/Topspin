@@ -23,7 +23,8 @@ import java.util.List;
 @RestController
 public class CategoryResource {
 
-    public static final String CATEGORIES_CATEGORY_ID = "categories/{categoryId}";
+    public static final String CATEGORIES_CATEGORY_ID = "/categories/{categoryId}";
+    public static final String MANAGE_CATEGORIES_CATEGORY_ID = "/manage/categories/{categoryId}";
     @Autowired
     private CategoryService categoryService;
 
@@ -59,7 +60,7 @@ public class CategoryResource {
     }
 
     @ApiOperation("Create category with given values")
-    @PostMapping("/categories")
+    @PostMapping("/manage/categories")
     public ResponseEntity<CategoryDTO> create(
         @RequestBody CategoryDTO categoryDTO
     ) {
@@ -69,7 +70,7 @@ public class CategoryResource {
     }
 
     @ApiOperation("Update the given category")
-    @PutMapping("/categories/{categoryId}")
+    @PutMapping(MANAGE_CATEGORIES_CATEGORY_ID)
     public ResponseEntity<CategoryDTO> update(
         @ApiParam("id of the store")
         @PathVariable("categoryId") String categoryId,
@@ -81,7 +82,7 @@ public class CategoryResource {
     }
 
     @ApiOperation("Deletes a CAtegory")
-    @DeleteMapping("/categories/{categoryId}")
+    @DeleteMapping(MANAGE_CATEGORIES_CATEGORY_ID)
     public ResponseEntity<Void> deleteCategory( @ApiParam("id of the store")
                                                     @PathVariable("categoryId") String categoryId) {
         categoryService.deleteCategory(categoryId);

@@ -40,10 +40,9 @@ public class Routers {
        return builder.routes()
            //Store's routes
            .route("create-store", p-> p.path("/manage/stores")
-                    .filters(getGatewayWithPath(requestedAT, "/stores")).uri(storeServiceHost))
+                    .filters(getGateway(requestedAT)).uri(storeServiceHost))
            .route("update-and-delete-store", p-> p.path("/manage/stores/**")
-               .filters(getGatewayWithRewrite(requestedAT, "/manage/stores/(?<storeId>.*)",
-                   "/stores/${storeId}")).uri(storeServiceHost))
+               .filters(getGateway(requestedAT)).uri(storeServiceHost))
            .route("get-stores", p-> p.path("/stores/**")
                .filters(getGateway(requestedAT))
                .uri(storeServiceHost))
@@ -128,6 +127,8 @@ public class Routers {
            //auth's routes
            .route("create-login", p-> p.path("/manage/login")
                .filters(getGatewayWithPath(requestedAT, "/login")).uri(authServiceHost))
+           .route("create-login", p-> p.path("/manage/admin")
+               .filters(getGatewayWithPath(requestedAT, "/admin")).uri(authServiceHost))
            .build();
 
     }

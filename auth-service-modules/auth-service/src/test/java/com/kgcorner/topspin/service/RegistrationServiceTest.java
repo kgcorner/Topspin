@@ -14,6 +14,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /*
@@ -51,7 +54,9 @@ public class RegistrationServiceTest {
         Login login = getDummyLogin();
         when(mockedLoginPersistentLayer.createLogin(login)).thenReturn(login);
         when(mockedProperties.getPasswordSalt()).thenReturn(PASSWORD_SALT);
-        when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(new DummyLogin());
         Login response = registrationService.createLogin(login.getUsername(), "password", login.getUserId());
         Assert.assertNotNull("Created login is null", response);
         Assert.assertEquals("User name is not matching", login.getUsername(), response.getUsername());
@@ -65,7 +70,9 @@ public class RegistrationServiceTest {
         login.setPassword(null);
         when(mockedLoginPersistentLayer.createLogin(login)).thenReturn(login);
         when(mockedProperties.getPasswordSalt()).thenReturn(PASSWORD_SALT);
-        when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(new DummyLogin());
         Login response = registrationService.createLogin(login.getUsername(), null, login.getUserId());
         Assert.assertNotNull("Created login is null", response);
         Assert.assertEquals("User name is not matching", login.getUsername(), response.getUsername());

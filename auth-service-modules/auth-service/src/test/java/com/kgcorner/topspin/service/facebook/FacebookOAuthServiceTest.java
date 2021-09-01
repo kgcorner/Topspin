@@ -16,6 +16,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.*;
 
@@ -105,7 +108,9 @@ public class FacebookOAuthServiceTest {
             " \"name\":\"kumar gaurav\",\n" +
             " \"email\":\"kumar@fb.com\"\n" +
             "}";
-        when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(new DummyLogin());
         Login loginObject = facebookOAuthService.createLoginObject(data);
         Assert.assertNotNull(loginObject);
         Assert.assertEquals("username of the login object is ot matching",

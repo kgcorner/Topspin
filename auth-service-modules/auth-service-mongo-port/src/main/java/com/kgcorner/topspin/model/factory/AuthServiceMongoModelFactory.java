@@ -7,6 +7,8 @@ import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.TokenModel;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Implementation of AuthServiceModelFactory
  */
@@ -14,8 +16,13 @@ import org.springframework.stereotype.Component;
 public class AuthServiceMongoModelFactory implements AuthServiceModelFactory {
 
     @Override
-    public Login createNewLogin() {
-        return new LoginModel();
+    public Login createNewLogin(List<String> roles) {
+        LoginModel loginModel = new LoginModel();
+        if(roles != null && roles.size() > 0)
+        for(String role : roles) {
+            loginModel.addRole(role);
+        }
+        return loginModel;
     }
 
     @Override

@@ -16,7 +16,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -71,7 +73,9 @@ public class GoogleOAuthService implements OAuthService {
     public Login createLoginObject(String data) {
         JSONObject jsonObject = new JSONObject(data);
         String email = jsonObject.getJSONArray("emailAddresses").getJSONObject(0).getString("value");
-        Login login = authServiceModelFactory.createNewLogin();
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        Login login = authServiceModelFactory.createNewLogin(roles);
         login.setUsername(email);
         return login;
     }

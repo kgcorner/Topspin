@@ -15,7 +15,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -180,7 +182,9 @@ public class GoogleOAuthServiceTest {
                     "}"+
                 "]"+
             "}";
-        PowerMockito.when(mockedAuthServiceModelFactory.createNewLogin()).thenReturn(new DummyLogin());
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        PowerMockito.when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(new DummyLogin());
         Login loginInResponse = googleOAuthService.createLoginObject(data);
         Assert.assertNotNull("Login object is null", loginInResponse);
         Assert.assertEquals("User name is not matching", email, loginInResponse.getUsername());

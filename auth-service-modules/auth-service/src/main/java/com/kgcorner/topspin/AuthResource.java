@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class AuthResource extends AuthServiceExceptionHandler {
     private static final String AUTHORIZATION = "Authorization";
@@ -70,7 +72,21 @@ public class AuthResource extends AuthServiceExceptionHandler {
         @RequestParam(value="password", required = false) String password,
         @ApiParam(value = "id of the user stored in top spin" , required = true)
         @RequestParam(value="userid", required = true) String userId
-        ) {
+    ) {
         return registrationService.createLogin(userName, password, userId);
+    }
+
+    @ApiOperation("creates a login for user")
+    @PostMapping("/admin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Login createAdmin(
+        @ApiParam(value = "User name of the user, incase of oauth login, consider user id from oauth server to be user name" , required = true)
+        @RequestParam(value="username", required = true) String userName,
+        @ApiParam(value = "password for login, user blank for oauth login" , required = true)
+        @RequestParam(value="password", required = false) String password,
+        @ApiParam(value = "id of the user stored in top spin" , required = true)
+        @RequestParam(value="userid", required = true) String userId
+    ) {
+        return registrationService.createAdmin(userName, password, userId);
     }
 }

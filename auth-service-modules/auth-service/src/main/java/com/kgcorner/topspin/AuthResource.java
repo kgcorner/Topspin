@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 public class AuthResource extends AuthServiceExceptionHandler {
     private static final String AUTHORIZATION = "Authorization";
@@ -48,6 +46,16 @@ public class AuthResource extends AuthServiceExceptionHandler {
                                       @RequestHeader(value="server-name", required = true) String serverName
     )  {
         return authenticator.validateAccessTokenAndAuthorize(token, serverName);
+    }
+
+    @ApiOperation("Returns token for authorization by authenticating using oauth access_token")
+    @GetMapping("/refresh_token")
+    public Token refreshToken(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
+                                  @RequestHeader(value=AUTHORIZATION, required = true) String token,
+                                  @ApiParam(value = "Refresh token given while generating access token" , required = true)
+                                  @RequestHeader(value="refresh-token", required = true) String refreshToken
+    )  {
+        return authenticator.refreshToken(token, refreshToken);
     }
 
     @ApiOperation("Returns token for authorization by authenticating using oauth auth_code")

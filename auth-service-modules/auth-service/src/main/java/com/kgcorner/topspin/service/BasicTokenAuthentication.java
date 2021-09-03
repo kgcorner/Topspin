@@ -57,8 +57,8 @@ public class BasicTokenAuthentication implements AuthenticationService {
             throw new  ForbiddenException("invalid username and password provided");
         }
         Map<String, String> claims = new HashMap<>();
-        claims.put("USER_NAME", login.getUsername());
-        claims.put("USER_ID", login.getUserId()+"");
+        claims.put(USER_NAME, login.getUsername());
+        claims.put(USER_ID, login.getUserId()+"");
         Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
         var rolesBuilder = new StringBuilder();
         for(GrantedAuthority authority : authorities) {
@@ -66,7 +66,7 @@ public class BasicTokenAuthentication implements AuthenticationService {
         }
         var roles = rolesBuilder.toString();
         roles = roles.substring(0, roles.length() -1);
-        claims.put("ROLE", roles );
+        claims.put(ROLE, roles );
         var refreshToken = BigStringGenerator.generateBigString();
         login.setRefreshToken(refreshToken);
         loginPersistentLayer.update(login);

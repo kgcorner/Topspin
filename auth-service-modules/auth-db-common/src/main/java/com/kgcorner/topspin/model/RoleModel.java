@@ -15,8 +15,8 @@ public class RoleModel implements GrantedAuthority {
         this.authority = authority;
     }
 
-    public RoleModel(String role) {
-        this.authority = role;
+    public RoleModel(String authority) {
+        this.authority = authority;
     }
 
     @Override

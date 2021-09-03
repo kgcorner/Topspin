@@ -8,6 +8,7 @@ import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.RoleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,8 @@ public abstract class DefaultTokenAuthenticationProvider  implements Authenticat
     @Autowired
     private AuthServiceClient client;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     public Authentication getAuthDetails(String tokenString, Class tokenClass) {
         TokenResponse tokenResponse = client.getToken(tokenString);

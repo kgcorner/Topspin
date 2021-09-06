@@ -27,6 +27,11 @@
 			<version>${product.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.kgcorner.topspin</groupId>
+			<artifactId>endpoint-security-config</artifactId>
+			<version>${product.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>

@@ -91,6 +91,8 @@ services:
   store:
     container_name: store
     image: kumargauravgupta3/store-service-docker:1.0-SNAPSHOT
+    env_file:
+      - id
     ports:
       - '9003:9003'
       - '5006:5006'

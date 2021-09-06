@@ -12,6 +12,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -53,6 +54,23 @@ public class StoreResource {
         return ResponseEntity.ok(storeDTO);
     }
 
+    @ApiOperation("Update the store")
+    @PatchMapping(MANAGE_STORES_STORE_ID)
+    public ResponseEntity<StoreDTO> uploadBannerAndLogo(
+        @ApiParam("id of the store")
+        @PathVariable("storeId") String storeId,
+        @ApiParam(value = "Banner for the Store")
+        @RequestParam("banner") MultipartFile banner,
+        @ApiParam(value = "logo for the Store")
+        @RequestParam("logo") MultipartFile logo,
+        @ApiParam(value = "thumbnail for the Store")
+        @RequestParam("thumbnail") MultipartFile thumbnail) {
+        StoreDTO storeDTO =  storeService.updateBannerAndLogo(storeId, thumbnail, banner, logo);
+        storeDTO.addLink(STORES_STORE_ID.replace("{storeId}", storeDTO.getStoreId()), Link.REL_SELF);
+        return ResponseEntity.ok(storeDTO);
+    }
+
+
     @ApiOperation("Get the store")
     @GetMapping(STORES_STORE_ID)
     public ResponseEntity<StoreDTO> getStore(
@@ -87,4 +105,6 @@ public class StoreResource {
         storeService.deleteStore(storeId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
 }

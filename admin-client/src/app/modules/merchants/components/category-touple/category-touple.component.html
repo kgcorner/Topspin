@@ -1,0 +1,22 @@
+<div class="row row-border-bottom">
+    <div class="column large-2">
+        <div class="row">
+            <div class="column large-4"><img src="{{category.thumbnailImage}}" title="{{category.name}}" class="store-logo" /> </div>
+            <div class="column large-6" style="margin-left: -25px;">{{category.name}}</div>
+            <div class="column large-2">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="column large-6">
+        {{category.description}}
+    </div>
+    <div class="column large-4" *ngIf="category.parent; noParent">
+        {{category.parent.name}}        
+    </div>
+    <ng-template #noParent>
+        <div class="column large-4">
+            NA
+        </div>
+    </ng-template>
+</div>

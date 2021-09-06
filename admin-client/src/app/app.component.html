@@ -1,0 +1,37 @@
+<!-- <div class="middle">
+  <div class="bar bar1"></div>
+  <div class="bar bar2"></div>
+  <div class="bar bar3"></div>
+  <div class="bar bar4"></div>
+  <div class="bar bar5"></div>
+  <div class="bar bar6"></div>
+  <div class="bar bar7"></div>
+  <div class="bar bar8"></div>
+</div> -->
+<div class="full-page">
+  <div class="sidebar" *ngIf="!isLoginPage">
+      <div style="margin:10px;">
+          <img src="/assets/icons/logo.png" class="logo" />
+      </div>
+      <div class="icon">
+          <i class="far fa-user disable" ></i>
+      </div>
+      <div class="icon">
+        <a routerLink="/merchants">   <i class="fas fa-store"></i></a>
+      </div>
+      <div class="icon">
+        <a routerLink="/categories"> <i class="fas fa-th-large"></i></a>
+      </div>
+      <div class="icon">
+          <i class="fas fa-chart-pie disable"></i>
+      </div>
+  </div>
+  <div class="outlet">
+    <div class="tool-bar" *ngIf="!isLoginPage">
+      <div class="user-icon" style="float: right; font-size: 60px;">
+          <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

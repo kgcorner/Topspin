@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class FacebookOAuthService implements OAuthService {
     public static final String FACEBOOK = "facebook";
@@ -58,7 +61,9 @@ public class FacebookOAuthService implements OAuthService {
         if(Strings.isNullOrEmpty(data))
             throw new IllegalArgumentException("Data can't be null");
         JSONObject jsonObject = new JSONObject(data);
-        Login login = authServiceModelFactory.createNewLogin();
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        Login login = authServiceModelFactory.createNewLogin(roles);
         login.setUsername(jsonObject.getString("email"));
         return login;
     }

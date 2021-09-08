@@ -13,7 +13,7 @@ public interface DataRepository<T extends Serializable> {
 
     class Order {
         private String name;
-        private boolean isAsending;
+        private boolean isAscending;
 
         public String getName() {
             return name;
@@ -23,12 +23,12 @@ public interface DataRepository<T extends Serializable> {
             this.name = name;
         }
 
-        public boolean isAsending() {
-            return isAsending;
+        public boolean isAscending() {
+            return isAscending;
         }
 
-        public void setAsending(boolean asending) {
-            isAsending = asending;
+        public void setAscending(boolean ascending) {
+            isAscending = ascending;
         }
     }
 

@@ -278,7 +278,7 @@ public class MySqlRepositoryTest {
 
         List<DataRepository.Order> ordering =  new ArrayList<>();
         DataRepository.Order o1  = new DataRepository.Order();
-        o1.setAsending(true);
+        o1.setAscending(true);
         o1.setName("name");
         ordering.add(o1);
 
@@ -297,7 +297,7 @@ public class MySqlRepositoryTest {
         when(cq.where(predicate)).thenReturn(cq);
         List<Order> orderList = new ArrayList<>();
         for (DataRepository.Order o : ordering) {
-            Order order = new OrderImpl(root.get(o.getName()), o.isAsending());
+            Order order = new OrderImpl(root.get(o.getName()), o.isAscending());
             orderList.add(order);
         }
         when(cq.orderBy(orderList)).thenReturn(cq);
@@ -331,7 +331,7 @@ public class MySqlRepositoryTest {
         when(cq.where(predicate)).thenReturn(cq);
         List<Order> orderList = new ArrayList<>();
         for (DataRepository.Order o : ordering) {
-            Order order = new OrderImpl(root.get(o.getName()), o.isAsending());
+            Order order = new OrderImpl(root.get(o.getName()), o.isAscending());
             orderList.add(order);
         }
         when(cq.orderBy(orderList)).thenReturn(cq);
@@ -399,7 +399,7 @@ public class MySqlRepositoryTest {
 
         List<DataRepository.Order> ordering =  new ArrayList<>();
         DataRepository.Order o1  = new DataRepository.Order();
-        o1.setAsending(true);
+        o1.setAscending(true);
         o1.setName("name");
         ordering.add(o1);
 
@@ -421,7 +421,7 @@ public class MySqlRepositoryTest {
         when(cq.where(predicate)).thenReturn(cq);
         List<Order> orderList = new ArrayList<>();
         for (DataRepository.Order o : ordering) {
-            Order order = new OrderImpl(root.get(o.getName()), o.isAsending());
+            Order order = new OrderImpl(root.get(o.getName()), o.isAscending());
             orderList.add(order);
         }
         when(cq.orderBy(orderList)).thenReturn(cq);
@@ -482,7 +482,7 @@ public class MySqlRepositoryTest {
         when(cq.where(predicate)).thenReturn(cq);
         List<Order> orderList = new ArrayList<>();
         for (DataRepository.Order o : ordering) {
-            Order order = new OrderImpl(root.get(o.getName()), o.isAsending());
+            Order order = new OrderImpl(root.get(o.getName()), o.isAscending());
             orderList.add(order);
         }
         when(cq.orderBy(orderList)).thenReturn(cq);

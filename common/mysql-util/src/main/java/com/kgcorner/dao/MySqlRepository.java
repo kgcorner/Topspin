@@ -149,7 +149,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
         if(orders != null) {
             for (Order o : orders) {
-                javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
+                javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAscending());
                 orderList.add(order);
             }
         }
@@ -211,7 +211,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
         if(orders != null && !orders.isEmpty()) {
             for (Order o : orders) {
-                javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAsending());
+                javax.persistence.criteria.Order order = new OrderImpl(entity.get(o.getName()), o.isAscending());
                 orderList.add(order);
             }
         }

@@ -22,6 +22,10 @@ import java.util.function.Function;
 @Component
 public class Routers {
 
+    private static final String X_APPLICATION_NAME = "X-Application-name";
+    private static final String X_APPLICATION_HASH = "X-Application-Hash";
+    private static final String X_REQUESTED_AT = "X-Requested-At";
+    private static final String APPLICATION_NAME = "gateway";
     @Value("${store.service.host:http://localhost:9003}")
     private String storeServiceHost;
 
@@ -40,10 +44,9 @@ public class Routers {
        return builder.routes()
            //Store's routes
            .route("create-store", p-> p.path("/manage/stores")
-                    .filters(getGatewayWithPath(requestedAT, "/stores")).uri(storeServiceHost))
+                    .filters(getGateway(requestedAT)).uri(storeServiceHost))
            .route("update-and-delete-store", p-> p.path("/manage/stores/**")
-               .filters(getGatewayWithRewrite(requestedAT, "/manage/stores/(?<storeId>.*)",
-                   "/stores/${storeId}")).uri(storeServiceHost))
+               .filters(getGateway(requestedAT)).uri(storeServiceHost))
            .route("get-stores", p-> p.path("/stores/**")
                .filters(getGateway(requestedAT))
                .uri(storeServiceHost))
@@ -53,10 +56,9 @@ public class Routers {
 
            //Category's routes
            .route("create-category", p-> p.path("/manage/categories")
-               .filters(getGatewayWithPath(requestedAT, "/categories")).uri(storeServiceHost))
+               .filters(getGateway(requestedAT)).uri(storeServiceHost))
            .route("update-and-delete-category", p-> p.path("/manage/categories/**")
-               .filters(getGatewayWithRewrite(requestedAT, "/manage/categories/(?<categoryId>.*)",
-                   "/categories/${categoryId}")).uri(storeServiceHost))
+               .filters(getGateway(requestedAT)).uri(storeServiceHost))
            .route("get-category", p-> p.path("/categories/**")
                .filters(getGateway(requestedAT))
                .uri(storeServiceHost))
@@ -122,40 +124,48 @@ public class Routers {
            .route("delete-update-redeem", p-> p.path("/user/redeems/**")
                .filters(getGatewayWithRewrite(requestedAT, "/user/redeems)",
                    "/redeems")).uri(userServiceHost))
-           .route("hold transaction", p-> p.path("/manage/transactions/**/hold")
+           .route("hold transaction", p-> p.path("/manage/transactions/*/hold")
                .filters(getGatewayWithRewrite(requestedAT, "/manage/transactions/<?<transactionId>.*/hold)",
                    "/transactions/${transactionId}/hold")).uri(userServiceHost))
            //auth's routes
            .route("create-login", p-> p.path("/manage/login")
                .filters(getGatewayWithPath(requestedAT, "/login")).uri(authServiceHost))
+           .route("create-login", p-> p.path("/manage/admin")
+               .filters(getGatewayWithPath(requestedAT, "/admin")).uri(authServiceHost))
+           .route("create-token", p-> p.path("/token")
+               .filters(getGateway(requestedAT))
+               .uri(authServiceHost))
+           .route("refresh-token", p-> p.path("/refresh_token")
+               .filters(getGateway(requestedAT))
+               .uri(authServiceHost))
            .build();
 
     }
 
     private Function<GatewayFilterSpec, UriSpec> getGatewayWithPath(String requestedAT, String path) {
         return f -> f.setPath(path)
-            .addRequestHeader("X-Application-name", "gateway")
-            .addRequestHeader("X-Application-Hash", getHash(requestedAT))
-            .addRequestHeader("X-REquested-At", requestedAT);
+            .addRequestHeader(X_APPLICATION_NAME, APPLICATION_NAME)
+            .addRequestHeader(X_APPLICATION_HASH, getHash(requestedAT))
+            .addRequestHeader(X_REQUESTED_AT, requestedAT);
     }
 
     private Function<GatewayFilterSpec, UriSpec> getGatewayWithRewrite(String requestedAT, String regex,
                                                                        String replaceWith) {
         return f -> f.rewritePath(regex, replaceWith)
-            .addRequestHeader("X-Application-name", "gateway")
-            .addRequestHeader("X-Application-Hash", getHash(requestedAT))
-            .addRequestHeader("X-REquested-At", requestedAT);
+            .addRequestHeader(X_APPLICATION_NAME, APPLICATION_NAME)
+            .addRequestHeader(X_APPLICATION_HASH, getHash(requestedAT))
+            .addRequestHeader(X_REQUESTED_AT, requestedAT);
     }
 
     private Function<GatewayFilterSpec, UriSpec> getGateway(String requestedAT) {
         return f -> f
-            .addRequestHeader("X-Application-name", "gateway")
-            .addRequestHeader("X-Application-Hash", getHash(requestedAT))
-            .addRequestHeader("X-REquested-At", requestedAT);
+            .addRequestHeader(X_APPLICATION_NAME, APPLICATION_NAME)
+            .addRequestHeader(X_APPLICATION_HASH, getHash(requestedAT))
+            .addRequestHeader(X_REQUESTED_AT, requestedAT);
     }
 
     public String getHash(String requestedAt) {
-        String payload = String.format("%s%s%s%s", "gateway", "key", requestedAt, "secret");
+        String payload = String.format("%s%s%s%s", APPLICATION_NAME, "key", requestedAt, "secret");
         return Hasher.getCrypt(payload, "secret");
 
     }

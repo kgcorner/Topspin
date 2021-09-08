@@ -1,0 +1,23 @@
+<div class="row row-border">
+    <div class="column large-2">
+        <strong> Name </strong>
+    </div>
+    <div class="column large-1">
+        <strong> Active </strong>
+    </div>
+    <div class="column large-2">
+        <strong> Affiliate Id </strong>
+    </div>
+    <div class="column large-2">
+        <strong> MaxCashback </strong>
+    </div>
+    <div class="column large-2">
+        <strong> Edit </strong>
+    </div>
+    <div class="column large-2">
+        <strong> Disable </strong>
+    </div>
+</div>
+<div *ngFor="let item of merchants">
+    <app-merchant-touple [merchant]="item"></app-merchant-touple>
+</div>

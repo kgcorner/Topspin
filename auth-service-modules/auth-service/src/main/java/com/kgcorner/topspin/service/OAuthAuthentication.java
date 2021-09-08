@@ -10,6 +10,7 @@ import com.kgcorner.crypto.BigStringGenerator;
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.UnAuthorizeException;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
@@ -49,7 +50,7 @@ public class OAuthAuthentication implements AuthenticationService {
                 if(service.validateAccessToken(accessToken)) {
                     return createTokenUsingAccessToken(accessToken, service);
                 } else {
-                    throw new IllegalArgumentException("Access token  authentication failed by " + serverName);
+                    throw new UnAuthorizeException("Access token  authentication failed by " + serverName);
                 }
             }
         }

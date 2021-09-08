@@ -1,0 +1,170 @@
+<h1> Create Store</h1>
+<div class="row">
+    <div class="column large-3">
+        <img *ngIf="created;else notCreated" src="{{merchant.logo}}" />
+        <ng-template #notCreated>
+            <i class="fas fa-store" style="font-size: 100px;"></i>
+        </ng-template>
+    </div>
+    <div class="column large-9">
+        <form [formGroup] = "createStoreForm">
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Store's name" formControlName="name" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['name'].valid && createStoreForm.controls['name'].touched">
+                        Please enter a valid Store Name
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Store's Description" formControlName="description" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['description'].valid && createStoreForm.controls['description'].touched">
+                        Please enter a valid Store Description
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Store's Link" formControlName="link" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['link'].valid && createStoreForm.controls['link'].touched">
+                        Please enter a valid Store Link
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Store's Affiliate Id" formControlName="affiliateId" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['affiliateId'].valid && createStoreForm.controls['affiliateId'].touched">
+                        Please enter a valid Store affiliate id
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Store's Surfer Placeholder url" formControlName="surferPlaceHolder" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['surferPlaceHolder'].valid && createStoreForm.controls['surferPlaceHolder'].touched">
+                        Please enter a valid Surfer Placeholder url
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Store's placeHolder Url" formControlName="placeHolder" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['placeHolder'].valid && createStoreForm.controls['placeHolder'].touched">
+                        Please enter a valid placeHolder Url
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <label for="storeLogo" class="button">Upload Store Logo</label>
+                    <input type="file" id="storeLogo" class="show-for-sr" formControlName="logo" #logo required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['logo'].valid && createStoreForm.controls['logo'].touched">
+                        Please choose a valid logo for store
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <label for="storeThumbnail" class="button">Upload Store Thumbnail</label>
+                    <input type="file" id="storeThumbnail" class="show-for-sr" formControlName="thumbnailImage" #thumbnail required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['thumbnailImage'].valid && createStoreForm.controls['thumbnailImage'].touched">
+                        Please choose a thumgnail Image for Store
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <label for="storeBanner" class="button">Upload Store Banner</label>
+                    <input type="file" id="storeBanner" class="show-for-sr" formControlName="bannerImage" #banner required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['bannerImage'].valid && createStoreForm.controls['bannerImage'].touched">
+                        Please choose a valid banner
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Maxmum Cashback for store" formControlName="maxCashback" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['maxCashback'].valid && createStoreForm.controls['maxCashback'].touched">
+                        Please enter a valid maximum cashback to be offered for this store
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Tag line for store" formControlName="tagLine" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['tagLine'].valid && createStoreForm.controls['tagLine'].touched">
+                        Please enter a valid maximum cashback to be offered for this store
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Search url for store" formControlName="searchUrl" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['searchUrl'].valid && createStoreForm.controls['searchUrl'].touched">
+                        Please enter a valid maximum cashback to be offered for this store
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-4 small-12">
+                    <div class="switch radius">
+                        <input id="activeSwitch" type="radio" formControlName="active">
+                        <label for="activeSwitch">Is active</label>
+                    </div> 
+                </div>
+
+                <div class="column large-4 small-12">
+                    <div class="switch radius">
+                        <input id="affiliatedSwitch" type="radio" formControlName="affiliated">
+                        <label for="affiliatedSwitch">Is Affiliate</label>
+                    </div> 
+                </div>
+
+                <div class="column large-4 small-12">
+                    <div class="switch radius">
+                        <input id="openOutSwitch" type="radio" formControlName="openOut">
+                        <label for="openOutSwitch">New Window</label>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <select formControlName="categories" multiple style="max-height: 200px;">
+                        <option *ngFor="let category of categoriesObs | async" value="{{category.categoryId}}">{{category.name}}</option>
+                    </select>                     
+                </div>
+
+                <div class="column large-6 small-12">
+                    <select formControlName="gender">
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="2">All</option>
+                    </select>                     
+                </div>
+            </div>
+            <div class="row">
+                <textarea formControlName="longDescription">
+
+                </textarea>
+                <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['longDescription'].valid && createStoreForm.controls['longDescription'].touched">
+                    Please enter a mini blog about the store
+                </div>       
+            </div>
+            <div class="row">
+                    <div class="column large-3 small-6">
+                        <input type="button" class="success button" [disabled]="!createStoreForm.valid" (click)="createStore(createStoreForm.value, banner, logo, thumbnail)" value ="Create Store" />
+                    </div>
+                    <div class="column large-3 small-6">
+                        <input type="button" class="secondary button" type="reset" value ="Reset" />
+                    </div>
+                    <div class="column large-6">
+                        &nbsp;
+                    </div>
+                </div>
+        </form>
+        
+    </div>
+</div>

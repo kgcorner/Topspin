@@ -8,12 +8,16 @@ Created on : 28/08/19
 
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.WrongDataException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
+import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import com.kgcorner.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.kgcorner.topspin.persistent.LoginPersistentLayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RegistrationService {
@@ -35,7 +39,38 @@ public class RegistrationService {
      * @return created login
      */
     public Login createLogin(String userName, String password, String userId) {
-        Login login = authServiceModelFactory.createNewLogin();
+        return saveLogin(userName, password, userId, "USER");
+    }
+
+    public Login createLogin(String userName, String password, String userId, List<String> roles) {
+        Login existingUser = loginPersistentLayer.getLogin(userName);
+        if(existingUser != null) {
+            throw new WrongDataException("User already exists");
+        }
+        Login login = authServiceModelFactory.createNewLogin(roles);
+        login.setUserId(userId);
+        login.setUsername(userName);
+        if(!Strings.isNullOrEmpty(password)) {
+            String salt = properties.getPasswordSalt();
+            login.setPassword(Hasher.getCrypt(password, salt));
+        } else {
+            throw new WrongDataException("Password can't be empty");
+        }
+        return loginPersistentLayer.createLogin(login);
+    }
+
+    public Login createAdmin(String userName, String password, String userId) {
+        return saveLogin(userName, password, userId, "ADMIN");
+    }
+
+    private Login saveLogin(String userName, String password, String userId, String role) {
+        List<String> roles = new ArrayList<>();
+        roles.add(role);
+        Login existingUser = loginPersistentLayer.getLogin(userName);
+        if(existingUser != null) {
+            throw new WrongDataException("User already exists");
+        }
+        Login login = authServiceModelFactory.createNewLogin(roles);
         login.setUserId(userId);
         login.setUsername(userName);
         if(!Strings.isNullOrEmpty(password)) {

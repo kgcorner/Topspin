@@ -9,6 +9,10 @@ Created on : 25/08/19
 import com.kgcorner.topspin.model.Token;
 
 public interface AuthenticationService {
+    String USER_NAME = "USER_NAME";
+    String USER_ID = "USER_ID";
+    String ROLE = "ROLE";
+
     Token authenticateToken(String token);
 
     /**

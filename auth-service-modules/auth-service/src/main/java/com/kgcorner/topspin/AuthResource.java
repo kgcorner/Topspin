@@ -48,6 +48,16 @@ public class AuthResource extends AuthServiceExceptionHandler {
         return authenticator.validateAccessTokenAndAuthorize(token, serverName);
     }
 
+    @ApiOperation("Returns token for authorization by authenticating using oauth access_token")
+    @GetMapping("/refresh_token")
+    public Token refreshToken(@ApiParam(value = "access token provided by oauth server in form of <server name> <token>" , required = true)
+                                  @RequestHeader(value=AUTHORIZATION, required = true) String token,
+                                  @ApiParam(value = "Refresh token given while generating access token" , required = true)
+                                  @RequestHeader(value="refresh-token", required = true) String refreshToken
+    )  {
+        return authenticator.refreshToken(token, refreshToken);
+    }
+
     @ApiOperation("Returns token for authorization by authenticating using oauth auth_code")
     @GetMapping("/token/oauth/code")
     public Token resolveAccessToken(@ApiParam(value = "auth code provided by the oauth server" , required = true)
@@ -70,7 +80,21 @@ public class AuthResource extends AuthServiceExceptionHandler {
         @RequestParam(value="password", required = false) String password,
         @ApiParam(value = "id of the user stored in top spin" , required = true)
         @RequestParam(value="userid", required = true) String userId
-        ) {
+    ) {
         return registrationService.createLogin(userName, password, userId);
+    }
+
+    @ApiOperation("creates a login for user")
+    @PostMapping("/admin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Login createAdmin(
+        @ApiParam(value = "User name of the user, incase of oauth login, consider user id from oauth server to be user name" , required = true)
+        @RequestParam(value="username", required = true) String userName,
+        @ApiParam(value = "password for login, user blank for oauth login" , required = true)
+        @RequestParam(value="password", required = false) String password,
+        @ApiParam(value = "id of the user stored in top spin" , required = true)
+        @RequestParam(value="userid", required = true) String userId
+    ) {
+        return registrationService.createAdmin(userName, password, userId);
     }
 }

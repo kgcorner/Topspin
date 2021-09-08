@@ -10,12 +10,12 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -99,5 +99,17 @@ public class StoreResourceTest {
         String storeId = "storeId";
         storeResource.deleteStore(storeId);
         Mockito.verify(storeService).deleteStore(storeId);
+    }
+
+    @Test
+    public void uploadBannerAndLogo() {
+        MultipartFile banner = mock(MultipartFile.class);
+        MultipartFile logo = mock(MultipartFile.class);
+        MultipartFile thumbnail = mock(MultipartFile.class);
+        String storeId = "storeId";
+        StoreDTO storeDTO = new StoreDTO();
+        storeDTO.setStoreId(storeId);
+        when(storeService.updateBannerAndLogo(storeId, thumbnail, banner, logo)).thenReturn(storeDTO);
+        assertNotNull(storeResource.uploadBannerAndLogo(storeId, banner, logo, thumbnail));
     }
 }

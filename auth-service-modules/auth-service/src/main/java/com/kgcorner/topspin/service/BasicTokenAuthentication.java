@@ -9,8 +9,9 @@ Created on : 25/08/19
 import com.kgcorner.crypto.BigStringGenerator;
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.crypto.JwtUtility;
-import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.UnAuthorizeException;
+import com.kgcorner.topspin.exception.WrongDataException;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
@@ -42,23 +43,23 @@ public class BasicTokenAuthentication implements AuthenticationService {
     @Override
     public Token authenticateToken(String token) {
         if(token == null || !token.toLowerCase().startsWith(BASIC)) {
-            throw new IllegalArgumentException("Not a valid basic token");
+            throw new WrongDataException("Not a valid basic token");
         }
         token = token.substring(BASIC.length());
         token = new String(Base64.decode(token));
         String[] credential = token.split(":");
         if(credential.length != 2) {
-            throw new IllegalArgumentException("Not a valid basic token");
+            throw new WrongDataException("Not a valid basic token");
         }
         var login = loginPersistentLayer.getLogin(credential[0]);
         if(login == null)
-            throw new  ForbiddenException("invalid username and password provided");
+            throw new  UnAuthorizeException("invalid username and password provided");
         if(!Hasher.checkPassword(credential[1], login.getPassword())) {
-            throw new  ForbiddenException("invalid username and password provided");
+            throw new UnAuthorizeException("invalid username and password provided");
         }
         Map<String, String> claims = new HashMap<>();
-        claims.put("USER_NAME", login.getUsername());
-        claims.put("USER_ID", login.getUserId()+"");
+        claims.put(USER_NAME, login.getUsername());
+        claims.put(USER_ID, login.getUserId()+"");
         Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
         var rolesBuilder = new StringBuilder();
         for(GrantedAuthority authority : authorities) {
@@ -66,7 +67,7 @@ public class BasicTokenAuthentication implements AuthenticationService {
         }
         var roles = rolesBuilder.toString();
         roles = roles.substring(0, roles.length() -1);
-        claims.put("ROLE", roles );
+        claims.put(ROLE, roles );
         var refreshToken = BigStringGenerator.generateBigString();
         login.setRefreshToken(refreshToken);
         loginPersistentLayer.update(login);

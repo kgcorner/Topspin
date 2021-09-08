@@ -5,6 +5,10 @@ import com.kgcorner.topspin.model.Token;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
@@ -25,8 +29,13 @@ public class AuthServiceMongoModelFactoryTest {
 
     @Test
     public void createNewLogin() {
-        Login login = authServiceMongoModelFactory.createNewLogin();
+        List<String> roles = new ArrayList<>();
+        roles.add("R1");
+        roles.add("R2");
+        roles.add("R3");
+        Login login = authServiceMongoModelFactory.createNewLogin(roles);
         assertNotNull("Login is null", login);
+        assertEquals(roles.size(), login.getAuthorities().size());
     }
 
     @Test

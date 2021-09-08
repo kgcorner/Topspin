@@ -7,8 +7,9 @@ Created on : 25/08/19
 */
 
 import com.kgcorner.crypto.JwtUtility;
-import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.UnAuthorizeException;
+import com.kgcorner.topspin.exception.WrongDataException;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,11 @@ public class BearerTokenAuthentication implements AuthenticationService {
     @Override
     public Token authenticateToken(String token) {
         if(token ==null || !token.toLowerCase().startsWith(BEARER)) {
-            throw new IllegalArgumentException("Not a valid bearer token");
+            throw new WrongDataException("Not a valid bearer token");
         }
         token = token.substring(BEARER.length());
         if(!JwtUtility.validateToken(properties.getTokenSalt(), token))
-            throw new ForbiddenException("invalid access token provided");
+            throw new UnAuthorizeException("invalid access token provided");
         else {
             var tempBearerToken = authServiceModelFactory.createNewToken();
             tempBearerToken.setAccessToken(token);

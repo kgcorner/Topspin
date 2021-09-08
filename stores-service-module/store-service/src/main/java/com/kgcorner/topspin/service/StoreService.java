@@ -26,6 +26,8 @@ import java.util.List;
 @Service
 public class StoreService {
 
+    private static final String INVALID_FILE_RECEIVED = "Invalid file received";
+
     @Value("${s3.bucket.name}")
     private String s3BucketName;
 
@@ -84,18 +86,18 @@ public class StoreService {
         String bannerFileName = banner.getOriginalFilename();
         String thumbnailFileName = thumbNail.getOriginalFilename();
         if(Strings.isNullOrEmpty(bannerFileName)) {
-            throw new IllegalArgumentException("Invalid file received");
+            throw new IllegalArgumentException(INVALID_FILE_RECEIVED);
         }
         bannerName = bannerName + bannerFileName.substring(bannerFileName.lastIndexOf("."));
 
         String logoFileName = logo.getOriginalFilename();
         if(Strings.isNullOrEmpty(logoFileName)) {
-            throw new IllegalArgumentException("Invalid file received");
+            throw new IllegalArgumentException(INVALID_FILE_RECEIVED);
         }
         logoName = logoName + logoFileName.substring(logoFileName.lastIndexOf("."));
 
         if(Strings.isNullOrEmpty(thumbnailFileName)) {
-            throw new IllegalArgumentException("Invalid file received");
+            throw new IllegalArgumentException(INVALID_FILE_RECEIVED);
         }
         thumbnailName = thumbnailName + thumbnailFileName.substring(thumbnailFileName.lastIndexOf("."));
         AwsServices awsServices = AwsServices.getInstance();
@@ -115,9 +117,9 @@ public class StoreService {
             storeDTO.setThumbnailImage(thumbnailName);
             return updateStore(storeDTO, storeId);
         } catch (IOException e) {
-            throw new IllegalArgumentException("invalid file received");
+            throw new IllegalArgumentException(INVALID_FILE_RECEIVED);
         } catch (AwsServiceException e) {
-            throw new RuntimeException("Storing file failed");
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

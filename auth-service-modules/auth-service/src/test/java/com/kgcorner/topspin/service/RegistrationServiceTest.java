@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -17,6 +18,7 @@ import org.powermock.reflect.Whitebox;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /*
@@ -89,4 +91,72 @@ public class RegistrationServiceTest {
         login.setUserId("0");
         return login;
     }
+
+    @Test
+    public void testCreateLoginWithRoles() {
+        List<String> roles = new ArrayList<>();
+        roles.add("User");
+        roles.add("Admin");
+        String userName = "username";
+        String password = "password";
+        String userId = "userId";
+        String salt = "salt";
+        when(mockedProperties.getPasswordSalt()).thenReturn(salt);
+        Login mockedLogin = mock(Login.class);
+        when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(mockedLogin);
+        registrationService.createLogin(userName, password, userId, roles);
+        Mockito.verify(mockedLoginPersistentLayer).createLogin(mockedLogin);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateLoginWithRolesWithEmptyPassword() {
+        List<String> roles = new ArrayList<>();
+        roles.add("User");
+        roles.add("Admin");
+        String userName = "username";
+        String password = "";
+        String userId = "userId";
+        Login mockedLogin = mock(Login.class);
+        when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(mockedLogin);
+        registrationService.createLogin(userName, password, userId, roles);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateLoginWithExistingUser() {
+        List<String> roles = new ArrayList<>();
+        roles.add("User");
+        roles.add("Admin");
+        String userName = "username";
+        String password = "";
+        String userId = "userId";
+        Login mockedLogin = mock(Login.class);
+        when(mockedLoginPersistentLayer.getLogin(userName)).thenReturn(mockedLogin);
+        registrationService.createLogin(userName, password, userId, roles);
+    }
+
+    @Test
+    public void createAdmin() {
+        String username = "username";
+        String password = "password";
+        String userId = "userId";
+        Login login = getDummyLogin();
+        when(mockedLoginPersistentLayer.createLogin(login)).thenReturn(login);
+        when(mockedProperties.getPasswordSalt()).thenReturn(PASSWORD_SALT);
+        List<String> roles = new ArrayList<>();
+        roles.add("ADMIN");
+        when(mockedAuthServiceModelFactory.createNewLogin(roles)).thenReturn(login);
+        registrationService.createAdmin(username, password, userId);
+        Mockito.verify(mockedLoginPersistentLayer).createLogin(login);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void createAdminExisting() {
+        String username = "username";
+        String password = "password";
+        String userId = "userId";
+        Login login = getDummyLogin();
+        when(mockedLoginPersistentLayer.getLogin(username)).thenReturn(login);
+        registrationService.createAdmin(username, password, userId);
+    }
+
 }

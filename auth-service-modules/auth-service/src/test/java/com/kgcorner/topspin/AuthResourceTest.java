@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -136,4 +137,20 @@ public class AuthResourceTest {
     }
 
 
+    @Test
+    public void createAdmin() {
+        String userName = "username";
+        String password = "pasword";
+        String userid = "userid";
+        authResource.createAdmin(userName, password, userid);
+        Mockito.verify(mockedRegistrationService).createAdmin(userName, password, userid);
+    }
+
+    @Test
+    public void refreshToken() {
+        String token = "token";
+        String refreshToken = "refresh token";
+        authResource.refreshToken(token, refreshToken);
+        Mockito.verify(mockedAuthenticator).refreshToken(token, refreshToken);
+    }
 }

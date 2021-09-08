@@ -8,6 +8,7 @@ Created on : 07/11/19
 
 import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.models.BaseResponse;
+import com.kgcorner.topspin.exception.UnAuthorizeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,8 +21,8 @@ public class AuthServiceExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<BaseResponse> handleCustomException(IllegalArgumentException e) {
+    @ExceptionHandler(UnAuthorizeException.class)
+    public ResponseEntity<BaseResponse> handleCustomException(UnAuthorizeException e) {
         var errorResponse = new BaseResponse(e.getLocalizedMessage(), BaseResponse.RESPONSETYPE.ERROR);
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }

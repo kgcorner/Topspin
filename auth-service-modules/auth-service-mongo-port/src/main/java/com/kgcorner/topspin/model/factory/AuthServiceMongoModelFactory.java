@@ -18,10 +18,12 @@ public class AuthServiceMongoModelFactory implements AuthServiceModelFactory {
     @Override
     public Login createNewLogin(List<String> roles) {
         LoginModel loginModel = new LoginModel();
-        if(roles != null && roles.size() > 0)
-        for(String role : roles) {
-            loginModel.addRole(role);
+        if(roles != null && roles.isEmpty()) {
+            for(String role : roles) {
+                loginModel.addRole(role);
+            }
         }
+
         return loginModel;
     }
 

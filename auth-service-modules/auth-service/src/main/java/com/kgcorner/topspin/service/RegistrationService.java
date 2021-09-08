@@ -8,6 +8,7 @@ Created on : 28/08/19
 
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.WrongDataException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
 import com.kgcorner.topspin.persistent.LoginPersistentLayer;
@@ -42,12 +43,18 @@ public class RegistrationService {
     }
 
     public Login createLogin(String userName, String password, String userId, List<String> roles) {
+        Login existingUser = loginPersistentLayer.getLogin(userName);
+        if(existingUser != null) {
+            throw new WrongDataException("User already exists");
+        }
         Login login = authServiceModelFactory.createNewLogin(roles);
         login.setUserId(userId);
         login.setUsername(userName);
         if(!Strings.isNullOrEmpty(password)) {
             String salt = properties.getPasswordSalt();
             login.setPassword(Hasher.getCrypt(password, salt));
+        } else {
+            throw new WrongDataException("Password can't be empty");
         }
         return loginPersistentLayer.createLogin(login);
     }
@@ -61,7 +68,7 @@ public class RegistrationService {
         roles.add(role);
         Login existingUser = loginPersistentLayer.getLogin(userName);
         if(existingUser != null) {
-            throw new IllegalArgumentException("User already exists");
+            throw new WrongDataException("User already exists");
         }
         Login login = authServiceModelFactory.createNewLogin(roles);
         login.setUserId(userId);

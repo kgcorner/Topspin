@@ -9,6 +9,8 @@ Created on : 25/08/19
 import com.kgcorner.crypto.BigStringGenerator;
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.UnAuthorizeException;
+import com.kgcorner.topspin.exception.WrongDataException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
@@ -76,18 +78,18 @@ public class Authenticator {
 
     public Token refreshToken(String token, String refreshToken) {
         String[] tokenParts = token.split(" ");
-        if(tokenParts.length != 2 || !tokenParts[0].toLowerCase().equals("bearer")){
-            throw new IllegalArgumentException("Invalid Access token");
+        if(tokenParts.length != 2 || !tokenParts[0].equalsIgnoreCase("bearer")){
+            throw new WrongDataException("Invalid Access token");
         }
         token = tokenParts[1];
         String userName = JwtUtility.getClaim(AuthenticationService.USER_NAME, token);
         Login login = loginPersistentLayer.getLogin(userName);
         if(!login.getRefreshToken().equals(refreshToken)) {
-            throw new IllegalArgumentException("Invalid refresh Token");
+            throw new UnAuthorizeException("Invalid refresh Token");
         }
         Map<String, String> claims = new HashMap<>();
         claims.put(AuthenticationService.USER_NAME, login.getUsername());
-        claims.put(AuthenticationService.USER_ID, login.getUserId()+"");
+        claims.put(AuthenticationService.USER_ID, login.getUserId());
         Collection<? extends GrantedAuthority> authorities = login.getAuthorities();
         var rolesBuilder = new StringBuilder();
         for(GrantedAuthority authority : authorities) {

@@ -2,14 +2,14 @@ package com.kgcorner.topspin.service;
 
 import com.kgcorner.crypto.Hasher;
 import com.kgcorner.crypto.JwtUtility;
-import com.kgcorner.exceptions.ForbiddenException;
 import com.kgcorner.topspin.Properties;
+import com.kgcorner.topspin.exception.UnAuthorizeException;
 import com.kgcorner.topspin.model.Login;
 import com.kgcorner.topspin.model.Token;
 import com.kgcorner.topspin.model.factory.AuthServiceModelFactory;
-import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import com.kgcorner.topspin.models.DummyLogin;
 import com.kgcorner.topspin.models.DummyToken;
+import com.kgcorner.topspin.persistent.LoginPersistentLayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -93,7 +93,7 @@ public class BasicTokenAuthenticationTest {
         this.basicTokenAuthentication.authenticateToken(null);
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test(expected = UnAuthorizeException.class)
     public void authenticateTokenWithInvalidPassword() {
         Login login = getDummyLogin();
         when(mockedLoginPersistentLayer.getLogin(login.getUsername())).thenReturn(login);
@@ -108,7 +108,7 @@ public class BasicTokenAuthenticationTest {
             .encodeToString((login.getUsername()+":"+"incorrect_password").getBytes()));
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test(expected = UnAuthorizeException.class)
     public void authenticateTokenWithNonExtstingLogin() {
         Login login = getDummyLogin();
         when(mockedLoginPersistentLayer.getLogin(login.getUsername())).thenReturn(null);

@@ -11,6 +11,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -87,5 +88,22 @@ public class CategoryResource {
                                                     @PathVariable("categoryId") String categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @ApiOperation("Update the Category")
+    @PatchMapping(MANAGE_CATEGORIES_CATEGORY_ID)
+    public ResponseEntity<CategoryDTO> uploadBannerAndLogo(
+        @ApiParam("id of the store")
+        @PathVariable("storeId") String categoryId,
+        @ApiParam(value = "Banner for the Store")
+        @RequestParam("banner") MultipartFile banner,
+        @ApiParam(value = "logo for the Store")
+        @RequestParam("logo") MultipartFile largeFile,
+        @ApiParam(value = "thumbnail for the Store")
+        @RequestParam("thumbnail") MultipartFile thumbnail) {
+        CategoryDTO categoryDTO =  categoryService.updateBannerAndLogo(categoryId, thumbnail, banner, largeFile);
+        categoryDTO.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", categoryDTO.getCategoryId()),
+            Link.REL_SELF);
+        return ResponseEntity.ok(categoryDTO);
     }
 }

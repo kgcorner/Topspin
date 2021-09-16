@@ -1,15 +1,17 @@
 package com.kgcorner.topspin;
 
 
-import com.kgcorner.crypto.Hasher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.cloud.gateway.route.builder.UriSpec;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -81,10 +83,9 @@ public class Routers {
 
            //offer's routes
            .route("create-offer", p-> p.path("/manage/offers")
-               .filters(getGatewayWithPath(requestedAT, "/offers")).uri(productOfferServiceHost))
+               .filters(getGateway(requestedAT)).uri(productOfferServiceHost))
            .route("update-and-delete-offer", p-> p.path("/manage/offers/**")
-               .filters(getGatewayWithRewrite(requestedAT, "/manage/offers/(?<offerId>.*)",
-                   "/offers/${offerId}")).uri(productOfferServiceHost))
+               .filters(getGateway(requestedAT)).uri(productOfferServiceHost))
            .route("get-offer", p-> p.path("/offers/**")
                .filters(getGateway(requestedAT))
                .uri(productOfferServiceHost))
@@ -168,5 +169,25 @@ public class Routers {
         String payload = String.format("%s%s%s%s", APPLICATION_NAME, "key", requestedAt, "secret");
         return Hasher.getCrypt(payload, "secret");
 
+    }
+
+
+}
+final class Hasher {
+    //Defines number of hashing rounds. Its non configurable because passwords are supposed to
+    // be protected using this. Changing this number may lead to failed password validation
+    private static final int ROUNDS = 10;
+
+    private Hasher(){}
+
+    public static String getCrypt(String payload, String salt) {
+        SecureRandom random = new SecureRandom(salt.getBytes());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(ROUNDS, random);
+
+        return encoder.encode(payload);
+    }
+
+    public static boolean checkPassword(String password, String hash) {
+        return BCrypt.checkpw(password, hash);
     }
 }

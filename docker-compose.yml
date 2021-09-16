@@ -113,9 +113,9 @@ services:
       mongodb:
         condition: service_started
 
-  product_offer:
-    container_name: product_offer
-    image: kumargauravgupta3/product-offer-docker:1.0-SNAPSHOT
+  offer:
+    container_name: offer
+    image: kumargauravgupta3/offer-service-docker:1.0-SNAPSHOT
     env_file:
       - id
     ports:
@@ -129,7 +129,7 @@ services:
     links:
       - config
       - discovery
-      - mongodb
+      - store
       - mysqldb
     depends_on:
       config:

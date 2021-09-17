@@ -17,7 +17,8 @@ export class CreateMerchantComponent implements OnInit {
   public merchant : Merchant;
   public createStoreForm : FormGroup;
   public categoriesObs : Observable<Category[]>
-  
+  public merchantToEditObs : Observable<Merchant>
+    
   constructor(private fb : FormBuilder, private store : Store<any>) { 
     this.createStoreForm = fb.group({
       "name":['', [Validators.required]],
@@ -44,6 +45,12 @@ export class CreateMerchantComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new CategoryAction.FetchCategories(0,10000));
     this.categoriesObs = this.store.select(CategorySelector.selectAllCategorys);
+    this.merchantToEditObs = this.store.select(MerchantSelector.selectMerchantToEdit);
+    this.merchantToEditObs.subscribe(merchantToEdit => {
+      if(merchantToEdit) {
+        this.merchant = merchantToEdit;
+      }
+    })
   }
 
   createStore(storeDetails, banner, logo, thumbnail) {

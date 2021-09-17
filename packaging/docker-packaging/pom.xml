@@ -12,7 +12,7 @@
         <module>mongodb</module>
         <module>fake-config-docker</module>
         <module>store-service-docker</module>
-        <module>product-offer-docker</module>
+<!--        <module>product-offer-docker</module>-->
         <module>mysqldb</module>
         <module>offer-service-docker</module>
     </modules>

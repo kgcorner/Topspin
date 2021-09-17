@@ -1,6 +1,6 @@
 package com.kgcorner.topspin.resources;
 
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreDTO;
 import com.kgcorner.topspin.service.StoreService;
 import org.junit.Before;
 import org.junit.Test;

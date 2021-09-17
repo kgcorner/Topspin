@@ -1,1 +1,92 @@
-<p>create-category works!</p>
+<h1> Create Category</h1>
+<div class="row">
+    <div class="column large-3">
+        <ng-template #notCreated>
+            <i class="fas fa-store" style="font-size: 100px;"></i>
+        </ng-template>
+    </div>
+    <div class="column large-9">
+        <form [formGroup] = "createCategoryForm">
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Category's name" formControlName="name" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['name'].valid && createCategoryForm.controls['name'].touched">
+                        Please enter a valid Category Name
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Category's Description" formControlName="description" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['description'].valid && createCategoryForm.controls['description'].touched">
+                        Please enter a valid Category Description
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <label for="storeLogo" class="button">Upload Category Logo</label>
+                    <input type="file" id="storeLogo" class="show-for-sr" formControlName="logo" #logo required>
+                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['logo'].valid && createCategoryForm.controls['logo'].touched">
+                        Please choose a valid logo for store
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <label for="storeThumbnail" class="button">Upload Category Thumbnail</label>
+                    <input type="file" id="storeThumbnail" class="show-for-sr" formControlName="thumbnailImage" #thumbnail required>
+                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['thumbnailImage'].valid && createCategoryForm.controls['thumbnailImage'].touched">
+                        Please choose a thumgnail Image for Category
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <label for="storeBanner" class="button">Upload Category Banner</label>
+                    <input type="file" id="storeBanner" class="show-for-sr" formControlName="bannerImage" #banner required>
+                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['bannerImage'].valid && createCategoryForm.controls['bannerImage'].touched">
+                        Please choose a valid banner
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Tag line for store" formControlName="tagLine" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['tagLine'].valid && createCategoryForm.controls['tagLine'].touched">
+                        Please enter a valid maximum cashback to be offered for this store
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <select formControlName="children" multiple style="max-height: 200px;">
+                        <option *ngFor="let category of categoriesObs | async" value="{{category.categoryId}}">{{category.name}}</option>
+                    </select>                     
+                </div>
+            </div>
+            <div class="row">
+                <textarea formControlName="longDescription">
+
+                </textarea>
+                <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['longDescription'].valid && createCategoryForm.controls['longDescription'].touched">
+                    Please enter a mini blog about the store
+                </div>       
+            </div>
+            <div class="row">
+                    <div class="column large-3 small-6">
+                        <input type="button" class="success button" [disabled]="!createCategoryForm.valid" (click)="createCategory(createCategoryForm.value, banner, logo, thumbnail)" value ="Create Category" />
+                    </div>
+                    <div class="column large-3 small-6">
+                        <input type="button" class="secondary button" type="reset" value ="Reset" />
+                    </div>
+                    <div class="column large-6">
+                        &nbsp;
+                    </div>
+                </div>
+        </form>
+        
+    </div>
+</div>

@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.client;
 
 
-import com.kgcorner.topspin.dtos.CategoryDTO;
+import com.kgcorner.topspin.model.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Component;

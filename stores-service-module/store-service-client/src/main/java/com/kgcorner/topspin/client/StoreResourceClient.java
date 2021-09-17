@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.client;
 
 
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;

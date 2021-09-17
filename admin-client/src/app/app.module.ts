@@ -11,6 +11,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth-guard';
 import { MerchantsModule } from './modules/merchants/merchants.module';
 import { AuthService } from './services/auth.service';
+import { OffersModule } from './modules/offers/offers.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AuthService } from './services/auth.service';
     AppRoutingModule,
     HttpClientModule,
     MerchantsModule,
+    OffersModule,
     StoreModule.forRoot([]),
     EffectsModule.forRoot([])    
   ],

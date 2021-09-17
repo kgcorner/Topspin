@@ -23,15 +23,18 @@
         <a routerLink="/categories"> <i class="fas fa-th-large"></i></a>
       </div>
       <div class="icon">
+          <a routerLink="/offers"> <i class="fas fa-tag"></i></a>
+        </div>
+      <div class="icon">
           <i class="fas fa-chart-pie disable"></i>
       </div>
   </div>
   <div class="outlet">
-    <div class="tool-bar" *ngIf="!isLoginPage">
+    <!-- <div class="tool-bar" *ngIf="!isLoginPage">
       <div class="user-icon" style="float: right; font-size: 60px;">
           <i class="fas fa-user-circle"></i>
       </div>
-    </div>
+    </div> -->
     <router-outlet></router-outlet>
   </div>
 </div>

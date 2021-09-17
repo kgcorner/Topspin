@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.resources;
 
 
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreDTO;
 import com.kgcorner.topspin.service.StoreService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

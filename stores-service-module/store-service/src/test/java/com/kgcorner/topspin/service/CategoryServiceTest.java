@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.service;
 
 import com.kgcorner.topspin.aws.AwsServices;
-import com.kgcorner.topspin.dtos.CategoryDTO;
+import com.kgcorner.topspin.model.CategoryDTO;
 import com.kgcorner.topspin.model.AbstractCategory;
 import com.kgcorner.topspin.persistence.CategoryPersistenceLayer;
 import org.junit.Assert;

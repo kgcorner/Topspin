@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.service;
 
 import com.kgcorner.topspin.aws.AwsServices;
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreDTO;
 import com.kgcorner.topspin.model.AbstractStore;
 import com.kgcorner.topspin.persistence.StorePersistenceLayer;
 import org.junit.Assert;

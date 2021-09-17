@@ -1,6 +1,6 @@
 package com.kgcorner.topspin.client;
 
-import com.kgcorner.topspin.dtos.CategoryDTO;
+import com.kgcorner.topspin.model.CategoryDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -33,4 +33,48 @@ export class CategoryEffect {
                                         )
                                 )
                             )
+
+    @Effect()
+    createCategory = this.action
+                            .pipe(
+                                ofType(CategoryAction.CREATE_CATEGORIES),
+                                mergeMap(
+                                    (action) => this.categoryService.createCategory(action['category'])
+                                        .pipe(
+                                            map((response) => {
+                                                let payload : Category[] = [];
+                                                if(response.body["_embedded"] && response.body["_embedded"]["categoryDTOList"]) {
+                                                    payload = response.body["_embedded"]["categoryDTOList"];
+                                                    console.log(payload)
+                                                }                                                
+                                                return ({type: CategoryAction.CREATE_CATEGORIES_SUCCESS, payload})
+                                            })
+                                            , catchError((error)=> {
+                                                let e:any = {}
+                                                    e.message = error.status+":"+ error.message;
+                                                    return of({type: CategoryAction.CREATE_CATEGORIES_FAILED, error: e})
+                                            })
+                                        )
+                                )
+                            )         
+                            
+    @Effect()
+    deleteCategory = this.action
+                            .pipe(
+                                ofType(CategoryAction.DELETE_CATEGORIES),
+                                mergeMap(
+                                    (action) => this.categoryService.deleteCategory(action['categoryId'])
+                                        .pipe(
+                                            map((response) => {
+                                                let categoryId = action['categoryId']                                                
+                                                return ({type: CategoryAction.DELETE_CATEGORIES_SUCCESS, categoryId})
+                                            })
+                                            , catchError((error)=> {
+                                                let e:any = {}
+                                                    e.message = error.status+":"+ error.message;
+                                                    return of({type: CategoryAction.DELETE_CATEGORIES_FAILED, error: e})
+                                            })
+                                        )
+                                )
+                            ) 
 }

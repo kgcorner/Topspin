@@ -1,7 +1,7 @@
 import { MerchantState, merchantAdapter } from "./merchant.state";
 import { FETCH_MERCHANTS, FETCH_MERCHANTS_SUCCESS, FETCH_MERCHANTS_FAILED, CREATE_MERCHANTS, 
     CREATE_MERCHANTS_SUCCESS, CREATE_MERCHANTS_FAILED, 
-    UPDATE_MERCHANTS_IMAGES, UPDATE_MERCHANTS_IMAGES_SUCCESS, DELETE_MERCHANTS_SUCCESS } from './merchant.action';
+    UPDATE_MERCHANTS_IMAGES, UPDATE_MERCHANTS_IMAGES_SUCCESS, DELETE_MERCHANTS_SUCCESS, UPDATE_MERCHANTS_SUCCESS, UPDATE_MERCHANTS_FAILED, SET_MERCHANT_TO_EDIT } from './merchant.action';
 import { Merchant } from 'src/app/services/models/merchant';
 
 let initialState : MerchantState = merchantAdapter.getInitialState({
@@ -20,6 +20,12 @@ export function merchantReducer(state : MerchantState = initialState, action: an
                 isLoading : true,
                 error: null
             };
+        case SET_MERCHANT_TO_EDIT:    
+            let merchantToEdit = action['merchant']
+            return  {
+                ...state,
+                merchantToEdit
+            }
         case FETCH_MERCHANTS_SUCCESS:
             response = action['payload'];
             return {
@@ -30,13 +36,14 @@ export function merchantReducer(state : MerchantState = initialState, action: an
             };
         case FETCH_MERCHANTS_FAILED: 
         case CREATE_MERCHANTS_FAILED: 
+        case UPDATE_MERCHANTS_FAILED:
             let error = action["error"];
             return {
                 ...state,
                 isLoading: false,
                 error
             }
-        case CREATE_MERCHANTS:
+        case CREATE_MERCHANTS:            
             return {
                 ...state,
                 currectMerchant:null
@@ -54,7 +61,8 @@ export function merchantReducer(state : MerchantState = initialState, action: an
                 currectMerchant: response
             };
         
-        case UPDATE_MERCHANTS_IMAGES_SUCCESS:    
+        case UPDATE_MERCHANTS_IMAGES_SUCCESS:  
+        case UPDATE_MERCHANTS_SUCCESS:
             response = action['payload'];
             merchants = []
             state.merchants.forEach(m => {

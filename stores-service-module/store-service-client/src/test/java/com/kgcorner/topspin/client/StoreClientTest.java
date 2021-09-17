@@ -1,6 +1,6 @@
 package com.kgcorner.topspin.client;
 
-import com.kgcorner.topspin.dtos.StoreDTO;
+import com.kgcorner.topspin.model.StoreDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

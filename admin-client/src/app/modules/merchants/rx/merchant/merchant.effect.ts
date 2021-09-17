@@ -97,4 +97,24 @@ export class MerchantEffect {
                                         )
                                 )
                             )
+
+    @Effect()
+    updateMerchant = this.action
+                            .pipe(
+                                ofType(MerchantAction.UPDATE_MERCHANTS),
+                                mergeMap(
+                                    (action) => this.merchantManager.updateMerchant(action['storeId'], action['merchant'])
+                                        .pipe(
+                                            map((response) => {                                       
+                                                let storeId = action['storeId'];
+                                                return ({type: MerchantAction.UPDATE_MERCHANTS_SUCCESS, storeId})
+                                            })
+                                            , catchError((error)=> {
+                                                let e:any = {}
+                                                e.message = error.status+":"+ error.message;
+                                                return of({type: MerchantAction.UPDATE_MERCHANTS_FAILED, error: e})
+                                            })
+                                        )
+                                )
+                            )
 }

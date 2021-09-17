@@ -17,6 +17,12 @@ export const DELETE_MERCHANTS : string = 'DELETE_MERCHANTS'
 export const DELETE_MERCHANTS_SUCCESS : string = 'DELETE_MERCHANTS_SUCCESS'
 export const DELETE_MERCHANTS_FAILED : string = 'DELETE_MERCHANTS_FAILED'
 
+export const UPDATE_MERCHANTS : string = 'UPDATE_MERCHANTS'
+export const UPDATE_MERCHANTS_SUCCESS : string = 'UPDATE_MERCHANTS_SUCCESS'
+export const UPDATE_MERCHANTS_FAILED : string = 'UPDATE_MERCHANTS_FAILED'
+
+export const SET_MERCHANT_TO_EDIT = "SET_MERCHANT_TO_EDIT"
+
 export class FetchMerchantsAction implements Action {
     type : string = FETCH_MERCHANTS;
     public constructor(private page: number,private maxCount: number){}
@@ -35,4 +41,14 @@ export class UpdateMerchantImages implements Action {
 export class DeleteMerchantAction implements Action {
     type : string = DELETE_MERCHANTS;
     public constructor(private storeId : string){}
+}
+
+export class UpdateMerchantAction implements Action {
+    type: string = UPDATE_MERCHANTS;
+    public constructor(private storeId : string, private merchant : Merchant){}
+}
+
+export class SetMerchantToEditAction implements Action {
+    type : string = SET_MERCHANT_TO_EDIT;
+    public constructor(private merchant : Merchant){}
 }

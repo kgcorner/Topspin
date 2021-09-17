@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Merchant } from 'src/app/services/models/merchant';
 import { Store } from '@ngrx/store';
 import { MerchantAction } from '../../rx';
@@ -19,5 +19,9 @@ export class MerchantToupleComponent implements OnInit {
 
   delete() {
       this.store.dispatch(new MerchantAction.DeleteMerchantAction(this.merchant.storeId));
+  }
+
+  edit() {
+    
   }
 }

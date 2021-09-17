@@ -6,7 +6,8 @@ export interface MerchantState extends EntityState<Merchant> {
     isLaoding: boolean,
     error:any,
     merchants: Merchant[],
-    currectMerchant?: Merchant
+    currectMerchant?: Merchant,
+    merchantToEdit?: Merchant
 }
 
 export const merchantAdapter : EntityAdapter<Merchant> = createEntityAdapter<Merchant>({

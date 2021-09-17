@@ -41,4 +41,9 @@ export class MerchantManager {
         return this.http.doDelete(url,[]);
     }
 
+    public updateMerchant(storeId, merchant) {
+        let url : string = environment.topspinHost + this.UPDATE_MERCHANT;
+        url = url.replace("{1}", storeId);
+        return this.http.doPut<Merchant>(url, [], merchant);
+    }
 }

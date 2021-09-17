@@ -16,8 +16,9 @@
         <module>spring-discovery-service</module>
         <module>fake-spring-config-service</module>
         <module>spring-store-service</module>
-        <module>spring-product-offer-service</module>
+<!--        <module>spring-product-offer-service</module>-->
         <module>spring-topspin-gateway</module>
+        <module>spring-offer-service</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

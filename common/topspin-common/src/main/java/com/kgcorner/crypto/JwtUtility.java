@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.time.Instant;
@@ -38,7 +39,11 @@ public final class JwtUtility {
     public static boolean validateToken(String salt, String token) {
         Algorithm algorithm = Algorithm.HMAC256(salt);
         JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
-        verifier.verify(token);
+        try {
+            verifier.verify(token);
+        } catch (TokenExpiredException x) {
+            return false;
+        }
         return true;
     }
 

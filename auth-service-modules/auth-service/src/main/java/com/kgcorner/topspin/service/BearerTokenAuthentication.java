@@ -34,7 +34,7 @@ public class BearerTokenAuthentication implements AuthenticationService {
         }
         token = token.substring(BEARER.length());
         if(!JwtUtility.validateToken(properties.getTokenSalt(), token))
-            throw new UnAuthorizeException("invalid access token provided");
+            throw new UnAuthorizeException("invalid access token provided, it may be expired");
         else {
             var tempBearerToken = authServiceModelFactory.createNewToken();
             tempBearerToken.setAccessToken(token);

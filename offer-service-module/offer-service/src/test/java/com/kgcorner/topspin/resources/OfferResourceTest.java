@@ -143,7 +143,7 @@ public class OfferResourceTest {
 
     @Test
     public void getOffersFromStore() {
-        int page = 0;
+        int page = 1;
         int count = 100;
         boolean onlyFeatured = true;
         String storeId = "storeId";
@@ -175,5 +175,20 @@ public class OfferResourceTest {
         ResponseEntity<Resources<OfferDTO>> offersFromStore = offerResource.getOffersFromCategory(categoryId, page, count);
         assertNotNull(offersFromStore);
         assertEquals(count, offersFromStore.getBody().getContent().size());
+    }
+
+    @Test
+    public void getBanners() {
+        List<OfferDTO> banners = new ArrayList<>();
+        int size = 100;
+        for (int i = 0; i < size; i++) {
+            OfferDTO offerDTO = new OfferDTO();
+            offerDTO.setOfferId(i+"");
+            banners.add(offerDTO);
+        }
+        when(offerService.getBanners()).thenReturn(banners);
+        ResponseEntity<Resources<OfferDTO>> banners1 = offerResource.getBanners();
+        assertNotNull(banners1);
+        assertEquals(size, banners1.getBody().getContent().size());
     }
 }

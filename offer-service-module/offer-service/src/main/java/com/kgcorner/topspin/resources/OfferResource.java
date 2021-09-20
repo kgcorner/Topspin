@@ -99,12 +99,21 @@ public class OfferResource {
         return getResourcesResponseEntity(page, count, offersOfCategory);
     }
 
+    @GetMapping("/offers/banners")
+    public ResponseEntity<Resources<OfferDTO>> getBanners() {
+        List<OfferDTO> banners = offerService.getBanners();
+        return getResourcesResponseEntity(0, 0, banners);
+    }
+
     private ResponseEntity<Resources<OfferDTO>> getResourcesResponseEntity(int page, int count,
                                                                            List<OfferDTO> offerDTOS) {
         Resources<OfferDTO> offerDTOResources = new Resources<>(offerDTOS);
-        String uriString = "/offers?page="+page+"&item-count="+count;
-        uriString = uriString.replace("page="+page, "page="+(page+1));
-        offerDTOResources.add(new Link(uriString, "next-page"));
+        String uriString = null;
+        if(page > 0 && count > 0) {
+            uriString = "/offers?page=" + page + "&item-count=" + count;
+            uriString = uriString.replace("page=" + page, "page=" + (page + 1));
+            offerDTOResources.add(new Link(uriString, "next-page"));
+        }
         for(OfferDTO offerDTO : offerDTOS) {
             offerDTO.addLink(OFFERS_OFFER_ID.replace("{offerId}", offerDTO.getOfferId()), Link.REL_SELF);
         }

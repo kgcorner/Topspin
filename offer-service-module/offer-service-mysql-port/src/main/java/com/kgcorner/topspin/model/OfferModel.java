@@ -124,6 +124,17 @@ public class OfferModel extends AbstractOffer implements Serializable {
         return super.isFeatured();
     }
 
+    @Column(name ="BANNER", nullable = false)
+    @Override
+    public boolean isBanner() {
+        return super.isFeatured();
+    }
+
+    @Override
+    public void setBanner(boolean banner) {
+        super.setBanner(banner);
+    }
+
     @Override
     public void setFeatured(boolean featured) {
         super.setFeatured(featured);

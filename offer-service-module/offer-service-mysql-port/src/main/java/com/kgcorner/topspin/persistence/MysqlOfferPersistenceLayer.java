@@ -103,6 +103,16 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         return createOfferList(models);
     }
 
+    @Override
+    public List<AbstractOffer> getBanners() {
+        List<Operation> operands = new ArrayList<>();
+        operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
+        operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
+
+        List<OfferModel> allBanners = offerDao.getAll(operands, OfferModel.class);
+        return createOfferList(allBanners);
+    }
+
     private List<AbstractOffer> createOfferList(List<OfferModel> models) {
         List<AbstractOffer> offers = new ArrayList<>();
         for(AbstractOffer o : models) {

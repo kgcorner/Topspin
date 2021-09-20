@@ -315,4 +315,16 @@ public class OfferServiceTest {
         when(offerPersistenceLayer.updateOffer(offer)).thenReturn(offer);
         assertNotNull(offerService.uploadImage(offerId, multipartFile));
     }
+
+    @Test
+    public void getAllBanners() {
+        List<AbstractOffer> banners = new ArrayList<>();
+        int size = 100;
+        for (int i = 0; i < size; i++) {
+            banners.add(new OfferDTO());
+        }
+        when(offerPersistenceLayer.getBanners()).thenReturn(banners);
+        List<OfferDTO> allBanners = offerService.getBanners();
+        assertEquals(size, allBanners.size());
+    }
 }

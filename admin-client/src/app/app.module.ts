@@ -12,6 +12,7 @@ import { AuthGuard } from './auth/auth-guard';
 import { MerchantsModule } from './modules/merchants/merchants.module';
 import { AuthService } from './services/auth.service';
 import { OffersModule } from './modules/offers/offers.module';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,9 @@ import { OffersModule } from './modules/offers/offers.module';
     MerchantsModule,
     OffersModule,
     StoreModule.forRoot([]),
-    EffectsModule.forRoot([])    
+    EffectsModule.forRoot([]),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()    
   ],
   providers: [
     AuthGuard,

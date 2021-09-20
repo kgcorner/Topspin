@@ -146,9 +146,7 @@
                 </div>
             </div>
             <div class="row">
-                <textarea formControlName="longDescription">
-
-                </textarea>
+                <ckeditor data="<p>Hello, world!</p>" editorUrl="/assets/ckeditor.js" formControlName="longDescription" ></ckeditor>
                 <div data-alert class="alert-box alert" *ngIf="!createStoreForm.controls['longDescription'].valid && createStoreForm.controls['longDescription'].touched">
                     Please enter a mini blog about the store
                 </div>       

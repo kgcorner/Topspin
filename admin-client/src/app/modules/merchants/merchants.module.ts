@@ -19,6 +19,8 @@ import { CreateCategoryComponent } from './components/create-category/create-cat
 import { CategoryHomeComponent } from './components/category-home/category-home.component';
 import { CategoryToupleComponent } from './components/category-touple/category-touple.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
+import { CKEditorModule } from 'ckeditor4-angular';
+
 
 
 
@@ -42,7 +44,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
     StoreModule.forFeature('merchants', merchantReducer),
     StoreModule.forFeature('categories', categoryReducer),
     EffectsModule.forFeature([MerchantEffect]),
-    EffectsModule.forFeature([CategoryEffect])
+    EffectsModule.forFeature([CategoryEffect]),
+    CKEditorModule
   ],
   providers:[
     MerchantManager,

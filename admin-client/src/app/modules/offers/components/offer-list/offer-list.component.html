@@ -1,0 +1,30 @@
+<div class="row row-border">
+    <div class="column large-3">
+        <strong> Thumbnail </strong>
+    </div>
+    <div class="column large-3">
+        <strong> Title </strong>
+    </div>
+    <div class="column large-1">
+        <strong> Merchant </strong>
+    </div>
+    <div class="column large-1">
+        <strong> Category </strong>
+    </div>
+    <div class="column large-1">
+        <strong> MaxDiscount </strong>
+    </div>
+    <div class="column large-1">
+        <strong> Featured </strong>
+    </div>
+    <div class="column large-1">
+        <strong> Last Date </strong>
+    </div>
+    <div class="column large-1">
+        <strong> Delete </strong>
+    </div>
+</div>
+
+<div *ngFor="let item of offers">
+    <app-offer-touple [offer]="item"></app-offer-touple>
+</div>

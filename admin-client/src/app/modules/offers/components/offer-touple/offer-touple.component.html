@@ -1,0 +1,26 @@
+<div class="row row-border">
+        <div class="column large-3">
+            <strong> <img src="{{thumbnail}}"> </strong>
+        </div>
+        <div class="column large-3">
+            <strong> {{offer.title}} </strong>
+        </div>
+        <div class="column large-1">
+            <strong> {{offer.store.name}} </strong>
+        </div>
+        <div class="column large-1">
+            <strong> {{offer.category.name}} </strong>
+        </div>
+        <div class="column large-1">
+            <strong> {{offer.maxDiscount}} </strong>
+        </div>
+        <div class="column large-1">
+            <strong> {{offer.featured}} </strong>
+        </div>
+        <div class="column large-1">
+            <strong> {{offer.lastDate}} </strong>
+        </div>
+        <div class="column large-1">
+            <button type="button" class="alert button" (click)="delete()" >Delete</button>
+        </div>
+    </div>

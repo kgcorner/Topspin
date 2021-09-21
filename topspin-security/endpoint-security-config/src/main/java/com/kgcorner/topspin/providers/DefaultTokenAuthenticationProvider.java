@@ -7,6 +7,7 @@ import com.kgcorner.topspin.clients.model.TokenResponse;
 import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.RoleResponse;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -31,7 +32,12 @@ public abstract class DefaultTokenAuthenticationProvider  implements Authenticat
     private String applicationName;
 
     public Authentication getAuthDetails(String tokenString, Class tokenClass) {
-        TokenResponse tokenResponse = client.getToken(tokenString);
+        TokenResponse tokenResponse = null;
+        try {
+            tokenResponse = client.getToken(tokenString);
+        } catch (FeignException.Unauthorized x) {
+            return null;
+        }
         String roleClaim = JwtUtility.getClaim("ROLE", tokenResponse.getAccessToken());
         List<RoleResponse> roleList = new ArrayList<>();
         if(roleClaim.contains(",")) {

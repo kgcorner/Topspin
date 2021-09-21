@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class MySqlRepository<T extends Serializable> extends CachedRepository <T> {
@@ -215,18 +216,8 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
                 orderList.add(order);
             }
         }
-
-        if(!orderList.isEmpty()) {
-            criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))
-                .orderBy(orderList);
-        } else {
-            criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-        }
-        TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
-
-        for(Operation operand : conditions) {
-            typedQuery.setParameter(operand.getName(), operand.getValue());
-        }
+        TypedQuery<T> typedQuery = getTypedQuery(conditions, orders, criteriaBuilder,
+            criteriaQuery, entity, predicates);
         result = typedQuery.setFirstResult(start).setMaxResults(itemPerPage).getResultList();
         CriteriaQuery<Long> countCriteria = criteriaBuilder.createQuery(Long.class);
         Root<?> entityType = countCriteria.from(model);
@@ -338,9 +329,8 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     private List<Predicate> getPredicates(List<Operation> conditions, CriteriaBuilder criteriaBuilder, Root<T> entity) {
         List<Predicate> predicates = new ArrayList<>();
-        var i = 0;
         for(Operation operand : conditions) {
-            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName() + i);
+            ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
             switch(operand.getOperator()) {
                 case EQ:
                     predicates.add(criteriaBuilder.equal(entity.get(operand.getName()), param));
@@ -367,7 +357,6 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
                     predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
                     break;
             }
-            i++;
         }
         return predicates;
     }
@@ -380,4 +369,8 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     }
 
+    @Override
+    public List<T> getAll(List<Operation> conditions, int page, int itemPerPage, Class<T> model) {
+        return getAll(conditions, page, itemPerPage, Collections.emptyList(), model);
+    }
 }

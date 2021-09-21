@@ -76,4 +76,10 @@ public interface OfferPersistenceLayer {
      * @return
      */
     List<AbstractOffer> getAllOfferFromStore(StoreRef store, int page, int itemsPerPage);
+
+    /**
+     * Returns all active offers for which {@link AbstractOffer#isBanner()} is true
+     * @return
+     */
+    List<AbstractOffer> getBanners();
 }

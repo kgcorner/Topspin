@@ -259,4 +259,10 @@ public class MysqlOfferPersistenceLayerTest {
         assertEquals(size, allOffers.size());
         assertEquals(offerModels, allOffers);
     }
+
+    @Test
+    public void testGetBanners() {
+        persistenceLayer.getBanners();
+        Mockito.verify(offerDao).getAll(anyList(), any());
+    }
 }

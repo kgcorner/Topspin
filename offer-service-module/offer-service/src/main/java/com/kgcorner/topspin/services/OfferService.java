@@ -106,7 +106,7 @@ public class OfferService {
         List<OfferDTO> offerDTOS = new ArrayList<>();
         for(AbstractOffer offer : allOffers) {
             OfferDTO offerDTO = new OfferDTO();
-            BeanUtils.copyProperties(offerDTO, offer);
+            BeanUtils.copyProperties(offer, offerDTO);
             offerDTOS.add(offerDTO);
         }
         return offerDTOS;
@@ -152,6 +152,10 @@ public class OfferService {
             throw new ResourceNotFoundException("No such store exists");
         List<AbstractOffer> allOfferFromCategory = offerPersistenceLayer.getAllOfferFromStore(store, page, count);
         return getOfferDTOS(allOfferFromCategory);
+    }
+
+    public List<OfferDTO> getBanners() {
+        return getOfferDTOS(offerPersistenceLayer.getBanners());
     }
 
 

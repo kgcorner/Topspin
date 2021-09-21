@@ -139,6 +139,7 @@ public class Routers {
            .route("refresh-token", p-> p.path("/refresh_token")
                .filters(getGateway(requestedAT))
                .uri(authServiceHost))
+
            .build();
 
     }
@@ -147,7 +148,9 @@ public class Routers {
         return f -> f.setPath(path)
             .addRequestHeader(X_APPLICATION_NAME, APPLICATION_NAME)
             .addRequestHeader(X_APPLICATION_HASH, getHash(requestedAT))
-            .addRequestHeader(X_REQUESTED_AT, requestedAT);
+            .addRequestHeader(X_REQUESTED_AT, requestedAT)
+            .dedupeResponseHeader("Access-Control-Allow-Origin " +
+                "Access-Control-Allow-Credentials", "RETAIN_FIRST");
     }
 
     private Function<GatewayFilterSpec, UriSpec> getGatewayWithRewrite(String requestedAT, String regex,
@@ -155,14 +158,18 @@ public class Routers {
         return f -> f.rewritePath(regex, replaceWith)
             .addRequestHeader(X_APPLICATION_NAME, APPLICATION_NAME)
             .addRequestHeader(X_APPLICATION_HASH, getHash(requestedAT))
-            .addRequestHeader(X_REQUESTED_AT, requestedAT);
+            .addRequestHeader(X_REQUESTED_AT, requestedAT)
+            .dedupeResponseHeader("Access-Control-Allow-Origin " +
+                "Access-Control-Allow-Credentials", "RETAIN_FIRST");
     }
 
     private Function<GatewayFilterSpec, UriSpec> getGateway(String requestedAT) {
         return f -> f
             .addRequestHeader(X_APPLICATION_NAME, APPLICATION_NAME)
             .addRequestHeader(X_APPLICATION_HASH, getHash(requestedAT))
-            .addRequestHeader(X_REQUESTED_AT, requestedAT);
+            .addRequestHeader(X_REQUESTED_AT, requestedAT)
+            .dedupeResponseHeader("Access-Control-Allow-Origin " +
+                "Access-Control-Allow-Credentials", "RETAIN_FIRST");
     }
 
     public String getHash(String requestedAt) {
@@ -170,8 +177,6 @@ public class Routers {
         return Hasher.getCrypt(payload, "secret");
 
     }
-
-
 }
 final class Hasher {
     //Defines number of hashing rounds. Its non configurable because passwords are supposed to

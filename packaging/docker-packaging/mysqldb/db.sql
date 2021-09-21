@@ -3,7 +3,8 @@
 -- Host: 127.0.0.1    Database: topspin
 -- ------------------------------------------------------
 -- Server version	5.7.34-0ubuntu0.18.04.1
-
+CREATE DATABASE IF NOT EXISTS topspin;
+USE topspin;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -51,6 +52,7 @@ CREATE TABLE `OFFERS` (
   `TITLE` varchar(500) DEFAULT NULL,
   `DESCRIPTION` text,
   `FEATURED` tinyint(4) DEFAULT NULL,
+  `BANNER` tinyint(4) DEFAULT NULL,
   `CATEGORY_ID` varchar(100) DEFAULT NULL,
   `STORE_ID` varchar(100) DEFAULT NULL,
   `LAST_DATE` datetime DEFAULT NULL,

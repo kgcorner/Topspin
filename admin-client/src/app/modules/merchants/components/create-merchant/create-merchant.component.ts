@@ -18,7 +18,6 @@ export class CreateMerchantComponent implements OnInit {
   public createStoreForm : FormGroup;
   public categoriesObs : Observable<Category[]>
   public merchantToEditObs : Observable<Merchant>
-    
   constructor(private fb : FormBuilder, private store : Store<any>) { 
     this.createStoreForm = fb.group({
       "name":['', [Validators.required]],

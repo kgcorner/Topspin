@@ -16,15 +16,16 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public abstract class AbstractOffer {
-    private String title;
-    private String description;
-    private String thumbnails;
-    private String url;
-    private String surferPlaceholderUrl;
-    private CategoryRef category;
-    private StoreRef store;
-    private Date lastDate;
-    private String maxDiscount;
-    private boolean featured;
-    private String offerId;
+    protected String title;
+    protected String description;
+    protected String thumbnails;
+    protected String url;
+    protected String surferPlaceholderUrl;
+    protected CategoryRef category;
+    protected StoreRef store;
+    protected Date lastDate;
+    protected String maxDiscount;
+    protected boolean featured;
+    protected boolean banner;
+    protected String offerId;
 }

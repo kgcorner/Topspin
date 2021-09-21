@@ -1,0 +1,105 @@
+<h1> Create Offer</h1>
+<div class="row">
+    <div class="column large-3">
+            <i class="fas fa-store" style="font-size: 100px;"></i>
+    </div>
+    <div class="column large-9">
+        <form [formGroup] = "createOfferForm">
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Offer's title" formControlName="title" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['title'].valid && createOfferForm.controls['title'].touched">
+                        Please enter a valid Offer title
+                    </div>                          
+                </div>
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Maxmum discount offered" formControlName="maxDiscount" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['maxDiscount'].valid && createOfferForm.controls['maxDiscount'].touched">
+                        Please enter a valid maximum discount to be offered for this offer
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Offer's Link" formControlName="link" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['link'].valid && createOfferForm.controls['link'].touched">
+                        Please enter a valid Offer Link
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                    <input type="text"  placeholder="Offer's Surfer placeholder url" formControlName="surferPlaceHolder" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['surferPlaceHolder'].valid && createOfferForm.controls['surferPlaceHolder'].touched">
+                        Please enter a valid Offer;s surfer placeholder link
+                    </div>                          
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <input type="date" placeholder="Enter last date" formControlName="lastDate" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['lastDate'].valid && createOfferForm.controls['lastDate'].touched">
+                        Please choose a valid last date
+                    </div>                          
+                </div>
+
+                <div class="column large-6 small-12">
+                        <label for="storeLogo" class="button">Upload Offer Thumbnail</label>
+                        <input type="file" id="storeLogo" class="show-for-sr" formControlName="thumbnail" #thumbnail required>
+                        <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['thumbnail'].valid && createOfferForm.controls['thumbnail'].touched">
+                            Please choose a valid thumbnail for offer
+                        </div>                          
+                    </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-4 small-12">
+                    <div class="switch radius">
+                        <input id="featuredSwitch" type="radio" formControlName="featured">
+                        <label for="featuredSwitch">Is featured</label>
+                    </div> 
+                </div>
+
+                <div class="column large-4 small-12">
+                    <div class="switch radius">
+                        <input id="bannerSwitch" type="radio" formControlName="banner">
+                        <label for="bannerSwitch">Is Banner</label>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column large-6 small-12">
+                    <select formControlName="category" style="max-height: 200px;">
+                        <option *ngFor="let category of categoriesObs | async" value="{{category.categoryId}}">{{category.name}}</option>
+                    </select>                     
+                </div>
+
+                <div class="column large-6 small-12">
+                        <select formControlName="merchant" style="max-height: 200px;">
+                            <option *ngFor="let store of merchantsObs | async" value="{{store.storeId}}">{{store.name}}</option>
+                        </select>                     
+                    </div>
+            </div>
+            <div class="row">
+                <ckeditor data="<p>Write description</p>" editorUrl="/assets/ckeditor.js" formControlName="description" ></ckeditor>
+                <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['description'].valid && createOfferForm.controls['description'].touched">
+                    Please enter a mini blog about the offer
+                </div>       
+            </div>
+            <div class="row">
+                    <div class="column large-3 small-6">
+                        <input type="button" class="success button" [disabled]="!createOfferForm.valid" (click)="createOffer(createOfferForm.value, thumbnail)" value ="Create Offer" />
+                    </div>
+                    <div class="column large-3 small-6">
+                        <input type="button" class="secondary button" type="reset" value ="Reset" />
+                    </div>
+                    <div class="column large-6">
+                        &nbsp;
+                    </div>
+                </div>
+        </form>
+        
+    </div>
+</div>

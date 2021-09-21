@@ -618,11 +618,10 @@ public class MySqlRepositoryTest {
 
     private List<Predicate> mockGetPredicate(List<Operation> conditions,
                                   CriteriaBuilder criteriaBuilder, Root<SampleEntity> entity) {
-        int i = 0;
         List<Predicate> predicates = new ArrayList<>();
         for(Operation operand : conditions) {
             ParameterExpression param = mock(ParameterExpression.class);
-            when(criteriaBuilder.parameter(operand.getOperandType(), operand.getName() + i)).thenReturn(param);
+            when(criteriaBuilder.parameter(operand.getOperandType(), operand.getName())).thenReturn(param);
             Predicate predicate = mock(Predicate.class);
             predicates.add(predicate);
             Path path = mock(Path.class);
@@ -653,7 +652,6 @@ public class MySqlRepositoryTest {
                     when(criteriaBuilder.isNull(path)).thenReturn(predicate);
                     break;
             }
-            i++;
         }
         return predicates;
     }

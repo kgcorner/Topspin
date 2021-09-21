@@ -216,18 +216,8 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
                 orderList.add(order);
             }
         }
-
-        if(!orderList.isEmpty()) {
-            criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])))
-                .orderBy(orderList);
-        } else {
-            criteriaQuery.select(entity).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-        }
-        TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
-
-        for(Operation operand : conditions) {
-            typedQuery.setParameter(operand.getName(), operand.getValue());
-        }
+        TypedQuery<T> typedQuery = getTypedQuery(conditions, orders, criteriaBuilder,
+            criteriaQuery, entity, predicates);
         result = typedQuery.setFirstResult(start).setMaxResults(itemPerPage).getResultList();
         CriteriaQuery<Long> countCriteria = criteriaBuilder.createQuery(Long.class);
         Root<?> entityType = countCriteria.from(model);

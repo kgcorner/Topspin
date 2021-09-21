@@ -42,4 +42,15 @@ public class JwtUtilityTest {
         assertNotNull("Generated toke is null", token);
         assertTrue("Token validation failed", JwtUtility.validateToken(SALT, token));
     }
+
+    @Test
+    public void validateExpiredToken() throws InterruptedException {
+        Map<String, String> claims = new HashMap<>();
+        claims.put("payload","abc");
+        int expiresIn = 1;
+        String token = JwtUtility.createJWTToken(SALT, claims, expiresIn);
+        Thread.sleep(expiresIn * 1000 + 1);
+        assertNotNull("Generated toke is null", token);
+        assertFalse("Token validation failed", JwtUtility.validateToken(SALT, token));
+    }
 }

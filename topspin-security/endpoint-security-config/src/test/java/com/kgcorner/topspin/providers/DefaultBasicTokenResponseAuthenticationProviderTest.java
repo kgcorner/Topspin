@@ -3,7 +3,10 @@ package com.kgcorner.topspin.providers;
 import com.kgcorner.crypto.JwtUtility;
 import com.kgcorner.topspin.clients.AuthServiceClient;
 import com.kgcorner.topspin.clients.model.TokenResponse;
-import com.kgcorner.topspin.model.*;
+import com.kgcorner.topspin.model.BasicAuthToken;
+import com.kgcorner.topspin.model.RoleResponse;
+import com.kgcorner.topspin.model.SCHEMES;
+import feign.FeignException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +20,8 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.security.core.Authentication;
 
 import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 
 /**
@@ -33,8 +38,15 @@ public class DefaultBasicTokenResponseAuthenticationProviderTest {
     @Before
     public void setup() {
         provider = new DefaultBasicTokenAuthenticationProvider();
-        client = PowerMockito.mock(AuthServiceClient.class);
+        client = mock(AuthServiceClient.class);
         Whitebox.setInternalState(provider, "client", client);
+    }
+
+    @Test
+    public void authenticateFailed() {
+        String accessToken = "accessToken";
+        when(client.getToken(accessToken)).thenThrow(FeignException.Unauthorized.class);
+        assertNull(provider.getAuthDetails(accessToken, BasicAuthToken.class));
     }
 
     @Test

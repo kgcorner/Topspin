@@ -339,7 +339,6 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
 
     private List<Predicate> getPredicates(List<Operation> conditions, CriteriaBuilder criteriaBuilder, Root<T> entity) {
         List<Predicate> predicates = new ArrayList<>();
-        var i = 0;
         for(Operation operand : conditions) {
             ParameterExpression param = criteriaBuilder.parameter(operand.getOperandType(),operand.getName());
             switch(operand.getOperator()) {
@@ -368,7 +367,6 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
                     predicates.add(criteriaBuilder.isNull(entity.get(operand.getName())));
                     break;
             }
-            i++;
         }
         return predicates;
     }

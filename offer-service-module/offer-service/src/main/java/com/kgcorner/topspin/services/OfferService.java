@@ -73,6 +73,7 @@ public class OfferService {
             store.setDescription(storeDTO.getDescription());
             store.setId(storeDTO.getStoreId());
             store.setName(storeDTO.getName());
+            store.setMaxCashback(storeDTO.getMaxCashback());
             store = storePersistenceLayer.createStore(store);
             offerDTO.setStore(store);
         }

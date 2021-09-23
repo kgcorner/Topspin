@@ -133,6 +133,7 @@ CREATE TABLE `STORE` (
   `ID` varchar(100) NOT NULL,
   `NAME` varchar(100) DEFAULT NULL,
   `DESCRIPTION` varchar(2000) DEFAULT NULL,
+  `MAX_CASHBACK` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -34,4 +34,10 @@ public class StoreReferenceModel extends StoreRef implements Serializable {
     public String getDescription() {
         return super.getDescription();
     }
+
+    @Column(name ="MAX_CASHBACK")
+    @Override
+    public String getMaxCashback() {
+        return super.getMaxCashback();
+    }
 }

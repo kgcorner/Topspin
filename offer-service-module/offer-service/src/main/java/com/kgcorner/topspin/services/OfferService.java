@@ -180,4 +180,15 @@ public class OfferService {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
+
+    public List<StoreRef> getStores() {
+        List<StoreRef> stores = storePersistenceLayer.getStoresWithOfferCount();
+        List<StoreRef> storeRefList = new ArrayList<>();
+        for(StoreRef store : stores) {
+            StoreRef storeRef = new StoreRef();
+            BeanUtils.copyProperties(store, storeRef);
+            storeRefList.add(storeRef);
+        }
+        return storeRefList;
+    }
 }

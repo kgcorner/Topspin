@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Description : <Write class Description>
  * Author: kumar
@@ -34,5 +36,11 @@ public class MysqlStorePersistenceLayer implements ProductOfferStorePersistenceL
         if(Strings.isNullOrEmpty(id))
             throw new IllegalArgumentException("Id can't be null");
         return storeDao.get(id, StoreReferenceModel.class);
+    }
+
+    @Override
+    public List<StoreRef> getStoresWithOfferCount() {
+        String query = "select STORE.*, count(OFFER.ID) from STORE inner join OFFER on STORE.ID = OFFER.STORE_ID group by (STORE.ID)";
+        return null;
     }
 }

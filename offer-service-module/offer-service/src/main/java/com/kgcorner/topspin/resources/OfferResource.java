@@ -2,6 +2,7 @@ package com.kgcorner.topspin.resources;
 
 
 import com.kgcorner.topspin.dtos.OfferDTO;
+import com.kgcorner.topspin.model.StoreRef;
 import com.kgcorner.topspin.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
@@ -103,6 +104,13 @@ public class OfferResource {
     public ResponseEntity<Resources<OfferDTO>> getBanners() {
         List<OfferDTO> banners = offerService.getBanners();
         return getResourcesResponseEntity(0, 0, banners);
+    }
+
+    @GetMapping("/offers/store")
+    public ResponseEntity<Resources<StoreRef>> getStores() {
+        List<StoreRef> stores = offerService.getStores();
+        Resources<StoreRef> storesResources = new Resources<>(stores);
+        return ResponseEntity.ok(storesResources);
     }
 
     private ResponseEntity<Resources<OfferDTO>> getResourcesResponseEntity(int page, int count,

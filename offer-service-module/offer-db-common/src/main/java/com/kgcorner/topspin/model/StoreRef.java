@@ -19,4 +19,5 @@ public class StoreRef {
     private String name;
     private String description;
     private String maxCashback;
+    private int offersCount;
 }

@@ -51,7 +51,8 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
     public List<AbstractOffer> getAll(int page, int itemPerPage, boolean onlyFeatured, StoreRef store, CategoryRef category) {
         List<Operation> operands = new ArrayList<>();
         operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
-        operands.add(new Operation(onlyFeatured, Operation.TYPES.BOOLEAN, "featured", Operation.OPERATORS.EQ));
+        if(onlyFeatured)
+            operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "featured", Operation.OPERATORS.EQ));
         if(store != null) {
             operands.add(new Operation(store, StoreReferenceModel.class, "store", Operation.OPERATORS.EQ));
         }

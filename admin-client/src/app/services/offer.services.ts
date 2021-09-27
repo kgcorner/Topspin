@@ -3,10 +3,10 @@ import { TopSpinHttpService } from './topspin.http';
 import { environment } from 'src/environments/environment';
 import { Offer } from './models/offer';
 
-@Injectable() 
+@Injectable()
 export class OfferService {
-    
-    private GET_OFFERS = "/offers?page={1}&item-count={2}"
+
+    private GET_OFFERS = "/offers?page={1}&item-count={2}&includeBanners=true"
     private CREATE_OFFER = "/manage/offers"
     private UPDATE_OFFER = "/manage/offers/{offerId}"
     public constructor(private http: TopSpinHttpService){}
@@ -21,7 +21,7 @@ export class OfferService {
         let url = environment.topspinHost + this.CREATE_OFFER;
         let formData = new FormData();
         for(let key in offer){
-            formData.append(key, offer[key]); 
+            formData.append(key, offer[key]);
         }
         return this.http.doPost<Offer>(url,[], offer)
     }
@@ -36,7 +36,7 @@ export class OfferService {
         let url = environment.topspinHost + this.UPDATE_OFFER;
         url = url.replace("{offerId}", offerId);
         let formData = new FormData();
-        formData.append("image", thumbnail); 
+        formData.append("image", thumbnail);
         return this.http.doPatch<Offer>(url, [], formData);
     }
 }

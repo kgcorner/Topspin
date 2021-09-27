@@ -56,7 +56,7 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         if(store != null) {
             operands.add(new Operation(store, StoreReferenceModel.class, "store", Operation.OPERATORS.EQ));
         }
-
+        operands.add(new Operation(false, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
         if(category != null) {
             operands.add(new Operation(category, CategoryReferenceModel.class, "category", Operation.OPERATORS.EQ));
         }

@@ -184,6 +184,7 @@ public class MysqlOfferPersistenceLayerTest {
         List<Operation> operands = new ArrayList<>();
         operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
         operands.add(new Operation(onlyFeatured, Operation.TYPES.BOOLEAN, "featured", Operation.OPERATORS.EQ));
+        operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
         operands.add(new Operation(storeReferenceModel, StoreReferenceModel.class,
             "store", Operation.OPERATORS.EQ));
         operands.add(new Operation(categoryReferenceModel, CategoryReferenceModel.class,
@@ -215,7 +216,7 @@ public class MysqlOfferPersistenceLayerTest {
         });
         //when(offerDao.getAll().thenReturn(offerModels);
         List<AbstractOffer> allOffers = persistenceLayer.getAll(page, count, onlyFeatured,
-            storeReferenceModel, categoryReferenceModel);
+            storeReferenceModel, categoryReferenceModel, false);
         assertEquals(size, allOffers.size());
         assertEquals(offerModels, allOffers);
     }
@@ -228,6 +229,7 @@ public class MysqlOfferPersistenceLayerTest {
         List<Operation> operands = new ArrayList<>();
         operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
         operands.add(new Operation(onlyFeatured, Operation.TYPES.BOOLEAN, "featured", Operation.OPERATORS.EQ));
+        operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
         List<OfferModel> offerModels = new ArrayList<>();
         int size = 10;
         for(int i = 0; i<size; i++) {
@@ -255,7 +257,7 @@ public class MysqlOfferPersistenceLayerTest {
         });
         //when(offerDao.getAll().thenReturn(offerModels);
         List<AbstractOffer> allOffers = persistenceLayer.getAll(page, count, onlyFeatured,
-            null, null);
+            null, null, false);
         assertEquals(size, allOffers.size());
         assertEquals(offerModels, allOffers);
     }

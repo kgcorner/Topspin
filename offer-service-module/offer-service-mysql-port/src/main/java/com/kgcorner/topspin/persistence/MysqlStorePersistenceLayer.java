@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,21 @@ public class MysqlStorePersistenceLayer implements ProductOfferStorePersistenceL
 
     @Override
     public List<StoreRef> getStoresWithOfferCount() {
-        String query = "select STORE.*, count(OFFER.ID) from STORE inner join OFFER on STORE.ID = OFFER.STORE_ID group by (STORE.ID)";
-        return null;
+        String query = "select STORE.ID, STORE.NAME, STORE.DESCRIPTION, STORE.MAX_CASHBACK, count(OFFERS.ID) " +
+            "count from STORE inner join OFFERS on STORE.ID = OFFERS.STORE_ID group by (STORE.ID)";
+        Object o = storeDao.runSelectNativeQuery(query);
+        List<Object[]> tuples = (List<Object[]>) o;
+        List<StoreRef> stores = new ArrayList<>();
+        for(Object row : tuples) {
+            Object[] values = (Object[]) row;
+            StoreRef storeRef = new StoreRef();
+            storeRef.setId(values[0].toString());
+            storeRef.setName(values[1].toString());
+            storeRef.setDescription(values[2].toString());
+            storeRef.setMaxCashback(values[3].toString());
+            storeRef.setOffersCount(Integer.parseInt(values[4].toString()));
+            stores.add(storeRef);
+        }
+        return stores;
     }
 }

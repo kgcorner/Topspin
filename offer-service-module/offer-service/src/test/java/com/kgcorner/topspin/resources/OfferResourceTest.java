@@ -57,8 +57,10 @@ public class OfferResourceTest {
             offerDTO.setOfferId(i+"");
             offerDTOS.add(offerDTO);
         }
-        when(offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId)).thenReturn(offerDTOS);
-        ResponseEntity<Resources<OfferDTO>> offers = offerResource.getOffers(page, count, onlyFeatured, storeId, categoryId);
+        when(offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId,
+            false)).thenReturn(offerDTOS);
+        ResponseEntity<Resources<OfferDTO>> offers = offerResource.getOffers(page, count, onlyFeatured, storeId,
+            categoryId, false);
         assertNotNull(offers);
         assertEquals(count, offers.getBody().getContent().size());
     }

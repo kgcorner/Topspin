@@ -48,7 +48,8 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
     }
 
     @Override
-    public List<AbstractOffer> getAll(int page, int itemPerPage, boolean onlyFeatured, StoreRef store, CategoryRef category) {
+    public List<AbstractOffer> getAll(int page, int itemPerPage, boolean onlyFeatured, StoreRef store,
+                                      CategoryRef category, boolean includeBanners) {
         List<Operation> operands = new ArrayList<>();
         operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
         if(onlyFeatured)
@@ -56,7 +57,8 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         if(store != null) {
             operands.add(new Operation(store, StoreReferenceModel.class, "store", Operation.OPERATORS.EQ));
         }
-        operands.add(new Operation(false, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
+        if(!includeBanners)
+            operands.add(new Operation(false, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
         if(category != null) {
             operands.add(new Operation(category, CategoryReferenceModel.class, "category", Operation.OPERATORS.EQ));
         }

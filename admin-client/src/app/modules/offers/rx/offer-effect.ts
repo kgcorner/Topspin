@@ -60,7 +60,7 @@ export class OfferEffect {
                             (action) => this.offerService.deleteOffer(action['offerId'])
                                 .pipe(
                                     map((response) => {
-                                        let offerId = action['offerid']
+                                        let offerId = action['offerId']
                                         return ({type: DELETE_OFFER_SUCCESS, offerId})
                                     })
                                     , catchError((error)=> {

@@ -22,15 +22,15 @@
 
             <div class="row">
                 <div class="column large-6 small-12">
-                    <input type="text"  placeholder="Offer's Link" formControlName="link" required>
-                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['link'].valid && createOfferForm.controls['link'].touched">
+                    <input type="text"  placeholder="Offer's Link" formControlName="url" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['url'].valid && createOfferForm.controls['url'].touched">
                         Please enter a valid Offer Link
                     </div>                          
                 </div>
 
                 <div class="column large-6 small-12">
-                    <input type="text"  placeholder="Offer's Surfer placeholder url" formControlName="surferPlaceHolder" required>
-                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['surferPlaceHolder'].valid && createOfferForm.controls['surferPlaceHolder'].touched">
+                    <input type="text"  placeholder="Offer's Surfer placeholder url" formControlName="surferPlaceholderUrl" required>
+                    <div data-alert class="alert-box alert" *ngIf="!createOfferForm.controls['surferPlaceholderUrl'].valid && createOfferForm.controls['surferPlaceholderUrl'].touched">
                         Please enter a valid Offer;s surfer placeholder link
                     </div>                          
                 </div>
@@ -56,14 +56,14 @@
             <div class="row">
                 <div class="column large-4 small-12">
                     <div class="switch radius">
-                        <input id="featuredSwitch" type="radio" formControlName="featured">
+                        <input id="featuredSwitch" type="checkbox" formControlName="featured">
                         <label for="featuredSwitch">Is featured</label>
                     </div> 
                 </div>
 
                 <div class="column large-4 small-12">
                     <div class="switch radius">
-                        <input id="bannerSwitch" type="radio" formControlName="banner">
+                        <input id="bannerSwitch" type="checkbox" formControlName="banner">
                         <label for="bannerSwitch">Is Banner</label>
                     </div> 
                 </div>

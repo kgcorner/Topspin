@@ -26,28 +26,20 @@
             <div class="row">
                 <div class="column large-6 small-12">
                     <label for="storeLogo" class="button">Upload Category Logo</label>
-                    <input type="file" id="storeLogo" class="show-for-sr" formControlName="logo" #logo required>
-                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['logo'].valid && createCategoryForm.controls['logo'].touched">
-                        Please choose a valid logo for store
-                    </div>                          
+                    <input type="file" id="storeLogo" class="show-for-sr" formControlName="logo" #logo>
+                    
                 </div>
 
                 <div class="column large-6 small-12">
                     <label for="storeThumbnail" class="button">Upload Category Thumbnail</label>
-                    <input type="file" id="storeThumbnail" class="show-for-sr" formControlName="thumbnailImage" #thumbnail required>
-                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['thumbnailImage'].valid && createCategoryForm.controls['thumbnailImage'].touched">
-                        Please choose a thumgnail Image for Category
-                    </div>                          
+                    <input type="file" id="storeThumbnail" class="show-for-sr" formControlName="thumbnailImage" #thumbnail>                    
                 </div>
             </div>
 
             <div class="row">
                 <div class="column large-6 small-12">
                     <label for="storeBanner" class="button">Upload Category Banner</label>
-                    <input type="file" id="storeBanner" class="show-for-sr" formControlName="bannerImage" #banner required>
-                    <div data-alert class="alert-box alert" *ngIf="!createCategoryForm.controls['bannerImage'].valid && createCategoryForm.controls['bannerImage'].touched">
-                        Please choose a valid banner
-                    </div>                          
+                    <input type="file" id="storeBanner" class="show-for-sr" formControlName="bannerImage" #banner>                                       
                 </div>
             </div>
 

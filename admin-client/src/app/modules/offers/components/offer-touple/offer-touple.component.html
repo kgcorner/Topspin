@@ -1,24 +1,24 @@
-<div class="row row-border">
+<div class="row row-border-with-height">
         <div class="column large-3">
-            <strong> <img src="{{thumbnail}}"> </strong>
+             <img src="{{thumbnail}}" class="offer-image-thumbnail"> 
         </div>
         <div class="column large-3">
-            <strong> {{offer.title}} </strong>
+             {{offer.title}} 
         </div>
         <div class="column large-1">
-            <strong> {{offer.store.name}} </strong>
+             {{offer.store.name}} 
         </div>
         <div class="column large-1">
-            <strong> {{offer.category.name}} </strong>
+             {{offer.category.name}} 
         </div>
         <div class="column large-1">
-            <strong> {{offer.maxDiscount}} </strong>
+             {{offer.maxDiscount}} 
         </div>
         <div class="column large-1">
-            <strong> {{offer.featured}} </strong>
+             {{offer.featured}} 
         </div>
         <div class="column large-1">
-            <strong> {{offer.lastDate}} </strong>
+             {{date}} 
         </div>
         <div class="column large-1">
             <button type="button" class="alert button" (click)="delete()" >Delete</button>

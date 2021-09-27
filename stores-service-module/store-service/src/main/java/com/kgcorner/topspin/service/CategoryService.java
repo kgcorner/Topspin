@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.service;
 
 
+import com.kgcorner.exceptions.ResourceNotFoundException;
 import com.kgcorner.topspin.aws.AwsServices;
 import com.kgcorner.topspin.aws.exceptions.AwsServiceException;
 import com.kgcorner.topspin.model.CategoryDTO;
@@ -117,5 +118,22 @@ public class CategoryService {
         } catch (AwsServiceException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public CategoryDTO addChildren(String categoryId, List<CategoryDTO> children) {
+        AbstractCategory category = categoryPersistenceLayer.getCategory(categoryId);
+        if(category == null) {
+            throw new ResourceNotFoundException("No such category exists");
+        }
+        for(CategoryDTO child : children) {
+            if(categoryPersistenceLayer.getCategory(child.getCategoryId()) == null) {
+                throw new ResourceNotFoundException("could not found child category : " + child.getName());
+            };
+        }
+        category.setChildren(children);
+        category = categoryPersistenceLayer.updateCategory(category, categoryId);
+        CategoryDTO dto = new CategoryDTO();
+        BeanUtils.copyProperties(category, dto);
+        return dto;
     }
 }

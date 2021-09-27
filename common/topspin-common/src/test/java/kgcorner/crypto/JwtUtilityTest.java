@@ -49,7 +49,7 @@ public class JwtUtilityTest {
         claims.put("payload","abc");
         int expiresIn = 1;
         String token = JwtUtility.createJWTToken(SALT, claims, expiresIn);
-        Thread.sleep(expiresIn * 1000 + 1);
+        Thread.sleep((expiresIn * 1000) + 1000);
         assertNotNull("Generated toke is null", token);
         assertFalse("Token validation failed", JwtUtility.validateToken(SALT, token));
     }

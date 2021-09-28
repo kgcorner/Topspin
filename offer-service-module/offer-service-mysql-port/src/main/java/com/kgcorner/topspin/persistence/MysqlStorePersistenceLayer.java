@@ -46,8 +46,7 @@ public class MysqlStorePersistenceLayer implements ProductOfferStorePersistenceL
         Object o = storeDao.runSelectNativeQuery(query);
         List<Object[]> tuples = (List<Object[]>) o;
         List<StoreRef> stores = new ArrayList<>();
-        for(Object row : tuples) {
-            Object[] values = (Object[]) row;
+        for(Object[] values : tuples) {
             StoreRef storeRef = new StoreRef();
             storeRef.setId(values[0].toString());
             storeRef.setName(values[1].toString());

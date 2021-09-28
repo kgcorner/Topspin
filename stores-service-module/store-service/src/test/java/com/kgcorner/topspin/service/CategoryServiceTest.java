@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.*;
@@ -222,5 +223,26 @@ public class CategoryServiceTest {
         mockStatic(AwsServices.class);
         when(AwsServices.getInstance()).thenReturn(awsServices);
         categoryService.updateBannerAndLogo(categoryId, thumbnail, banner, logo);
+    }
+
+    @Test
+    public void addChildren() {
+        String categoryId = "categoryId";
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(categoryId);
+        when(persistenceLayer.getCategory(categoryId)).thenReturn(categoryDTO);
+        List<CategoryDTO> children = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            String childCategoryId = "categoryId" + i;
+            CategoryDTO childCategory = new CategoryDTO();
+            childCategory.setCategoryId(childCategoryId);
+            when(persistenceLayer.getCategory(childCategoryId)).thenReturn(childCategory);
+            children.add(childCategory);
+        }
+        when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenReturn(categoryDTO);
+        CategoryDTO categoryDTO1 = categoryService.addChildren(categoryId, children);
+        assertNotNull(categoryDTO1);
+        assertEquals(categoryId, categoryDTO1.getCategoryId());
+        assertEquals(children.size(), categoryDTO1.getChildren().size());
     }
 }

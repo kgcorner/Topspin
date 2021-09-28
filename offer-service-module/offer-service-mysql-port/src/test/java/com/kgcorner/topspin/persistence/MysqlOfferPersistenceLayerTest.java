@@ -222,6 +222,97 @@ public class MysqlOfferPersistenceLayerTest {
     }
 
     @Test
+    public void testGetAllWithStoreAndCategoryWithoutFeatured() {
+        CategoryReferenceModel categoryReferenceModel = new CategoryReferenceModel();
+        StoreReferenceModel storeReferenceModel = new StoreReferenceModel();
+        int page = 1;
+        int count = 100;
+        boolean onlyFeatured = false;
+        List<Operation> operands = new ArrayList<>();
+        operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
+        operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
+        operands.add(new Operation(storeReferenceModel, StoreReferenceModel.class,
+            "store", Operation.OPERATORS.EQ));
+        operands.add(new Operation(categoryReferenceModel, CategoryReferenceModel.class,
+            "category", Operation.OPERATORS.EQ));
+        List<OfferModel> offerModels = new ArrayList<>();
+        int size = 10;
+        for(int i = 0; i<size; i++) {
+            offerModels.add(new OfferModel());
+        }
+        when(offerDao.getAll(anyList(), anyInt(), anyInt(), any())).thenAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                List<Operation> operandsInMethod = invocationOnMock.getArgument(0);
+                int pageInMethod = invocationOnMock.getArgument(1);
+                int countInMethod = invocationOnMock.getArgument(2);
+
+                boolean paramMatching = true;
+                paramMatching = paramMatching && operandsInMethod.size() == operands.size();
+                if(!paramMatching) {
+                    System.out.println("Operand not matching");
+                }
+                paramMatching = paramMatching && pageInMethod == page;
+                paramMatching = paramMatching && countInMethod == countInMethod;
+                if(paramMatching) {
+                    return offerModels;
+                }
+                return null;
+            }
+        });
+        //when(offerDao.getAll().thenReturn(offerModels);
+        List<AbstractOffer> allOffers = persistenceLayer.getAll(page, count, onlyFeatured,
+            storeReferenceModel, categoryReferenceModel, false);
+        assertEquals(size, allOffers.size());
+        assertEquals(offerModels, allOffers);
+    }
+
+    @Test
+    public void testGetAllWithStoreAndCategoryWithoutFeaturedInCludeBanner() {
+        CategoryReferenceModel categoryReferenceModel = new CategoryReferenceModel();
+        StoreReferenceModel storeReferenceModel = new StoreReferenceModel();
+        int page = 1;
+        int count = 100;
+        boolean onlyFeatured = false;
+        List<Operation> operands = new ArrayList<>();
+        operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
+        operands.add(new Operation(storeReferenceModel, StoreReferenceModel.class,
+            "store", Operation.OPERATORS.EQ));
+        operands.add(new Operation(categoryReferenceModel, CategoryReferenceModel.class,
+            "category", Operation.OPERATORS.EQ));
+        List<OfferModel> offerModels = new ArrayList<>();
+        int size = 10;
+        for(int i = 0; i<size; i++) {
+            offerModels.add(new OfferModel());
+        }
+        when(offerDao.getAll(anyList(), anyInt(), anyInt(), any())).thenAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                List<Operation> operandsInMethod = invocationOnMock.getArgument(0);
+                int pageInMethod = invocationOnMock.getArgument(1);
+                int countInMethod = invocationOnMock.getArgument(2);
+
+                boolean paramMatching = true;
+                paramMatching = paramMatching && operandsInMethod.size() == operands.size();
+                if(!paramMatching) {
+                    System.out.println("Operand not matching");
+                }
+                paramMatching = paramMatching && pageInMethod == page;
+                paramMatching = paramMatching && countInMethod == countInMethod;
+                if(paramMatching) {
+                    return offerModels;
+                }
+                return null;
+            }
+        });
+        //when(offerDao.getAll().thenReturn(offerModels);
+        List<AbstractOffer> allOffers = persistenceLayer.getAll(page, count, onlyFeatured,
+            storeReferenceModel, categoryReferenceModel, true);
+        assertEquals(size, allOffers.size());
+        assertEquals(offerModels, allOffers);
+    }
+
+    @Test
     public void testGetAllWithOutStoreAndCategory() {
         int page = 1;
         int count = 100;

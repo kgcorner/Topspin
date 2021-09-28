@@ -111,4 +111,17 @@ public class CategoryResourceTest {
         when(categoryService.updateBannerAndLogo(categoryId, thumbnail, banner, logo)).thenReturn(categoryDTO);
         assertNotNull(categoryResource.uploadBannerAndLogo(categoryId, banner, logo, thumbnail));
     }
+
+    @Test
+    public void addChildrenCategory() {
+        String categoryId = "categoryId";
+        List<CategoryDTO> categoryDTOS = new ArrayList<>();
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(categoryId);
+        when(categoryService.addChildren(categoryId, categoryDTOS)).thenReturn(categoryDTO);
+        ResponseEntity<CategoryDTO> categoryDTOResponseEntity = categoryResource.addChildrenCategory(categoryId,
+            categoryDTOS);
+        CategoryDTO body = categoryDTOResponseEntity.getBody();
+        assertEquals(categoryId, body.getCategoryId());
+    }
 }

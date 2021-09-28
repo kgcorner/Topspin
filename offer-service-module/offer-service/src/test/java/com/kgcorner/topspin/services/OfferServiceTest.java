@@ -327,4 +327,15 @@ public class OfferServiceTest {
         List<OfferDTO> allBanners = offerService.getBanners();
         assertEquals(size, allBanners.size());
     }
+
+    @Test
+    public void getStores() {
+        List<StoreRef> stores = new ArrayList<>();
+        for(int i = 0; i<9; i++) {
+            stores.add(new StoreRef());
+        }
+        when(storePersistenceLayer.getStoresWithOfferCount()).thenReturn(stores);
+        List<StoreRef> result = offerService.getStores();
+        assertEquals(stores, result);
+    }
 }

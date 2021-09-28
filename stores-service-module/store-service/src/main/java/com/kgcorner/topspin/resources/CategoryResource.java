@@ -82,7 +82,7 @@ public class CategoryResource {
         return ResponseEntity.ok(category);
     }
 
-    @ApiOperation("Deletes a CAtegory")
+    @ApiOperation("Deletes a Category")
     @DeleteMapping(MANAGE_CATEGORIES_CATEGORY_ID)
     public ResponseEntity<Void> deleteCategory( @ApiParam("id of the store")
                                                     @PathVariable("categoryId") String categoryId) {
@@ -93,8 +93,8 @@ public class CategoryResource {
     @ApiOperation("Update the Category")
     @PatchMapping(MANAGE_CATEGORIES_CATEGORY_ID)
     public ResponseEntity<CategoryDTO> uploadBannerAndLogo(
-        @ApiParam("id of the store")
-        @PathVariable("storeId") String categoryId,
+        @ApiParam("id of the category")
+        @PathVariable("categoryId") String categoryId,
         @ApiParam(value = "Banner for the Store")
         @RequestParam("banner") MultipartFile banner,
         @ApiParam(value = "logo for the Store")
@@ -102,6 +102,19 @@ public class CategoryResource {
         @ApiParam(value = "thumbnail for the Store")
         @RequestParam("thumbnail") MultipartFile thumbnail) {
         CategoryDTO categoryDTO =  categoryService.updateBannerAndLogo(categoryId, thumbnail, banner, largeFile);
+        categoryDTO.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", categoryDTO.getCategoryId()),
+            Link.REL_SELF);
+        return ResponseEntity.ok(categoryDTO);
+    }
+
+    @ApiOperation("Add Children to category")
+    @PatchMapping(MANAGE_CATEGORIES_CATEGORY_ID + "/children")
+    public ResponseEntity<CategoryDTO> addChildrenCategory(
+        @ApiParam("id of the category")
+        @PathVariable("categoryId") String categoryId,
+        @ApiParam(value = "List of Categories")
+        List<CategoryDTO> children) {
+        CategoryDTO categoryDTO =  categoryService.addChildren(categoryId, children);
         categoryDTO.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", categoryDTO.getCategoryId()),
             Link.REL_SELF);
         return ResponseEntity.ok(categoryDTO);

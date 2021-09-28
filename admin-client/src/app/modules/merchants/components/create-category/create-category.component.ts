@@ -18,9 +18,9 @@ export class CreateCategoryComponent implements OnInit {
     this.createCategoryForm = fb.group({
       "name":['', [Validators.required]],
       "description":['', [Validators.required]],
-      "logo":['', [Validators.required]],
-      "thumbnailImage":['', [Validators.required]],
-      "bannerImage":['', [Validators.required]],
+      "logo":[''],
+      "thumbnailImage":[''],
+      "bannerImage":[''],
       "longDescription":['', [Validators.required]],
       "tagLine":['', [Validators.required]],
       "children":['']

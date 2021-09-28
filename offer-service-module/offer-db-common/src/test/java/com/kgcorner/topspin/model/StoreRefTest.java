@@ -32,9 +32,13 @@ public class StoreRefTest {
         String id = "id";
         String description = "description";
         String name = "name";
-        StoreRef storeRef = new StoreRef(id, name, description);
+        String maxCashback ="8%";
+        int offersCount = 10;
+        StoreRef storeRef = new StoreRef(id, name, description, maxCashback, offersCount);
         assertEquals(name, storeRef.getName());
         assertEquals(id, storeRef.getId());
         assertEquals(description, storeRef.getDescription());
+        assertEquals(maxCashback, storeRef.getMaxCashback());
+        assertEquals(offersCount, storeRef.getOffersCount());
     }
 }

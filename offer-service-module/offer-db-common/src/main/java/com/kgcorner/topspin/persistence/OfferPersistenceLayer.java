@@ -42,9 +42,11 @@ public interface OfferPersistenceLayer {
      * @param onlyFeatured
      * @param store
      * @param category
+     * @param includeBanners
      * @return
      */
-    List<AbstractOffer> getAll(int page, int itemPerPage, boolean onlyFeatured, StoreRef store, CategoryRef category);
+    List<AbstractOffer> getAll(int page, int itemPerPage, boolean onlyFeatured, StoreRef store,
+                               CategoryRef category, boolean includeBanners);
 
     /**
      * Returns all offers page wise

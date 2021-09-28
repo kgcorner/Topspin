@@ -17,12 +17,15 @@ public class StoreReferenceModelTest {
         String id = "id";
         String description = "description";
         String name = "name";
+        String maxCashback = "8%";
         StoreReferenceModel storeRef = new StoreReferenceModel();
         storeRef.setDescription(description);
         storeRef.setId(id);
         storeRef.setName(name);
+        storeRef.setMaxCashback(maxCashback);
         assertEquals(name, storeRef.getName());
         assertEquals(id, storeRef.getId());
         assertEquals(description, storeRef.getDescription());
+        assertEquals(maxCashback, storeRef.getMaxCashback());
     }
 }

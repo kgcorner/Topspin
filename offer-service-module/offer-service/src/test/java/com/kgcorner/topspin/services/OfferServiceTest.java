@@ -172,10 +172,10 @@ public class OfferServiceTest {
         for (int i = 0; i < count; i++) {
             offerList.add(new OfferDTO());
         }
-        when(offerPersistenceLayer.getAll(page, count, onlyFeatured, storeRef, categoryRef))
+        when(offerPersistenceLayer.getAll(page, count, onlyFeatured, storeRef, categoryRef, false))
             .thenReturn(offerList);
 
-        List<OfferDTO> allOffers = offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId);
+        List<OfferDTO> allOffers = offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId, false);
         assertEquals(offerList, allOffers);
     }
 
@@ -188,8 +188,8 @@ public class OfferServiceTest {
         for (int i = 0; i < count; i++) {
             offerList.add(new OfferDTO());
         }
-        when(offerPersistenceLayer.getAll(page, count, onlyFeatured, null, null)).thenReturn(offerList);
-        List<OfferDTO> allOffers = offerService.getAllOffers(page, count, onlyFeatured, null, null);
+        when(offerPersistenceLayer.getAll(page, count, onlyFeatured, null, null, false)).thenReturn(offerList);
+        List<OfferDTO> allOffers = offerService.getAllOffers(page, count, onlyFeatured, null, null, false);
         assertEquals(offerList, allOffers);
     }
 
@@ -326,5 +326,16 @@ public class OfferServiceTest {
         when(offerPersistenceLayer.getBanners()).thenReturn(banners);
         List<OfferDTO> allBanners = offerService.getBanners();
         assertEquals(size, allBanners.size());
+    }
+
+    @Test
+    public void getStores() {
+        List<StoreRef> stores = new ArrayList<>();
+        for(int i = 0; i<9; i++) {
+            stores.add(new StoreRef());
+        }
+        when(storePersistenceLayer.getStoresWithOfferCount()).thenReturn(stores);
+        List<StoreRef> result = offerService.getStores();
+        assertEquals(stores, result);
     }
 }

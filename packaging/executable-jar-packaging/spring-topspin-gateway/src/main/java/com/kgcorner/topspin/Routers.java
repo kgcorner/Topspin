@@ -105,6 +105,9 @@ public class Routers {
            .route("get-all-products", p-> p.path("/products")
                .filters(getGateway(requestedAT)
                ).uri(productOfferServiceHost))
+           .route("get-store-offer-map", p-> p.path("/offer-stores")
+               .filters(getGateway(requestedAT)
+               ).uri(productOfferServiceHost))
             //User's routes
            .route("create-user", p-> p.path("/users")
                .filters(getGateway(requestedAT)).uri(userServiceHost))

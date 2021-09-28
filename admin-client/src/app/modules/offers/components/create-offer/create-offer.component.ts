@@ -22,8 +22,8 @@ export class CreateOfferComponent implements OnInit {
     this.createOfferForm = fb.group({
       "title":['', [Validators.required]],
       "description":['', [Validators.required]],
-      "link":['', [Validators.required]],
-      "surferPlaceHolder":['', [Validators.required]],
+      "url":['', [Validators.required]],
+      "surferPlaceholderUrl":['', [Validators.required]],
       "thumbnail":['', [Validators.required]],
       "maxDiscount":['', [Validators.required]],
       "banner":[''],
@@ -46,18 +46,21 @@ export class CreateOfferComponent implements OnInit {
     this.merchantsObs = this.store.select(MerchantSelector.selectAllMerchants);
   }
 
-  createOffer(offerForm, thumbnail) {      
+  createOffer(offerForm, thumbnail) {     
+      let sentForCreation = false; 
       let category = {}
       let store = {}
       category["id"] = offerForm.category;
       store["id"] = offerForm.merchant;
       offerForm.category = category;
       offerForm.store = store;
+      sentForCreation = true;
       this.store.dispatch(new OfferAction.CreateOfferAction(offerForm));
       this.store.select(OfferSelector.selectCurrentOffer).subscribe(o=> {
-        if(o) {
+        if(o && o.title == offerForm.title && sentForCreation) {
           let thumbnailImage = thumbnail.files[0];
           this.store.dispatch(new OfferAction.AddThumbnailToOffer(o.offerId, thumbnailImage))
+          sentForCreation = false;
         }
       })
   }

@@ -73,6 +73,7 @@ public class OfferService {
             store.setDescription(storeDTO.getDescription());
             store.setId(storeDTO.getStoreId());
             store.setName(storeDTO.getName());
+            store.setMaxCashback(storeDTO.getMaxCashback());
             store = storePersistenceLayer.createStore(store);
             offerDTO.setStore(store);
         }
@@ -89,7 +90,8 @@ public class OfferService {
         return offerDTO;
     }
 
-    public List<OfferDTO> getAllOffers(int page, int maxCount, boolean onlyFeatured, String storeId, String categoryId) {
+    public List<OfferDTO> getAllOffers(int page, int maxCount, boolean onlyFeatured, String storeId,
+                                       String categoryId, boolean includeBanners) {
         CategoryRef category = null;
         StoreRef store = null;
         if(!Strings.isNullOrEmpty(storeId)) {
@@ -98,7 +100,8 @@ public class OfferService {
         if(!Strings.isNullOrEmpty(categoryId)) {
             category = categoryPersistenceLayer.getCategory(categoryId);
         }
-        List<AbstractOffer> allOffers = offerPersistenceLayer.getAll(page, maxCount, onlyFeatured, store, category);
+        List<AbstractOffer> allOffers = offerPersistenceLayer.getAll(page, maxCount, onlyFeatured, store,
+            category, includeBanners);
         return getOfferDTOS(allOffers);
     }
 
@@ -178,5 +181,9 @@ public class OfferService {
         } catch (AwsServiceException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    public List<StoreRef> getStores() {
+        return storePersistenceLayer.getStoresWithOfferCount();
     }
 }

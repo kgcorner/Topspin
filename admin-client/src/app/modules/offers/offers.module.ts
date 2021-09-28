@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CreateOfferComponent } from './components/create-offer/create-offer.component';
 import { OfferListComponent } from './components/offer-list/offer-list.component';
 import { OfferToupleComponent } from './components/offer-touple/offer-touple.component';
@@ -33,7 +33,8 @@ import { MerchantsModule } from '../merchants/merchants.module';
     EffectsModule.forFeature([OfferEffect])
   ],
   providers :[
-    OfferService
+    OfferService,
+    DatePipe
   ]
 })
 export class OffersModule { }

@@ -128,7 +128,7 @@ public abstract class MySqlRepository<T extends Serializable> extends CachedRepo
         TypedQuery<T> typedQuery = this.entityManager.createQuery(criteriaQuery);
         var i=0;
         for(Operation operand : conditions) {
-            typedQuery.setParameter(operand.getName() + i, operand.getValue());
+            typedQuery.setParameter(operand.getName(), operand.getValue());
             i++;
         }
         return typedQuery.getResultList();

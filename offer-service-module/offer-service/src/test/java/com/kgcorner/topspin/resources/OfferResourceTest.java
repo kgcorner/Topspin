@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.resources;
 
 import com.kgcorner.topspin.dtos.OfferDTO;
+import com.kgcorner.topspin.model.StoreRef;
 import com.kgcorner.topspin.services.OfferService;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -57,8 +59,10 @@ public class OfferResourceTest {
             offerDTO.setOfferId(i+"");
             offerDTOS.add(offerDTO);
         }
-        when(offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId)).thenReturn(offerDTOS);
-        ResponseEntity<Resources<OfferDTO>> offers = offerResource.getOffers(page, count, onlyFeatured, storeId, categoryId);
+        when(offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId,
+            false)).thenReturn(offerDTOS);
+        ResponseEntity<Resources<OfferDTO>> offers = offerResource.getOffers(page, count, onlyFeatured, storeId,
+            categoryId, false);
         assertNotNull(offers);
         assertEquals(count, offers.getBody().getContent().size());
     }
@@ -190,5 +194,17 @@ public class OfferResourceTest {
         ResponseEntity<Resources<OfferDTO>> banners1 = offerResource.getBanners();
         assertNotNull(banners1);
         assertEquals(size, banners1.getBody().getContent().size());
+    }
+
+    @Test
+    public void getStores() {
+        List<StoreRef> stores = new ArrayList<>();
+        for(int i = 0; i<9; i++) {
+            stores.add(new StoreRef());
+        }
+        when(offerService.getStores()).thenReturn(stores);
+        ResponseEntity<Resources<StoreRef>> storesResponse = offerResource.getStores();
+        Collection<StoreRef> content = storesResponse.getBody().getContent();
+        assertEquals(stores.size(), content.size());
     }
 }

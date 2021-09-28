@@ -2,6 +2,7 @@ package com.kgcorner.topspin.resources;
 
 
 import com.kgcorner.topspin.dtos.OfferDTO;
+import com.kgcorner.topspin.model.StoreRef;
 import com.kgcorner.topspin.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
@@ -34,8 +35,10 @@ public class OfferResource {
         , @RequestParam("item-count") int count,
         @RequestParam(value="featured", required = false, defaultValue = "false") boolean onlyFeatured,
         @RequestParam(value="store", required = false, defaultValue = "") String storeId,
-        @RequestParam(value="category", required = false, defaultValue = "") String categoryId) {
-        List<OfferDTO> offerDTOS = offerService.getAllOffers(page, count, onlyFeatured, storeId, categoryId);
+        @RequestParam(value="category", required = false, defaultValue = "") String categoryId,
+        @RequestParam(value="includeBanners", required = false, defaultValue = "false") boolean includeBanners) {
+        List<OfferDTO> offerDTOS = offerService.getAllOffers(page, count, onlyFeatured, storeId,
+            categoryId, includeBanners);
         return getResourcesResponseEntity(page, count, offerDTOS);
     }
 
@@ -85,8 +88,8 @@ public class OfferResource {
 
     @GetMapping("/offers/store/{storeId}")
     public ResponseEntity<Resources<OfferDTO>> getOffersFromStore(@PathVariable("storeId") String storeId,
-                                                                  @RequestParam("page") int page
-        , @RequestParam("item-count") int count) {
+                                                                  @RequestParam("page") int page,
+                                                                  @RequestParam("item-count") int count) {
         List<OfferDTO> offersOfStores = offerService.getOffersOfStores(storeId, page, count);
         return getResourcesResponseEntity(page, count, offersOfStores);
     }
@@ -103,6 +106,13 @@ public class OfferResource {
     public ResponseEntity<Resources<OfferDTO>> getBanners() {
         List<OfferDTO> banners = offerService.getBanners();
         return getResourcesResponseEntity(0, 0, banners);
+    }
+
+    @GetMapping("/offer-stores")
+    public ResponseEntity<Resources<StoreRef>> getStores() {
+        List<StoreRef> stores = offerService.getStores();
+        Resources<StoreRef> storesResources = new Resources<>(stores);
+        return ResponseEntity.ok(storesResources);
     }
 
     private ResponseEntity<Resources<OfferDTO>> getResourcesResponseEntity(int page, int count,

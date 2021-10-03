@@ -27,11 +27,11 @@ public abstract class AbstractUser {
     private boolean active;
     private TransactionSummary transactionSummary = new TransactionSummary();
     public static class TransactionSummary {
-        private final int totalAmount;
-        private final int totalPendingAmount ;
-        private final int totalRedeemedAmount;
-        private final int totalPendingRedeemAmount ;
-        private final int totalRedeemableAmountLeft ;
+        private int totalAmount;
+        private int totalPendingAmount ;
+        private int totalRedeemedAmount;
+        private int totalPendingRedeemAmount ;
+        private int totalRedeemableAmountLeft ;
 
         public TransactionSummary() {
             totalAmount = 0;
@@ -68,6 +68,26 @@ public abstract class AbstractUser {
 
         public int getTotalRedeemableAmountLeft() {
             return totalRedeemableAmountLeft;
+        }
+
+        public void setTotalAmount(int totalAmount) {
+            this.totalAmount = totalAmount;
+        }
+
+        public void setTotalPendingAmount(int totalPendingAmount) {
+            this.totalPendingAmount = totalPendingAmount;
+        }
+
+        public void setTotalRedeemedAmount(int totalRedeemedAmount) {
+            this.totalRedeemedAmount = totalRedeemedAmount;
+        }
+
+        public void setTotalPendingRedeemAmount(int totalPendingRedeemAmount) {
+            this.totalPendingRedeemAmount = totalPendingRedeemAmount;
+        }
+
+        public void setTotalRedeemableAmountLeft(int totalRedeemableAmountLeft) {
+            this.totalRedeemableAmountLeft = totalRedeemableAmountLeft;
         }
 
         @Override

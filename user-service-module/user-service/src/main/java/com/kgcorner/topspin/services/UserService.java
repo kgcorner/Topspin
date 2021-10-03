@@ -59,6 +59,12 @@ public class UserService {
             throw new IllegalArgumentException("Name can't be blank");
         if(Strings.isNullOrEmpty(userDTO.getUserName()))
             throw new IllegalArgumentException("Username can't be blank");
+        boolean userExists = userPersistenceLayer.getUserByUserName(userDTO.getUserName()) != null;
+        if(userExists)
+            throw new IllegalArgumentException("Use exists with this username");
+        userExists = userPersistenceLayer.getUserByEmail(userDTO.getEmail()) != null;
+        if(userExists)
+            throw new IllegalArgumentException("Use exists with this email");
         AbstractUser user = userPersistenceLayer.createUser(userDTO);
         BeanUtils.copyProperties(user, userDTO);
         return userDTO;
@@ -74,5 +80,13 @@ public class UserService {
     
     public void deleteUser(String userId) {
         userPersistenceLayer.deleteUser(userId);
+    }
+
+
+    public UserDTO getUserByUsername(String username) {
+        AbstractUser user = userPersistenceLayer.getUserByUserName(username);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user, userDTO);
+        return userDTO;
     }
 }

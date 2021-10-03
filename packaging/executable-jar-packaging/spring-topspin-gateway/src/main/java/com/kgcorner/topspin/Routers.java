@@ -132,10 +132,10 @@ public class Routers {
                .filters(getGatewayWithRewrite(requestedAT, "/manage/transactions/<?<transactionId>.*/hold)",
                    "/transactions/${transactionId}/hold")).uri(userServiceHost))
            //auth's routes
-           .route("create-login", p-> p.path("/manage/login")
-               .filters(getGatewayWithPath(requestedAT, "/login")).uri(authServiceHost))
+           .route("create-login", p-> p.path("/login")
+               .filters(getGateway(requestedAT)).uri(authServiceHost))
            .route("create-login", p-> p.path("/manage/admin")
-               .filters(getGatewayWithPath(requestedAT, "/admin")).uri(authServiceHost))
+               .filters(getGateway(requestedAT)).uri(authServiceHost))
            .route("create-token", p-> p.path("/token")
                .filters(getGateway(requestedAT))
                .uri(authServiceHost))

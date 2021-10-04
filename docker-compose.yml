@@ -92,7 +92,7 @@ services:
     container_name: store
     image: kumargauravgupta3/store-service-docker:1.0-SNAPSHOT
     env_file:
-      - id
+      - /work/deals-delta/app-setup/id
     ports:
       - '9003:9003'
       - '5006:5006'
@@ -117,7 +117,33 @@ services:
     container_name: offer
     image: kumargauravgupta3/offer-service-docker:1.0-SNAPSHOT
     env_file:
-      - id
+      - /work/deals-delta/app-setup/id
+    ports:
+      - '9004:9004'
+      - '5005:5005'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9004"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    links:
+      - config
+      - discovery
+      - store
+      - mysqldb
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      store:
+        condition: service_healthy
+
+  gateway:
+    container_name: gateway
+    image: kumargauravgupta3/topspin-gateway-docker:1.0-SNAPSHOT
+    env_file:
+      - /work/deals-delta/app-setup/id
     ports:
       - '9004:9004'
       - '5005:5005'

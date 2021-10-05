@@ -101,4 +101,15 @@ public class UserResourceTest {
     public void testHealth() {
         assertEquals("Ok", userResource.getHealth());
     }
+
+    @Test
+    public void getUserByUsername() {
+        String username = "username";
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId("id");
+        userDTO.setUserName(username);
+        when(userService.getUserByUsername(username)).thenReturn(userDTO);
+        ResponseEntity<UserDTO> userByUsername = userResource.getUserByUsername(username);
+        assertEquals(username, userByUsername.getBody().getUserName());
+    }
 }

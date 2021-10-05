@@ -84,6 +84,32 @@ public class UserServiceTest {
         assertEquals("Name is not matching", "Gaurav", response.getName());
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void createUserWithExistingUserName() {
+        String username = "gaurav";
+        UserDTO  userDTO = new UserDTO();
+        userDTO.setName("Gaurav");
+        userDTO.setEmail("a@b.com");
+        userDTO.setUserName(username);
+        AbstractUser mockedUser = mock(AbstractUser.class);
+        when(userPersistenceLayer.getUserByUserName(username)).thenReturn(new UserDTO());
+        when(mockedUser.getName()).thenReturn("Gaurav");
+        userService.createUser(userDTO);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void createUserWithExistingEmail() {
+        String email = "gaurav@abc.com";
+        UserDTO  userDTO = new UserDTO();
+        userDTO.setName("Gaurav");
+        userDTO.setEmail(email);
+        userDTO.setUserName("gaurav");
+        AbstractUser mockedUser = mock(AbstractUser.class);
+        when(userPersistenceLayer.getUserByEmail(email)).thenReturn(new UserDTO());
+        when(mockedUser.getName()).thenReturn("Gaurav");
+        userService.createUser(userDTO);
+    }
+
     @Test
     public void createUserWithBlankName() {
         try {
@@ -160,5 +186,15 @@ public class UserServiceTest {
         String userId = "id";
         userService.deleteUser(userId);
         Mockito.verify(userPersistenceLayer).deleteUser(userId);
+    }
+
+    @Test
+    public void getUserByUsername() {
+        String username = "username";
+        AbstractUser user = new UserDTO();
+        user.setUserName(username);
+        when(userPersistenceLayer.getUserByUserName(username)).thenReturn(user);
+        UserDTO userByUsername = userService.getUserByUsername(username);
+        assertEquals(username, userByUsername.getUserName());
     }
 }

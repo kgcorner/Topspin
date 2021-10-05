@@ -60,6 +60,13 @@ public class MongoUserPersistenceLayer implements UserPersistenceLayer {
     }
 
     @Override
+    public AbstractUser getUserByEmail(String email) {
+        if(Strings.isNullOrEmpty(email))
+            throw new IllegalArgumentException("email can't be null or empty");
+        return dao.getByKey("email", email, UserModel.class);
+    }
+
+    @Override
     public void deleteUser(String userId) {
         if(Strings.isNullOrEmpty(userId))
             throw new IllegalArgumentException("User id can't be null or empty");

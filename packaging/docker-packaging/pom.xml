@@ -15,6 +15,7 @@
 <!--        <module>product-offer-docker</module>-->
         <module>mysqldb</module>
         <module>offer-service-docker</module>
+        <module>topspin-gateway-docker</module>
     </modules>
     <parent>
         <artifactId>packaging</artifactId>

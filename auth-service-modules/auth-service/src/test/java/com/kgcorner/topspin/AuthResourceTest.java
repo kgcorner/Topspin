@@ -115,7 +115,7 @@ public class AuthResourceTest {
         when(mockedRegistrationService.createLogin(username, password, userId)).thenReturn(loginToBeReturend);
         Login login = authResource.createLogin(username, password, userId);
         Assert.assertEquals("User name is not matching", username, login.getUsername());
-        Assert.assertEquals("password is not matching", password, login.getPassword());
+        Assert.assertEquals("password is not matching", "", login.getPassword());
         Assert.assertEquals("User id is not matching", userId, login.getUserId());
         Assert.assertNull(login.getRefreshToken());
     }
@@ -140,10 +140,18 @@ public class AuthResourceTest {
     @Test
     public void createAdmin() {
         String userName = "username";
-        String password = "pasword";
-        String userid = "userid";
-        authResource.createAdmin(userName, password, userid);
+        String password = "password";
+        String userid = "userId";
+        Login login  = new DummyLogin();
+        login.setPassword(password);
+        login.setUserId(userid);
+        login.setUsername(userName);
+        when(mockedRegistrationService.createAdmin(userName, password, userid)).thenReturn(login);
+        Login createdLogin = authResource.createAdmin(userName, password, userid);
         Mockito.verify(mockedRegistrationService).createAdmin(userName, password, userid);
+        Assert.assertEquals(userid, createdLogin.getUserId());
+        Assert.assertEquals("", createdLogin.getPassword());
+        Assert.assertEquals(userName, createdLogin.getUsername());
     }
 
     @Test

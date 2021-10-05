@@ -81,7 +81,9 @@ public class AuthResource extends AuthServiceExceptionHandler {
         @ApiParam(value = "id of the user stored in top spin" , required = true)
         @RequestParam(value="userid", required = true) String userId
     ) {
-        return registrationService.createLogin(userName, password, userId);
+        Login login = registrationService.createLogin(userName, password, userId);
+        login.setPassword("");
+        return login;
     }
 
     @ApiOperation("creates a login for user")
@@ -95,6 +97,8 @@ public class AuthResource extends AuthServiceExceptionHandler {
         @ApiParam(value = "id of the user stored in top spin" , required = true)
         @RequestParam(value="userid", required = true) String userId
     ) {
-        return registrationService.createAdmin(userName, password, userId);
+        Login login = registrationService.createAdmin(userName, password, userId);
+        login.setPassword("");
+        return login;
     }
 }

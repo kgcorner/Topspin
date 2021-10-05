@@ -42,6 +42,13 @@ public interface UserPersistenceLayer {
     AbstractUser getUserByUserName(String userName);
 
     /**
+     * Fetches user by user name
+     * @param userName
+     * @return fetched user
+     */
+    AbstractUser getUserByEmail(String userName);
+
+    /**
      * Deletes user
      * @param userId
      */

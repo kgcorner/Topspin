@@ -63,6 +63,15 @@ public class UserResource extends UserServiceExceptionHandler{
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
+    @ApiOperation("Returns user with given username")
+    @GetMapping("/users/username/{username}")
+    public ResponseEntity<UserDTO> getUserByUsername( @ApiParam(value = "Id of the user", required = true)
+                                            @PathVariable("username") String username) {
+        UserDTO userDTO = userService.getUserByUsername(username);
+        userDTO.addLink(USERS_USER_ID.replace("{user-id}", userDTO.getId()), Link.REL_SELF);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+    }
+
     @ApiOperation("Returns list of users page wise")
     @GetMapping("/users")
     public ResponseEntity<Resources<UserDTO>> getAllUsers(@ApiParam(value = "Page number", required = true)

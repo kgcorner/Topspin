@@ -6,6 +6,7 @@ import com.kgcorner.topspin.model.UserModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.stereotype.Repository;
@@ -125,5 +126,17 @@ public class MongoUserPersistenceLayerTest {
         List<AbstractUser> users = persistenceLayer.getUsers(1, 10);
         assertEquals(countPerPage, users.size());
 
+    }
+
+    @Test
+    public void getUserByEmail() {
+        String email = "abs@ba.com";
+        persistenceLayer.getUserByEmail(email);
+        Mockito.verify(mongoUserDao).getByKey("email", email, UserModel.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getUserByEmailEmptyEmail() {
+        persistenceLayer.getUserByEmail("");
     }
 }

@@ -69,7 +69,7 @@
         </dependency>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
-            <artifactId>store-service-client</artifactId>
+            <artifactId>store-service-client-contract</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

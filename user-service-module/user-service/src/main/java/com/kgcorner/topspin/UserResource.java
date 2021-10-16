@@ -26,14 +26,6 @@ public class UserResource extends UserServiceExceptionHandler{
     @Autowired
     private UserService userService;
 
-
-    @GetMapping("/health")
-    public String getHealth() {
-        return "Ok";
-    }
-
-
-
     @ApiOperation("Creates user")
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)

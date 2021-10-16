@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
-import com.kgcorner.topspin.clients.AuthServiceClient;
+import com.kgcorner.topspin.clients.RemoteAuthServiceClient;
 import com.kgcorner.topspin.clients.model.TokenResponse;
 import com.kgcorner.topspin.model.BasicAuthToken;
 import com.kgcorner.topspin.model.RoleResponse;
@@ -34,11 +34,11 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class DefaultBasicTokenResponseAuthenticationProviderTest {
 
     private DefaultBasicTokenAuthenticationProvider provider;
-    private AuthServiceClient client;
+    private RemoteAuthServiceClient client;
     @Before
     public void setup() {
         provider = new DefaultBasicTokenAuthenticationProvider();
-        client = mock(AuthServiceClient.class);
+        client = mock(RemoteAuthServiceClient.class);
         Whitebox.setInternalState(provider, "client", client);
     }
 

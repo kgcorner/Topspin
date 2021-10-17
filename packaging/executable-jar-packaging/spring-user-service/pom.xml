@@ -47,6 +47,11 @@
             <artifactId>endpoint-security-config</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>topspin-health-package</artifactId>
+            <version>${product.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

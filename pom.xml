@@ -232,5 +232,6 @@
         <module>topspin-security</module>
         <module>aws-utilities</module>
         <module>offer-service-module</module>
+        <module>topspin-health-package</module>
     </modules>
 </project>

@@ -11,9 +11,62 @@
 
     <artifactId>topspin-server</artifactId>
     <dependencies>
+        <!-- Auth Service dependencies -->
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>auth-service</artifactId>
+            <version>${product.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.kgcorner.topspin</groupId>
             <artifactId>auth-service-mongo-port</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+
+        <!-- Offer Service dependencies -->
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>offer-service</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>offer-service-mysql-port</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>local-store-service-client</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <!-- Store Service dependencies -->
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>store-service</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>store-mongo-port</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+
+        <!-- User service dependencies -->
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>user-service</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>user-service-mongo-port</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+
+        <!-- health package -->
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>topspin-health-package</artifactId>
             <version>${product.version}</version>
         </dependency>
     </dependencies>

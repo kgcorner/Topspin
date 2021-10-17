@@ -1,7 +1,7 @@
 package com.kgcorner.topspin.providers;
 
 import com.kgcorner.crypto.JwtUtility;
-import com.kgcorner.topspin.clients.AuthServiceClient;
+import com.kgcorner.topspin.clients.RemoteAuthServiceClient;
 import com.kgcorner.topspin.clients.model.TokenResponse;
 import com.kgcorner.topspin.model.BearerAuthToken;
 import com.kgcorner.topspin.model.RoleResponse;
@@ -31,11 +31,11 @@ import static org.junit.Assert.*;
 public class DefaultBearerTokenResponseAuthenticationProviderTest {
 
     private DefaultBearerTokenAuthenticationProvider provider;
-    private AuthServiceClient client;
+    private RemoteAuthServiceClient client;
     @Before
     public void setup() {
         provider = new DefaultBearerTokenAuthenticationProvider();
-        client = PowerMockito.mock(AuthServiceClient.class);
+        client = PowerMockito.mock(RemoteAuthServiceClient.class);
         Whitebox.setInternalState(provider, "client", client);
     }
 

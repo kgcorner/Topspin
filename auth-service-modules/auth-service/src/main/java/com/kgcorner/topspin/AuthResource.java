@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthResource extends AuthServiceExceptionHandler {
     private static final String AUTHORIZATION = "Authorization";
-    @GetMapping("/health")
-    public String getHealth() {
-        return "Ok";
-    }
+
 
     @Autowired
     private Authenticator authenticator;

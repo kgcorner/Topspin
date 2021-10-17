@@ -98,11 +98,6 @@ public class UserResourceTest {
     }
 
     @Test
-    public void testHealth() {
-        assertEquals("Ok", userResource.getHealth());
-    }
-
-    @Test
     public void getUserByUsername() {
         String username = "username";
         UserDTO userDTO = new UserDTO();

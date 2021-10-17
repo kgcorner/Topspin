@@ -3,6 +3,7 @@ package com.kgcorner.topspin.security;
 
 import com.kgcorner.topspin.config.SecurityConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 
 @Configuration
+@Order(102)
 public class StoreServiceSecurity extends SecurityConfiguration {
 
     @Override

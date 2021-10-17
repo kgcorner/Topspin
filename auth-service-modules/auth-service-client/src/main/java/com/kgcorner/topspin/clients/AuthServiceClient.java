@@ -1,31 +1,21 @@
 package com.kgcorner.topspin.clients;
 
-
 import com.kgcorner.topspin.clients.model.LoginResponse;
 import com.kgcorner.topspin.clients.model.TokenResponse;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Description : Feign Client for authentication service
+ * Description : <Write class Description>
  * Author: kumar
- * Created on : 25/11/19
+ * Created on : 13/10/21
  */
 
-@FeignClient("auth-service")
 public interface AuthServiceClient {
-    String AUTHORIZATION = "Authorization";
-
     /**
      * Authenticate and return Access token
      * @param token
      * @return
      */
-    @GetMapping("/token")
-    TokenResponse getToken(@RequestHeader(value=AUTHORIZATION, required = true) String token);
+    TokenResponse getToken(String token);
 
     /**
      * Authenticate given access token against given oAuth Service and returns access token
@@ -33,9 +23,7 @@ public interface AuthServiceClient {
      * @param serverName
      * @return
      */
-    @GetMapping("/token/access_token")
-    TokenResponse getTokenForOAuth(@RequestHeader(value=AUTHORIZATION, required = true) String token,
-                                   @RequestHeader(value="server-name", required = true) String serverName);
+    TokenResponse getTokenForOAuth(String token, String serverName);
 
     /**
      * authenticate give auth code against given oath service, resolves access token
@@ -45,22 +33,14 @@ public interface AuthServiceClient {
      * @param serverName
      * @return
      */
-    @GetMapping("/token/oauth/code")
-    TokenResponse resolveAccessToken(@RequestHeader(value=AUTHORIZATION, required = true) String token,
-                                     @RequestHeader(value="redirect-uri", required = true) String redirectUri,
-                                     @RequestHeader(value="oauth-server", required = true) String serverName);
+    TokenResponse resolveAccessToken(String token,String redirectUri,String serverName);
 
     /**
-     * Creates login resource 
+     * Creates login resource
      * @param userName
      * @param password
      * @param userId
      * @return
      */
-    @PostMapping("/login")
-    LoginResponse createLogin(
-        @RequestParam(value="user-name", required = true) String userName,
-        @RequestParam(value="password", required = false) String password,
-        @RequestParam(value="user-id", required = true) String userId
-    );
+    LoginResponse createLogin(String userName, String password, String userId);
 }

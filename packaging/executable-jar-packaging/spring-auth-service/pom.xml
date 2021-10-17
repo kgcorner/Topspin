@@ -34,5 +34,10 @@
             <artifactId>auth-service-mongo-port</artifactId>
             <version>${product.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kgcorner.topspin</groupId>
+            <artifactId>topspin-health-package</artifactId>
+            <version>${product.version}</version>
+        </dependency>
     </dependencies>
 </project>

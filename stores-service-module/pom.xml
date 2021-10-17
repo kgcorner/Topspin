@@ -15,8 +15,10 @@
         <module>store-service</module>
         <module>store-db-common</module>
         <module>store-mongo-port</module>
-        <module>store-service-client</module>
         <module>store-common-module</module>
+        <module>store-service-client-contract</module>
+        <module>local-store-service-client</module>
+        <module>remote-store-service-client</module>
     </modules>
 
 

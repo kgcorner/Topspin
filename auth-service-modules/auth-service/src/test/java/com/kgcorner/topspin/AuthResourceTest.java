@@ -54,12 +54,6 @@ public class AuthResourceTest {
     }
 
     @Test
-    public void testHealth() {
-        String response = authResource.getHealth();
-        Assert.assertEquals("Response isn't matching", "Ok", response);
-    }
-
-    @Test
     public void testTokenForOAuth()  {
         String accessToken ="accessToken";
         String refreshToken ="refreshToken";

@@ -54,7 +54,11 @@ public class CategoryService {
     }
 
     public CategoryDTO updateCategory(CategoryDTO category, String categoryId) {
-        AbstractCategory abstractCategory = categoryPersistenceLayer.updateCategory(category, categoryId);
+        AbstractCategory categoryInDb = categoryPersistenceLayer.getCategory(categoryId);
+        if(categoryInDb == null)
+            throw new ResourceNotFoundException("No Such category");
+        BeanUtils.copyProperties(category, categoryInDb);
+        AbstractCategory abstractCategory = categoryPersistenceLayer.updateCategory(categoryInDb, categoryId);
         BeanUtils.copyProperties(abstractCategory, category);
         return category;
     }

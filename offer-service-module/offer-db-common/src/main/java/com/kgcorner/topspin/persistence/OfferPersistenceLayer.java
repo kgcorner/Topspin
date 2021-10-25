@@ -4,6 +4,7 @@ import com.kgcorner.topspin.model.AbstractOffer;
 import com.kgcorner.topspin.model.CategoryRef;
 import com.kgcorner.topspin.model.StoreRef;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -69,6 +70,15 @@ public interface OfferPersistenceLayer {
      * @return
      */
     List<AbstractOffer> getAllOfferFromCategory(CategoryRef category, int page, int itemsPerPage);
+
+    /**
+     * Returns offer per page from a category
+     * @param categories
+     * @param page
+     * @param itemsPerPage
+     * @return
+     */
+    List<AbstractOffer> getAllOfferFromCategory(List<CategoryRef> categories, int page, int itemsPerPage) throws ParseException;
 
     /**
      * Returns all offer from a store

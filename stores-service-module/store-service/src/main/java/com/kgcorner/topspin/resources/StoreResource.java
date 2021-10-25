@@ -105,6 +105,4 @@ public class StoreResource {
         storeService.deleteStore(storeId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
 }

@@ -20,6 +20,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,10 +139,25 @@ public class OfferService {
             throw new IllegalArgumentException("Category Id can't be null");
         }
 
-        CategoryRef category = categoryPersistenceLayer.getCategory(categoryId);
+        CategoryDTO category = categoryClient.getCategory(categoryId);
+        List<CategoryRef> categoryRefs = new ArrayList<>();
+        CategoryRef pCategoryRef = new CategoryRef();
+        pCategoryRef.setId(category.getCategoryId());
+        categoryRefs.add(pCategoryRef);
+        if(category.getChildren() != null && category.getChildren().size() > 0)
+        for(AbstractCategory categoryDTO : category.getChildren()) {
+            CategoryRef categoryRef = new CategoryRef();
+            pCategoryRef.setId(category.getCategoryId());
+            categoryRefs.add(categoryRef);
+        }
         if(category == null)
             throw new ResourceNotFoundException("No such category exists");
-        List<AbstractOffer> allOfferFromCategory = offerPersistenceLayer.getAllOfferFromCategory(category, page, count);
+        List<AbstractOffer> allOfferFromCategory = null;
+        try {
+            allOfferFromCategory = offerPersistenceLayer.getAllOfferFromCategory(categoryRefs, page, count);
+        } catch (ParseException e) {
+            throw new RuntimeException("Unexpected exception occurred");
+        }
         return getOfferDTOS(allOfferFromCategory);
     }
 

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,6 +93,56 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         operations.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
         List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage, null, OfferModel.class);
         return createOfferList(models);
+    }
+
+    @Override
+    public List<AbstractOffer> getAllOfferFromCategory(List<CategoryRef> categories, int page, int itemsPerPage) throws ParseException {
+        String inQuery = "";
+        StringBuffer stringBuffer = new StringBuffer();
+        for(CategoryRef categoryRef : categories) {
+            stringBuffer.append(categoryRef.getId()+",");
+        }
+        inQuery = stringBuffer.toString();
+        if(inQuery.endsWith(",")) {
+            inQuery = inQuery.substring(0, inQuery.length() -1);
+        }
+        int start = (page - 1) * itemsPerPage + 1;
+        int end = start + itemsPerPage;
+        String queryStr = "SELECT o.ID, TITLE,o.DESCRIPTION,FEATURED,BANNER,CATEGORY_ID,STORE_ID,LAST_DATE,URL," +
+            "SURFER_PLACEHOLDER,MAX_DISCOUNT,THUMBNAILS," +
+            "c.NAME,s.NAME FROM OFFERS o inner join " +
+            "CATEGORY c on o.CATEGORY_ID = c.ID INNER JOIN STORE s on s.ID=o.STORE_ID where CATEGORY_ID in (?) and BANNER = 0 limit ?,?;";
+        Object result = this.offerDao.runSelectNativeQuery(queryStr, inQuery, start, end);
+        List<AbstractOffer> abstractOffers = new ArrayList<>();
+        if(result != null) {
+            List<Object[]> tuples = (List<Object[]>) result;
+            for(Object[] tuple : tuples) {
+                OfferModel offerModel = new OfferModel();
+                offerModel.setOfferId(getString(tuple[0]));
+                offerModel.setTitle(getString(tuple[1]));
+                offerModel.setDescription(getString(tuple[2]));
+                offerModel.setFeatured(Boolean.parseBoolean(getString(tuple[3])));
+                offerModel.setBanner(Boolean.parseBoolean(getString(tuple[4])));
+                CategoryReferenceModel categoryReferenceModel = new CategoryReferenceModel();
+                categoryReferenceModel.setId(getString(tuple[5]));
+                StoreReferenceModel storeReferenceModel = new StoreReferenceModel();
+                storeReferenceModel.setId(getString(tuple[6]));
+                offerModel.setLastDate(new SimpleDateFormat("YYYY-mm-DD").parse(getString(tuple[7])));
+                offerModel.setUrl(getString(tuple[8]));
+                offerModel.setSurferPlaceholderUrl(getString(tuple[9]));
+                offerModel.setMaxDiscount(getString(tuple[10]));
+                offerModel.setThumbnails(getString(tuple[11]));
+                categoryReferenceModel.setName(getString(tuple[12]));
+                storeReferenceModel.setName(getString(tuple[13]));
+                offerModel.setStore(storeReferenceModel);
+                offerModel.setCategory(categoryReferenceModel);
+                abstractOffers.add(offerModel);
+            }
+        }
+        return abstractOffers;
+    }
+    private String getString(Object value) {
+        return value == null?"":value.toString();
     }
 
     @Override

@@ -62,12 +62,15 @@ public class CategoryServiceTest {
     public void updateCategory() {
         String categoryId = "categoryID";
         String name = "amazon";
+
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCategoryId(categoryId);
         categoryDTO.setName(name);
         AbstractCategory updatedCategory = mock(AbstractCategory.class);
         when(updatedCategory.getName()).thenReturn(name);
+        when(persistenceLayer.getCategory(categoryId)).thenReturn(categoryDTO);
         when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenReturn(updatedCategory);
+
         CategoryDTO category = categoryService.updateCategory(categoryDTO, categoryId);
         assertEquals(name, category.getName());
     }
@@ -81,10 +84,10 @@ public class CategoryServiceTest {
         categoryDTO.setName(name);
         AbstractCategory updatedCategory = mock(AbstractCategory.class);
         when(updatedCategory.getName()).thenReturn(name);
+        when(persistenceLayer.getCategory(categoryId)).thenReturn(categoryDTO);
         when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenThrow(new IllegalArgumentException());
         categoryService.updateCategory(categoryDTO, categoryId);
     }
-
     @Test
     public void getCategory() {
         String categoryId = "categoryID";

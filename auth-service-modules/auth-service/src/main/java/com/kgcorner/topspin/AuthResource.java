@@ -84,7 +84,7 @@ public class AuthResource extends AuthServiceExceptionHandler {
     }
 
     @ApiOperation("creates a login for user")
-    @PostMapping("/admin")
+    @PostMapping("/manage/admin")
     @ResponseStatus(HttpStatus.CREATED)
     public Login createAdmin(
         @ApiParam(value = "User name of the user, incase of oauth login, consider user id from oauth server to be user name" , required = true)

@@ -1,5 +1,5 @@
 import { CategoryState, CategoryAdapter } from "./category.state";
-import { FETCH_CATEGORIES, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILED, CREATE_CATEGORIES, CREATE_CATEGORIES_SUCCESS, DELETE_CATEGORIES_SUCCESS } from './category.action';
+import { FETCH_CATEGORIES, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILED, CREATE_CATEGORIES, CREATE_CATEGORIES_SUCCESS, DELETE_CATEGORIES_SUCCESS, ADD_CHILD_CATEGORIES_SUCCESS, ADD_CHILD_CATEGORIES_FAILED } from './category.action';
 
 let initialState : CategoryState = CategoryAdapter.getInitialState({
     isLaoding: false,
@@ -25,6 +25,7 @@ export function categoryReducer(state : CategoryState = initialState, action : a
                 error: null
             };
         case FETCH_CATEGORIES_FAILED: 
+        case ADD_CHILD_CATEGORIES_FAILED:
             let error = action["error"];
             return {
                 ...state,
@@ -54,6 +55,18 @@ export function categoryReducer(state : CategoryState = initialState, action : a
                 ...state,
                 categories,
                 currectMerchant: payload
+            };
+        case ADD_CHILD_CATEGORIES_SUCCESS:    
+            let updatedCategory = action['payload'];
+            categories = [];
+            state.categories.forEach(m => {
+                if(m.categoryId != updatedCategory.categoryId)
+                    categories.push(m);
+            })
+            categories.push(updatedCategory)  
+            return {
+                ...state,
+                categories
             };
         default:
             return {

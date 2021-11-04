@@ -76,5 +76,25 @@ export class CategoryEffect {
                                             })
                                         )
                                 )
-                            ) 
+                            )
+                            
+    @Effect()
+    addChildCategory = this.action
+                            .pipe(
+                                ofType(CategoryAction.ADD_CHILD_CATEGORIES),
+                                mergeMap(
+                                    (action) => this.categoryService.addChildCategory(action['categoryId'], action['children'])
+                                        .pipe(
+                                            map((response) => {
+                                                let category = response.body;                                             
+                                                return ({type: CategoryAction.ADD_CHILD_CATEGORIES_SUCCESS, payload: category})
+                                            })
+                                            , catchError((error)=> {
+                                                let e:any = {}
+                                                    e.message = error.status+":"+ error.message;
+                                                    return of({type: CategoryAction.ADD_CHILD_CATEGORIES_FAILED, error: e})
+                                            })
+                                        )
+                                )
+                            )
 }

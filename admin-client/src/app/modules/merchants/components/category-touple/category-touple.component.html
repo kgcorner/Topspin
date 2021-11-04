@@ -1,7 +1,14 @@
-<div class="row row-border-bottom">
-    <div class="column large-6">{{category.name}}</div>
-    <div class="column large-4">
+<div class="row row-border-bottom {{parentCat}} ">
+    <div class="columns large-4">{{category.name}}</div>
+    <div class="columns large-3">
+        <img src="{{category.thumbnailImage}}" alt="{{category.name}}" style="height: 40px;" />
+    </div>
+    <div class="columns large-1">{{category.children.length}}</div>
+    <div class="columns large-2">
         <button type="button" class="alert button" (click)="delete()">Delete</button>
+    </div>
+    <div class="columns large-2">
+        <button type="button" class="alert button" (click)="edit()">Add Child</button>
     </div>
     
 </div>

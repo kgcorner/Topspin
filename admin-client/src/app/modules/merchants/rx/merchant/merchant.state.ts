@@ -11,5 +11,5 @@ export interface MerchantState extends EntityState<Merchant> {
 }
 
 export const merchantAdapter : EntityAdapter<Merchant> = createEntityAdapter<Merchant>({
-    sortComparer: (m1: Merchant, m2: Merchant) => m1.storeId > m2.storeId ? 1 : -1
+    sortComparer: (m1: Merchant, m2: Merchant) => m1.name > m2.name ? 1 : -1
 })

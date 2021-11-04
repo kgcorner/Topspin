@@ -9,5 +9,5 @@ export interface CategoryState extends EntityState<Category> {
 }
 
 export const CategoryAdapter : EntityAdapter<Category> = createEntityAdapter<Category>({
-    sortComparer: (c1: Category, c2: Category) => c1.categoryId > c2.categoryId ? 1 : -1
+    sortComparer: (c1: Category, c2: Category) => c1.name.localeCompare(c2.name)
 })

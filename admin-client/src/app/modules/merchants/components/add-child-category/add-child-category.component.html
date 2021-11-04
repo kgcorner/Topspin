@@ -1,0 +1,28 @@
+<h1> Add Child Category to {{category.name}}</h1>
+<div class="row">
+    <div class="column large-3">
+        <ng-template #notCreated>
+            <i class="fas fa-store" style="font-size: 100px;"></i>
+        </ng-template>
+    </div>
+    <div class="column large-9">
+        <div class="row">
+            <form [formGroup] = "addChildCategoryForm" *ngIf="categoriesObs|async">
+                <div class="column large-6 small-12">
+                    <ng-select formControlName="children" [items]="categoriesObs | async"
+                                bindLabel="name"
+                                placeholder="Select Category"
+                                [multiple]="true"
+                                appendTo="body">
+                    </ng-select>
+                    <!-- <select formControlName="children" multiple style="height: 300px;">
+                        <option *ngFor="let category of categoriesObs | async" value="{{category.categoryId}}">{{category.name}}</option>
+                    </select>                      -->
+                </div>
+                <div class="column large-6 small-12">
+                    <button type="button" class="alert button" (click)="submit(addChildCategoryForm.value)">Submit</button>                     
+                </div>
+            </form>                
+        </div>
+    </div>
+</div>

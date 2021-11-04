@@ -23,7 +23,7 @@ export class CreateCategoryComponent implements OnInit {
       "bannerImage":[''],
       "longDescription":['', [Validators.required]],
       "tagLine":['', [Validators.required]],
-      "children":['']
+      "featured":['', [Validators.required]]
     })
   }
 
@@ -45,10 +45,7 @@ export class CreateCategoryComponent implements OnInit {
       categoryValues.children = categories
     } else {
       categoryValues.children = null;
-    }
-    
-    
+    }    
     this.store.dispatch(new CategoryAction.CreateCategoryAction(categoryValues));
-
   }
 }

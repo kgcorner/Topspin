@@ -1,11 +1,14 @@
 <div class="row row-border">
     <div class="column large-2">
+        <strong> Logo </strong>
+    </div>
+    <div class="column large-2">
         <strong> Name </strong>
     </div>
     <div class="column large-1">
         <strong> Active </strong>
     </div>
-    <div class="column large-2">
+    <div class="column large-1">
         <strong> Affiliate Id </strong>
     </div>
     <div class="column large-2">
@@ -19,5 +22,5 @@
     </div>
 </div>
 <div *ngFor="let item of merchants">
-    <app-merchant-touple [merchant]="item"></app-merchant-touple>
+    <app-merchant-touple [merchant]="item" (onEdit)="onEdit($event)" ></app-merchant-touple>
 </div>

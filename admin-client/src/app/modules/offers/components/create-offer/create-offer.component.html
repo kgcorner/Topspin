@@ -71,15 +71,19 @@
 
             <div class="row">
                 <div class="column large-6 small-12">
-                    <select formControlName="category" style="max-height: 200px;">
-                        <option *ngFor="let category of categoriesObs | async" value="{{category.categoryId}}">{{category.name}}</option>
-                    </select>                     
+                    <ng-select formControlName="category" [items]="categoriesObs | async"
+                                bindLabel="name"
+                                placeholder="Select Category"
+                                appendTo="body">
+                    </ng-select>                     
                 </div>
 
                 <div class="column large-6 small-12">
-                        <select formControlName="merchant" style="max-height: 200px;">
-                            <option *ngFor="let store of merchantsObs | async" value="{{store.storeId}}">{{store.name}}</option>
-                        </select>                     
+                    <ng-select formControlName="merchant" [items]="merchantsObs | async"
+                                bindLabel="name"
+                                placeholder="Select Store"
+                                appendTo="body">
+                    </ng-select>
                     </div>
             </div>
             <div class="row">

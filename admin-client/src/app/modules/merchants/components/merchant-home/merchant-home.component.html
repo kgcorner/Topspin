@@ -1,7 +1,7 @@
 
-<app-create-merchant></app-create-merchant>
+<app-create-merchant [editMode]="editMode" [merchantToEdit]="merchantToEdit" ></app-create-merchant>
 
 <div class="search-bar">
     <input type="text" class="search-box" />
 </div>
-<app-merchant-list [merchants] = "merchants" ></app-merchant-list>
+<app-merchant-list [merchants] = "merchants" (onEditMerchant)="onEdit($event)"></app-merchant-list>

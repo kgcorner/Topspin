@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Category } from 'src/app/services/models/category';
 
 @Component({
@@ -11,9 +11,13 @@ export class CategoryListComponent implements OnInit {
   @Input()
   public categories : Category[]
 
+  @Output() onEdit = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onEditCategory(category) {
+    this.onEdit.emit(category)
+  }
 }

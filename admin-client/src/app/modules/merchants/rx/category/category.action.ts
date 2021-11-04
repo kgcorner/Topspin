@@ -13,6 +13,10 @@ export const DELETE_CATEGORIES = "DELETE_CATEGORIES"
 export const DELETE_CATEGORIES_SUCCESS = "DELETE_CATEGORIES_SUCCESS"
 export const DELETE_CATEGORIES_FAILED = "DELETE_CATEGORIES_FAILED"
 
+export const ADD_CHILD_CATEGORIES = "ADD_CHILD_CATEGORIES"
+export const ADD_CHILD_CATEGORIES_SUCCESS = "ADD_CHILD_CATEGORIES_SUCCESS"
+export const ADD_CHILD_CATEGORIES_FAILED = "ADD_CHILD_CATEGORIES_FAILED"
+
 export class FetchCategories implements Action {
     type : string = FETCH_CATEGORIES;
     public constructor(private page : number, private maxCount : number){} 
@@ -26,4 +30,9 @@ export class CreateCategoryAction implements Action {
 export class DeleteCategoryAction implements Action {
     type : string = DELETE_CATEGORIES;
     public constructor(private categoryId){}
+}
+
+export class AddChildCategories implements Action {
+    type : string = ADD_CHILD_CATEGORIES;
+    public constructor(private categoryId, private children : any[]){}
 }

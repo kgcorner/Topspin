@@ -9,4 +9,5 @@ export interface Category {
     tagline:         string;
     categoryId:      string;
     children:        any[];
+    featured: boolean;
 }

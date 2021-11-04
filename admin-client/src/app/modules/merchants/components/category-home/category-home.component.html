@@ -1,2 +1,7 @@
-<app-create-category></app-create-category>
-<app-category-list [categories]="categories" ></app-category-list>
+<app-create-category *ngIf="!editMode; else editCategory"></app-create-category>
+<ng-template #editCategory>
+    <app-add-child-category [category]="categoryToEdit">
+
+    </app-add-child-category>
+</ng-template>
+<app-category-list [categories]="categories" (onEdit)="onEditCategory($event)" ></app-category-list>

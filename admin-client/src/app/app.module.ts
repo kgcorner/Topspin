@@ -13,6 +13,7 @@ import { MerchantsModule } from './modules/merchants/merchants.module';
 import { AuthService } from './services/auth.service';
 import { OffersModule } from './modules/offers/offers.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
     FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot()    
+    FroalaViewModule.forRoot(),
+    BrowserAnimationsModule    
   ],
   providers: [
     AuthGuard,

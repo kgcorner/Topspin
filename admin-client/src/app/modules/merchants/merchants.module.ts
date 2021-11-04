@@ -20,7 +20,9 @@ import { CategoryHomeComponent } from './components/category-home/category-home.
 import { CategoryToupleComponent } from './components/category-touple/category-touple.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
 import { CKEditorModule } from 'ckeditor4-angular';
-
+import { AddChildCategoryComponent } from './components/add-child-category/add-child-category.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -34,13 +36,16 @@ import { CKEditorModule } from 'ckeditor4-angular';
     CreateCategoryComponent,
     CategoryHomeComponent,
     CategoryToupleComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    AddChildCategoryComponent
   ],
   imports: [
     CommonModule,
     MerchantRouterModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,    
+    MatSnackBarModule,
+    NgSelectModule,
     StoreModule.forFeature('merchants', merchantReducer),
     StoreModule.forFeature('categories', categoryReducer),
     EffectsModule.forFeature([MerchantEffect]),

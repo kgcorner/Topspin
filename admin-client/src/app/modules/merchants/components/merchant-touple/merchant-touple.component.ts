@@ -12,6 +12,10 @@ export class MerchantToupleComponent implements OnInit {
 
   @Input()
   public merchant:Merchant;
+
+  @Output()
+  public onEdit = new EventEmitter<any>();
+
   constructor(private store : Store<any>) { }
 
   ngOnInit(): void {
@@ -22,6 +26,6 @@ export class MerchantToupleComponent implements OnInit {
   }
 
   edit() {
-    
+    this.onEdit.emit(this.merchant);
   }
 }

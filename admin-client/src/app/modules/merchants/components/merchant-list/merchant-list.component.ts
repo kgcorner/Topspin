@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Merchant } from 'src/app/services/models/merchant';
 
 @Component({
@@ -10,10 +10,16 @@ export class MerchantListComponent implements OnInit {
 
   @Input()
   public merchants : Merchant[]
+  @Output()
+  public onEditMerchant = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onEdit(merchant) {
+    this.onEditMerchant.emit(merchant);
   }
 
 }

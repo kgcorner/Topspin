@@ -41,6 +41,10 @@
                     <label for="storeBanner" class="button">Upload Category Banner</label>
                     <input type="file" id="storeBanner" class="show-for-sr" formControlName="bannerImage" #banner>                                       
                 </div>
+                <div class="column large-6 small-12">                    
+                    <input id="affiliatedSwitch" type="checkbox" formControlName="featured">
+                    <label for="affiliatedSwitch">Is Featured</label>
+                </div>
             </div>
 
             <div class="row">
@@ -50,15 +54,7 @@
                         Please enter a valid maximum cashback to be offered for this store
                     </div>                          
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="column large-6 small-12">
-                    <select formControlName="children" multiple style="max-height: 200px;">
-                        <option *ngFor="let category of categoriesObs | async" value="{{category.categoryId}}">{{category.name}}</option>
-                    </select>                     
-                </div>
-            </div>
+            </div>           
             <div class="row">
                 <textarea formControlName="longDescription">
 

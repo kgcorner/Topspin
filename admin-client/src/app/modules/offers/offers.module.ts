@@ -13,6 +13,8 @@ import { OfferService } from 'src/app/services/offer.services';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MerchantsModule } from '../merchants/merchants.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -26,8 +28,10 @@ import { MerchantsModule } from '../merchants/merchants.module';
     CommonModule,
     OfferRouterModule,
     CKEditorModule,
+    MatSnackBarModule,
     MerchantsModule,
     FormsModule,
+    NgSelectModule,
     ReactiveFormsModule,
     StoreModule.forFeature('offers', offerReducer),
     EffectsModule.forFeature([OfferEffect])

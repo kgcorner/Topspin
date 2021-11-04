@@ -1,4 +1,7 @@
-<h1> Create Store</h1>
+<h1 *ngIf="!editMode;else editModeTitle"> Create Store</h1>
+<ng-template #editModeTitle>
+    <h1> Edit Store</h1>
+</ng-template>
 <div class="row">
     <div class="column large-3">
         <img *ngIf="created;else notCreated" src="{{merchant.logo}}" />
@@ -152,9 +155,15 @@
                 </div>       
             </div>
             <div class="row">
-                    <div class="column large-3 small-6">
-                        <input type="button" class="success button" [disabled]="!createStoreForm.valid" (click)="createStore(createStoreForm.value, banner, logo, thumbnail)" value ="Create Store" />
+                    <div class="column large-3 small-6" *ngIf="!editMode;else showEditButton">
+                        <input type="button" class="success button" (click)="createStore(createStoreForm.value, banner, logo, thumbnail)" value ="Create Store" />
                     </div>
+                    <ng-template #showEditButton>
+                        <div class="column large-3 small-6" >
+                            <input type="button" class="success button" (click)="editStore(createStoreForm.value)" value ="Edit Store" />
+                        </div>
+                    </ng-template>
+
                     <div class="column large-3 small-6">
                         <input type="button" class="secondary button" type="reset" value ="Reset" />
                     </div>

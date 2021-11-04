@@ -9,6 +9,7 @@ export class CategoryService {
     private GET_CATEGORY = "/categories/{1}"
     private CREATE_CATEGORY = "/manage/categories"
     private UPDATE_CATEGORY = "/manage/categories/{1}"
+    private ADD_CHILDREN_CATEGORY = "/manage/categories/{1}/children"
     
     public constructor(private http : TopSpinHttpService) {
     }
@@ -28,5 +29,11 @@ export class CategoryService {
         let url : string = environment.topspinHost + this.UPDATE_CATEGORY;
         url = url.replace("{1}", categoryId)
         return this.http.doDelete(url, [])
+    }
+
+    public addChildCategory(categoryId, children : any[]) {
+        let url : string = environment.topspinHost + this.ADD_CHILDREN_CATEGORY;
+        url = url.replace("{1}", categoryId)
+        return this.http.doPatch<Category>(url, [], children);
     }
 }

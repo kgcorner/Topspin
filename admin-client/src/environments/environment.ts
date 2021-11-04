@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  topspinHost: 'http://localhost:8081',
+  topspinHost: 'http://ec2-65-0-75-226.ap-south-1.compute.amazonaws.com:8080',
   authKey : 'authKey'
 };
 

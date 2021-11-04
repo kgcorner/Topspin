@@ -100,19 +100,21 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         String inQuery = "";
         StringBuffer stringBuffer = new StringBuffer();
         for(CategoryRef categoryRef : categories) {
-            stringBuffer.append(categoryRef.getId()+",");
+            stringBuffer.append("\""+categoryRef.getId()+"\",");
         }
         inQuery = stringBuffer.toString();
         if(inQuery.endsWith(",")) {
             inQuery = inQuery.substring(0, inQuery.length() -1);
         }
         int start = (page - 1) * itemsPerPage + 1;
+        start = start < 0 ? 0 : start;
         int end = start + itemsPerPage;
         String queryStr = "SELECT o.ID, TITLE,o.DESCRIPTION,FEATURED,BANNER,CATEGORY_ID,STORE_ID,LAST_DATE,URL," +
             "SURFER_PLACEHOLDER,MAX_DISCOUNT,THUMBNAILS," +
-            "c.NAME,s.NAME FROM OFFERS o inner join " +
-            "CATEGORY c on o.CATEGORY_ID = c.ID INNER JOIN STORE s on s.ID=o.STORE_ID where CATEGORY_ID in (?) and BANNER = 0 limit ?,?;";
-        Object result = this.offerDao.runSelectNativeQuery(queryStr, inQuery, start, end);
+            "c.NAME catName,s.NAME storeName FROM OFFERS o inner join " +
+            "CATEGORY c on o.CATEGORY_ID = c.ID INNER JOIN STORE s on s.ID=o.STORE_ID where CATEGORY_ID in ("+inQuery+") and BANNER = 0 and LAST_DATE>=? limit ?,?;";
+        String today = new SimpleDateFormat("YYYY-MM-dd").format(new Date());
+        Object result = this.offerDao.runSelectNativeQuery(queryStr, today, start, end);
         List<AbstractOffer> abstractOffers = new ArrayList<>();
         if(result != null) {
             List<Object[]> tuples = (List<Object[]>) result;
@@ -127,7 +129,7 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
                 categoryReferenceModel.setId(getString(tuple[5]));
                 StoreReferenceModel storeReferenceModel = new StoreReferenceModel();
                 storeReferenceModel.setId(getString(tuple[6]));
-                offerModel.setLastDate(new SimpleDateFormat("YYYY-mm-DD").parse(getString(tuple[7])));
+                offerModel.setLastDate(new SimpleDateFormat("YYYY-MM-dd").parse(getString(tuple[7])));
                 offerModel.setUrl(getString(tuple[8]));
                 offerModel.setSurferPlaceholderUrl(getString(tuple[9]));
                 offerModel.setMaxDiscount(getString(tuple[10]));

@@ -225,31 +225,32 @@ public class OfferServiceTest {
         offerService.getOffer("awain");
     }
 
-    @Test
-    public void getOffersOfCategory() {
-        String categoryId = "categoryId";
-        int page = 0;
-        int count = 10;
-        CategoryRef categoryRef = new CategoryRef();
-        when(categoryPersistenceLayer.getCategory(categoryId)).thenReturn(categoryRef);
-        List<AbstractOffer> abstractOffers = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            abstractOffers.add(new OfferDTO());
-        }
-        when(offerPersistenceLayer.getAllOfferFromCategory(categoryRef, page, count)).thenReturn(abstractOffers);
-        List<OfferDTO> offersInCategory = offerService.getOffersOfCategory(categoryId, page, count);
-        assertEquals(count, offersInCategory.size());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getOffersOfCategoryWithEmptyId() {
-        offerService.getOffersOfCategory("", 0,10);
-    }
-
-    @Test(expected = ResourceNotFoundException.class)
-    public void getOffersOfCategoryWithNonExistingCategory() {
-        offerService.getOffersOfCategory("some id", 0,10);
-    }
+//    @Test
+//    public void getOffersOfCategory() {
+//        String categoryId = "categoryId";
+//        int page = 0;
+//        int count = 10;
+//        CategoryRef categoryRef = new CategoryRef();
+//        when(categoryPersistenceLayer.getCategory(categoryId)).thenReturn(categoryRef);
+//        List<AbstractOffer> abstractOffers = new ArrayList<>();
+//        for (int i = 0; i < count; i++) {
+//            abstractOffers.add(new OfferDTO());
+//        }
+//
+//        when(offerPersistenceLayer.getAllOfferFromCategory(categoryRef, page, count)).thenReturn(abstractOffers);
+//        List<OfferDTO> offersInCategory = offerService.getOffersOfCategory(categoryId, page, count);
+//        assertEquals(count, offersInCategory.size());
+//    }
+//
+//    @Test(expected = IllegalArgumentException.class)
+//    public void getOffersOfCategoryWithEmptyId() {
+//        offerService.getOffersOfCategory("", 0,10);
+//    }
+//
+//    @Test(expected = ResourceNotFoundException.class)
+//    public void getOffersOfCategoryWithNonExistingCategory() {
+//        offerService.getOffersOfCategory("some id", 0,10);
+//    }
 
     @Test
     public void getOffersOfStore() {

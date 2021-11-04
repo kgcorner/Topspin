@@ -145,11 +145,11 @@ public class OfferService {
         pCategoryRef.setId(category.getCategoryId());
         categoryRefs.add(pCategoryRef);
         if(category.getChildren() != null && category.getChildren().size() > 0)
-        for(AbstractCategory categoryDTO : category.getChildren()) {
-            CategoryRef categoryRef = new CategoryRef();
-            pCategoryRef.setId(category.getCategoryId());
-            categoryRefs.add(categoryRef);
-        }
+            for(AbstractCategory categoryDTO : category.getChildren()) {
+                CategoryRef categoryRef = new CategoryRef();
+                categoryRef.setId(categoryDTO.getCategoryId());
+                categoryRefs.add(categoryRef);
+            }
         if(category == null)
             throw new ResourceNotFoundException("No such category exists");
         List<AbstractOffer> allOfferFromCategory = null;

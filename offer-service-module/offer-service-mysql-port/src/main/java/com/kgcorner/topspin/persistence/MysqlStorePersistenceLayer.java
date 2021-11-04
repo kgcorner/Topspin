@@ -50,8 +50,8 @@ public class MysqlStorePersistenceLayer implements ProductOfferStorePersistenceL
             StoreRef storeRef = new StoreRef();
             storeRef.setId(values[0].toString());
             storeRef.setName(values[1].toString());
-            storeRef.setDescription(values[2]!= null? values[2].toString() : "");
-            storeRef.setMaxCashback(values[3]!= null? values[3].toString():"");
+            storeRef.setDescription(values[2]!= null?values[2].toString():"");
+            storeRef.setMaxCashback(values[3]!=null?values[3].toString():"");
             storeRef.setOffersCount(Integer.parseInt(values[4].toString()));
             stores.add(storeRef);
         }

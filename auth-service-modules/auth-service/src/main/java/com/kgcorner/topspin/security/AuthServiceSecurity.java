@@ -28,7 +28,8 @@ public class AuthServiceSecurity extends WebSecurityConfigurerAdapter {
             .addFilterBefore(new AuthSecurityCorsFilter(), BasicAuthenticationFilter.class)
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().authorizeRequests().antMatchers("/**").permitAll();
+            .and().authorizeRequests().antMatchers("/**").permitAll()
+            .antMatchers("/manage/*").hasRole("ADMIN");;
     }
 }
 

@@ -88,6 +88,7 @@ public class CategoryServiceTest {
         when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenThrow(new IllegalArgumentException());
         categoryService.updateCategory(categoryDTO, categoryId);
     }
+
     @Test
     public void getCategory() {
         String categoryId = "categoryID";
@@ -234,18 +235,18 @@ public class CategoryServiceTest {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCategoryId(categoryId);
         when(persistenceLayer.getCategory(categoryId)).thenReturn(categoryDTO);
-        List<CategoryDTO> children = new ArrayList<>();
+        CategoryDTO[] children = new CategoryDTO[2];
         for (int i = 0; i < 2; i++) {
             String childCategoryId = "categoryId" + i;
             CategoryDTO childCategory = new CategoryDTO();
             childCategory.setCategoryId(childCategoryId);
             when(persistenceLayer.getCategory(childCategoryId)).thenReturn(childCategory);
-            children.add(childCategory);
+            children[i]=childCategory;
         }
         when(persistenceLayer.updateCategory(categoryDTO, categoryId)).thenReturn(categoryDTO);
         CategoryDTO categoryDTO1 = categoryService.addChildren(categoryId, children);
         assertNotNull(categoryDTO1);
         assertEquals(categoryId, categoryDTO1.getCategoryId());
-        assertEquals(children.size(), categoryDTO1.getChildren().size());
+        assertEquals(children.length, categoryDTO1.getChildren().size());
     }
 }

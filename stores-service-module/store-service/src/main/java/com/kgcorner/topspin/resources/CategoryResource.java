@@ -113,7 +113,7 @@ public class CategoryResource {
         @ApiParam("id of the category")
         @PathVariable("categoryId") String categoryId,
         @ApiParam(value = "List of Categories")
-        List<CategoryDTO> children) {
+        @RequestBody CategoryDTO[] children) {
         CategoryDTO categoryDTO =  categoryService.addChildren(categoryId, children);
         categoryDTO.addLink(CATEGORIES_CATEGORY_ID.replace("{categoryId}", categoryDTO.getCategoryId()),
             Link.REL_SELF);

@@ -124,17 +124,23 @@ public class CategoryService {
         }
     }
 
-    public CategoryDTO addChildren(String categoryId, List<CategoryDTO> children) {
+    public CategoryDTO addChildren(String categoryId, CategoryDTO[] children) {
         AbstractCategory category = categoryPersistenceLayer.getCategory(categoryId);
         if(category == null) {
             throw new ResourceNotFoundException("No such category exists");
         }
+        List<AbstractCategory> childCategories = new ArrayList<>();
         for(CategoryDTO child : children) {
-            if(categoryPersistenceLayer.getCategory(child.getCategoryId()) == null) {
+            AbstractCategory childCategory = categoryPersistenceLayer.getCategory(child.getCategoryId());
+            if(childCategory == null) {
                 throw new ResourceNotFoundException("could not found child category : " + child.getName());
             };
+            childCategories.add(childCategory);
         }
-        category.setChildren(children);
+        category.getChildren().forEach(o -> {
+            childCategories.add(o);
+        });
+        category.setChildren(childCategories);
         category = categoryPersistenceLayer.updateCategory(category, categoryId);
         CategoryDTO dto = new CategoryDTO();
         BeanUtils.copyProperties(category, dto);

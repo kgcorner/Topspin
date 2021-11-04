@@ -26,5 +26,6 @@ public abstract class AbstractCategory {
     private AbstractCategory parent;
     private String tagline;
     private String categoryId;
+    private boolean featured;
     private List<? extends AbstractCategory> children = new ArrayList<>();
 }

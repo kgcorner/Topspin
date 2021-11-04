@@ -115,7 +115,7 @@ public class CategoryResourceTest {
     @Test
     public void addChildrenCategory() {
         String categoryId = "categoryId";
-        List<CategoryDTO> categoryDTOS = new ArrayList<>();
+        CategoryDTO[] categoryDTOS = new CategoryDTO[2];
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCategoryId(categoryId);
         when(categoryService.addChildren(categoryId, categoryDTOS)).thenReturn(categoryDTO);

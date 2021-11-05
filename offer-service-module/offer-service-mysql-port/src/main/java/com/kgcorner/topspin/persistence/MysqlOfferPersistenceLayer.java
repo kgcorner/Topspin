@@ -1,6 +1,7 @@
 package com.kgcorner.topspin.persistence;
 
 
+import com.kgcorner.dao.DataRepository;
 import com.kgcorner.dao.Operation;
 import com.kgcorner.topspin.dao.MysqlOfferDao;
 import com.kgcorner.topspin.model.*;
@@ -53,7 +54,8 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
     public List<AbstractOffer> getAll(int page, int itemPerPage, boolean onlyFeatured, StoreRef store,
                                       CategoryRef category, boolean includeBanners) {
         List<Operation> operands = new ArrayList<>();
-        operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
+
+        operands.add(new Operation(now(), Date.class, "lastDate", Operation.OPERATORS.GE));
         if(onlyFeatured)
             operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "featured", Operation.OPERATORS.EQ));
         if(store != null) {
@@ -64,7 +66,7 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         if(category != null) {
             operands.add(new Operation(category, CategoryReferenceModel.class, "category", Operation.OPERATORS.EQ));
         }
-        List<OfferModel> models = offerDao.getAll(operands, page, itemPerPage, OfferModel.class);
+        List<OfferModel> models = offerDao.getAll(operands, page, itemPerPage, getOrderListWithCreatedOn(), OfferModel.class);
         return createOfferList(models);
     }
 
@@ -90,8 +92,9 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         List<Operation> operations = new ArrayList<>();
         operations.add(new Operation(category, CategoryReferenceModel.class,
             "category", Operation.OPERATORS.EQ));
-        operations.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
-        List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage, null, OfferModel.class);
+
+        operations.add(new Operation(now(), Date.class, "lastDate", Operation.OPERATORS.GE));
+        List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage, getOrderListWithCreatedOn(), OfferModel.class);
         return createOfferList(models);
     }
 
@@ -112,7 +115,7 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         String queryStr = "SELECT o.ID, TITLE,o.DESCRIPTION,FEATURED,BANNER,CATEGORY_ID,STORE_ID,LAST_DATE,URL," +
             "SURFER_PLACEHOLDER,MAX_DISCOUNT,THUMBNAILS," +
             "c.NAME catName,s.NAME storeName FROM OFFERS o inner join " +
-            "CATEGORY c on o.CATEGORY_ID = c.ID INNER JOIN STORE s on s.ID=o.STORE_ID where CATEGORY_ID in ("+inQuery+") and BANNER = 0 and LAST_DATE>=? limit ?,?;";
+            "CATEGORY c on o.CATEGORY_ID = c.ID INNER JOIN STORE s on s.ID=o.STORE_ID where CATEGORY_ID in ("+inQuery+") and BANNER = 0 and LAST_DATE>=? order by CREATED_ON limit ?,?;";
         String today = new SimpleDateFormat("YYYY-MM-dd").format(new Date());
         Object result = this.offerDao.runSelectNativeQuery(queryStr, today, start, end);
         List<AbstractOffer> abstractOffers = new ArrayList<>();
@@ -155,15 +158,15 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
         List<Operation> operations = new ArrayList<>();
         operations.add(new Operation(store, StoreReferenceModel.class,
             "store", Operation.OPERATORS.EQ));
-        operations.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
-        List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage, null, OfferModel.class);
+        operations.add(new Operation(now(), Date.class, "lastDate", Operation.OPERATORS.GE));
+        List<OfferModel> models = offerDao.getAll(operations, page, itemsPerPage,  getOrderListWithCreatedOn(), OfferModel.class);
         return createOfferList(models);
     }
 
     @Override
     public List<AbstractOffer> getBanners() {
         List<Operation> operands = new ArrayList<>();
-        operands.add(new Operation(new Date(), Date.class, "lastDate", Operation.OPERATORS.GE));
+        operands.add(new Operation(now(), Date.class, "lastDate", Operation.OPERATORS.GE));
         operands.add(new Operation(true, Operation.TYPES.BOOLEAN, "banner", Operation.OPERATORS.EQ));
 
         List<OfferModel> allBanners = offerDao.getAll(operands, OfferModel.class);
@@ -176,5 +179,22 @@ public class MysqlOfferPersistenceLayer implements OfferPersistenceLayer {
             offers.add(o);
         }
         return offers;
+    }
+
+    private Date now() {
+        Date now = new Date();
+        now.setHours(0);
+        now.setMinutes(0);
+        now.setSeconds(0);
+        return now();
+    }
+
+    private List<DataRepository.Order> getOrderListWithCreatedOn() {
+        DataRepository.Order order = new DataRepository.Order();
+        order.setName("CREATED_ON");
+        order.setAscending(false);
+        List<DataRepository.Order> orderList =  new ArrayList<>();
+        orderList.add(order);
+        return orderList;
     }
 }

@@ -28,4 +28,5 @@ public abstract class AbstractOffer {
     protected boolean featured;
     protected boolean banner;
     protected String offerId;
+    protected  Date createdOn;
 }

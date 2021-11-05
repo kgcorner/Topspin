@@ -130,6 +130,12 @@ public class OfferModel extends AbstractOffer implements Serializable {
         return super.isBanner();
     }
 
+    @Column(name ="CREATED_ON", nullable = false)
+    @Override
+    public Date getCreatedOn() {
+        return super.getCreatedOn();
+    }
+
     @Override
     public void setBanner(boolean banner) {
         super.setBanner(banner);

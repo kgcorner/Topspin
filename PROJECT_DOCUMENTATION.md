@@ -1,9 +1,3 @@
-# Topspin
-<img src="https://travis-ci.org/kgcorner/Topspin.svg?branch=master" />
-<img src="https://sonarcloud.io/api/project_badges/measure?project=com.kgcorner.topspin%3Atopspin&metric=alert_status" />
-<img src="https://codecov.io/gh/kgcorner/Topspin/branch/master/graph/badge.svg" />
-
-
 # Topspin — Comprehensive Project Documentation
 
 > **Topspin** is a cloud-native application for creating an **online mall / cashback deals platform**.
@@ -654,7 +648,6 @@ Things worth knowing before working on this codebase:
 
 *Documentation generated from source inspection of the repository at `/work/open-source/topspin`
 (session date: 21/09/2026). Classes/versions referenced are as of `1.0-SNAPSHOT`.*
-
 
 
 

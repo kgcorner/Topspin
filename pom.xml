@@ -219,6 +219,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.scriptchess</groupId>
+                <artifactId>marga-maven-plugin</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+            </plugin>
+        </plugins>
     </build>
     <modules>
         <module>user-service-module</module>
